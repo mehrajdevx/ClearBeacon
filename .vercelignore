@@ -1,0 +1,10 @@
+.git
+.venv
+.vscode
+node_modules
+__pycache__
+.pytest_cache
+data
+tests
+tools
+datta-able-free-react-admin-template

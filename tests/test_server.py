@@ -116,8 +116,9 @@ class ApiTests(unittest.TestCase):
         self.assertIn(b"Project operator: <strong>Fatima Abid</strong>", privacy_page)
         self.assertIn(b"operating as an individual in Pakistan", privacy_page)
         self.assertIn(b"Privacy contact: <strong>Not set up.</strong>", privacy_page)
-        self.assertIn(b"operator intends to use Vercel", privacy_page)
-        self.assertIn(b"selected Supabase Postgres", privacy_page)
+        self.assertIn(b"currently runs on Vercel", privacy_page)
+        self.assertIn(b"temporary, per-instance storage", privacy_page)
+        self.assertIn(b"may be unavailable or lost", privacy_page)
         self.assertIn(b"may include minors", privacy_page)
         self.assertIn(b"noindex, nofollow", privacy_page)
 
