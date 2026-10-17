@@ -104,6 +104,8 @@ class RequestHandler(BaseHTTPRequestHandler):
     server_version = "ClearBeacon/0.1"
     sys_version = ""
     requests_by_ip: dict[str, deque[float]] = defaultdict(deque)
+    requests_lock = threading.Lock()
+    last_bucket_cleanup = 0.0
 
     def log_message(self, format: str, *args: object) -> None:
         # Request paths can contain report tokens or submitted evidence.
@@ -121,13 +123,11 @@ class RequestHandler(BaseHTTPRequestHandler):
         path = urlsplit(self.path).path
         if path == "/api/health":
             try:
-                counts = self.server.database.report_counts()
+                self.server.database.report_counts()
                 self._send_json(HTTPStatus.OK, {
                     "status": "ok",
                     "database": "ok",
                     "uptime_seconds": int(time.monotonic() - self.server.started_at),
-                    "tracked_client_buckets": len(self.requests_by_ip),
-                    "report_counts": counts,
                     "report_retention_days": REPORT_RETENTION_DAYS,
                 })
             except sqlite3.Error:
@@ -145,30 +145,6 @@ class RequestHandler(BaseHTTPRequestHandler):
                 })
             except sqlite3.Error:
                 self._send_json(HTTPStatus.SERVICE_UNAVAILABLE, {"error": "Aggregate trends are temporarily unavailable."})
-            return
-        if path == "/api/bot/alert":
-            try:
-                data = self._read_json(MAX_BODY_BYTES)
-                severity = self._required_text(data, "severity", 32)
-                title = self._required_text(data, "title", 200)
-                summary = self._required_text(data, "summary", 2000)
-                source = self._required_text(data, "source", 80)
-                if severity not in {"low", "medium", "high", "critical"}:
-                    raise ApiError(HTTPStatus.BAD_REQUEST, "Choose a valid alert severity.")
-                alert = {
-                    "severity": severity,
-                    "title": title,
-                    "summary": summary,
-                    "source": source,
-                    "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                }
-                self.server.bot_alerts.insert(0, alert)
-                self.server.bot_alerts = self.server.bot_alerts[:25]
-                self._send_json(HTTPStatus.CREATED, {"alerted": True})
-            except ApiError as error:
-                self._send_json(error.status, {"error": error.message})
-            except (json.JSONDecodeError, UnicodeDecodeError):
-                self._send_json(HTTPStatus.BAD_REQUEST, {"error": "Send a valid JSON request."})
             return
         if path == "/api/admin/reports":
             if not self._require_admin():
@@ -248,12 +224,16 @@ class RequestHandler(BaseHTTPRequestHandler):
                         "message": "Scheduled backups are configured, but no completed backup file exists yet.",
                     })
                     snapshot["status"] = "alert"
-                for alert in self.server.bot_alerts:
+                scan_alerts = self.server.database.recent_scan_escalations()
+                for alert in scan_alerts:
                     snapshot["alerts"].append({
-                        "code": f"bot_{alert['severity']}",
-                        "message": f"[Bot escalation] {alert['title']} — {alert['summary']} ({alert['source']})",
+                        "code": f"scan_{alert['severity']}",
+                        "message": (
+                            f"[Automated scan signal — verify independently] {alert['severity'].title()} · "
+                            f"{alert['title']} — {alert['summary']} ({alert['source']}; {alert['created_at']})"
+                        ),
                     })
-                if self.server.bot_alerts:
+                if scan_alerts:
                     snapshot["status"] = "alert"
                 self._send_json(HTTPStatus.OK, snapshot)
             except (sqlite3.Error, OSError, ValueError):
@@ -387,23 +367,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         try:
             path = urlsplit(self.path).path
             data = self._read_json(MAX_FEED_UPLOAD_BYTES if path == "/api/admin/feed/stage" else MAX_BODY_BYTES)
-            if path == "/api/bot/alert":
-                severity = self._required_text(data, "severity", 32)
-                title = self._required_text(data, "title", 200)
-                summary = self._required_text(data, "summary", 2000)
-                source = self._required_text(data, "source", 80)
-                if severity not in {"low", "medium", "high", "critical"}:
-                    raise ApiError(HTTPStatus.BAD_REQUEST, "Choose a valid alert severity.")
-                self.server.bot_alerts.insert(0, {
-                    "severity": severity,
-                    "title": title,
-                    "summary": summary,
-                    "source": source,
-                    "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                })
-                self.server.bot_alerts = self.server.bot_alerts[:25]
-                self._send_json(HTTPStatus.CREATED, {"alerted": True})
-            elif path == "/api/admin/login":
+            if path == "/api/admin/login":
                 username = self._required_text(data, "username", 120)
                 password = self._required_text(data, "password", 256)
                 now = time.time()
@@ -499,10 +463,12 @@ class RequestHandler(BaseHTTPRequestHandler):
                 result = apply_threat_result(result, match_local_feed(
                     str(result["normalized_host"]), THREAT_FEED_PATH, active_feed,
                 ))
+                self._record_scan_escalation(result, "link-checker")
                 self._send_json(HTTPStatus.OK, result)
             elif path == "/api/check/message":
                 value = self._required_text(data, "text", 6000)
                 result = analyze_message(value, self._locale(data))
+                self._record_scan_escalation(result, "message-checker")
                 self._send_json(HTTPStatus.OK, result)
             elif path == "/api/check/email-headers":
                 headers = self._required_text(data, "headers", 12_000)
@@ -801,13 +767,39 @@ class RequestHandler(BaseHTTPRequestHandler):
     def _allow_request(self) -> bool:
         now = time.monotonic()
         address = self.client_address[0]
-        requests = self.requests_by_ip[address]
-        while requests and now - requests[0] > RATE_WINDOW_SECONDS:
-            requests.popleft()
-        if len(requests) >= RATE_LIMIT:
-            return False
-        requests.append(now)
-        return True
+        with self.requests_lock:
+            if now - self.last_bucket_cleanup >= RATE_WINDOW_SECONDS:
+                expired_before = now - RATE_WINDOW_SECONDS
+                for client, requests in list(self.requests_by_ip.items()):
+                    while requests and requests[0] <= expired_before:
+                        requests.popleft()
+                    if not requests:
+                        del self.requests_by_ip[client]
+                type(self).last_bucket_cleanup = now
+            requests = self.requests_by_ip[address]
+            while requests and now - requests[0] > RATE_WINDOW_SECONDS:
+                requests.popleft()
+            if not requests and address in self.requests_by_ip:
+                del self.requests_by_ip[address]
+            if len(requests) >= RATE_LIMIT:
+                return False
+            self.requests_by_ip[address].append(now)
+            return True
+
+    def _record_scan_escalation(self, result: dict[str, object], source: str) -> None:
+        risk_label = result.get("risk_label")
+        if risk_label not in {"high_risk", "known_malicious"}:
+            return
+        evidence = result.get("evidence")
+        summary = " | ".join(
+            item["text"] for item in evidence
+            if isinstance(item, dict) and isinstance(item.get("text"), str)
+        )[:2000] if isinstance(evidence, list) else ""
+        self.server.database.record_scan_escalation(
+            "critical" if risk_label == "known_malicious" else "high",
+            source,
+            summary or "High-risk indicators were found during the automatic scan.",
+        )
 
     def _require_admin(self) -> bool:
         if self._authenticated_role():
@@ -901,7 +893,6 @@ class ScamShieldServer(ThreadingHTTPServer):
         self.database = database
         self.started_at = time.monotonic()
         self.sessions: dict[str, tuple[str, str, float, str]] = {}
-        self.bot_alerts: list[dict[str, str]] = []
         self.maintenance_stop = threading.Event()
 
 

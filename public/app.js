@@ -1569,27 +1569,6 @@ function setupCheckerShortcuts() {
   });
 }
 
-async function notifyBotEscalation(body, inputType, rawInput) {
-  const risky = body?.risk_label === "high_risk" || body?.risk_label === "known_malicious";
-  if (!risky) return;
-  const evidence = (body?.evidence || []).slice(0, 3).map((item) => item.text).join(" | ");
-  const summary = evidence || "High-risk indicators were found during the automatic scan.";
-  try {
-    await request("/api/bot/alert", {
-      method: "POST",
-      body: JSON.stringify({
-        severity: body.risk_label === "known_malicious" ? "critical" : "high",
-        title: "Auto-scan escalation",
-        summary,
-        source: inputType === "url" ? "link-checker" : "message-checker",
-        target: rawInput,
-      }),
-    });
-  } catch {
-    // Bot alert failures should not block the user-facing result.
-  }
-}
-
 function setupCheckForm(formId, path, valueKey) {
   $(formId).addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -1608,7 +1587,6 @@ function setupCheckForm(formId, path, valueKey) {
       feedback.hidden = true;
       lastCheckInput = { type: valueKey === "url" ? "url" : "message", value: input };
       renderResult(body);
-      await notifyBotEscalation(body, valueKey, input);
       saveCheckHistory(body, valueKey);
     } catch (error) {
       setFeedback(feedback, readableError(error), "error");

@@ -119,6 +119,16 @@ class Database:
                     username TEXT PRIMARY KEY,
                     counter INTEGER NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS scan_escalations (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    severity TEXT NOT NULL CHECK (severity IN ('high', 'critical')),
+                    title TEXT NOT NULL,
+                    summary TEXT NOT NULL,
+                    source TEXT NOT NULL CHECK (source IN ('link-checker', 'message-checker')),
+                    created_at TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS scan_escalations_created
+                    ON scan_escalations(created_at DESC, id DESC);
                 """
             )
             connection.execute(
@@ -526,6 +536,36 @@ class Database:
             "reviewer_workloads": reviewer_workloads,
             "alerts": alerts,
         }
+
+    def record_scan_escalation(self, severity: str, source: str, summary: str) -> None:
+        with self._connect() as connection:
+            connection.execute(
+                """
+                INSERT INTO scan_escalations (severity, title, summary, source, created_at)
+                VALUES (?, 'Auto-scan escalation', ?, ?, ?)
+                """,
+                (severity, summary, source, _now()),
+            )
+            connection.execute(
+                """
+                DELETE FROM scan_escalations
+                WHERE id NOT IN (
+                    SELECT id FROM scan_escalations ORDER BY id DESC LIMIT 25
+                )
+                """
+            )
+
+    def recent_scan_escalations(self, limit: int = 25) -> list[dict[str, str]]:
+        limit = max(1, min(limit, 25))
+        with self._connect() as connection:
+            rows = connection.execute(
+                """
+                SELECT severity, title, summary, source, created_at
+                FROM scan_escalations ORDER BY id DESC LIMIT ?
+                """,
+                (limit,),
+            ).fetchall()
+            return [dict(row) for row in rows]
 
     def add_case_note(self, report_id: str, author: str, kind: str, content: str) -> bool:
         with self._connect() as connection:

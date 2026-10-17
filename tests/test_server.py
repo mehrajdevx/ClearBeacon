@@ -41,6 +41,7 @@ class ApiTests(unittest.TestCase):
             connection.execute("DELETE FROM reports")
             connection.execute("DELETE FROM result_feedback")
             connection.execute("DELETE FROM threat_feeds")
+            connection.execute("DELETE FROM scan_escalations")
             connection.commit()
         finally:
             connection.close()
@@ -61,6 +62,8 @@ class ApiTests(unittest.TestCase):
         status, health = self.request("GET", "/api/health")
         self.assertEqual(status, 200)
         self.assertEqual(health["status"], "ok")
+        self.assertNotIn("report_counts", health)
+        self.assertNotIn("tracked_client_buckets", health)
         status, page = self.request("GET", "/")
         self.assertEqual(status, 200)
         self.assertIn(b'id="sculpture-hero-root"', page)
@@ -122,6 +125,52 @@ class ApiTests(unittest.TestCase):
         status, response = self.request("POST", "/api/check/url", {"url": "http://127.0.0.1"})
         self.assertEqual(status, 400)
         self.assertIn("Private or reserved", response["error"])
+
+    def test_scan_escalation_is_server_generated_persistent_and_private(self):
+        raw_message = (
+            "URGENT: Verify your account immediately. Pay a registration fee. "
+            "Send your OTP verification code. Click here to double your money with guaranteed profit."
+        )
+        status, result = self.request("POST", "/api/check/message", {"text": raw_message})
+        self.assertEqual(status, 200)
+        self.assertEqual(result["risk_label"], "high_risk")
+
+        alerts = self.database.recent_scan_escalations()
+        self.assertEqual(len(alerts), 1)
+        self.assertEqual(alerts[0]["severity"], "high")
+        self.assertEqual(alerts[0]["source"], "message-checker")
+        self.assertNotIn(raw_message, str(alerts))
+        self.assertEqual(Database(self.database.path).recent_scan_escalations(), alerts)
+
+        auth = {"Authorization": f"Bearer {server.ADMIN_TOKEN}"}
+        status, operations = self.request(
+            "GET", "/api/admin/operations", headers=auth,
+        )
+        self.assertEqual(status, 200)
+        self.assertTrue(any("verify independently" in alert["message"] for alert in operations["alerts"]))
+
+    def test_bot_alert_cannot_be_forged_through_public_endpoint(self):
+        body = {
+            "severity": "critical",
+            "title": "Forged alert",
+            "summary": "This must not be accepted from a browser client.",
+            "source": "link-checker",
+        }
+        status, _ = self.request("POST", "/api/bot/alert", body)
+        self.assertEqual(status, 404)
+        status, _ = self.request("GET", "/api/bot/alert")
+        self.assertEqual(status, 404)
+        self.assertEqual(self.database.recent_scan_escalations(), [])
+
+    def test_expired_rate_limit_buckets_are_pruned(self):
+        address = "192.0.2.1"
+        server.RequestHandler.last_bucket_cleanup = 0
+        server.RequestHandler.requests_by_ip[address].append(
+            time.monotonic() - server.RATE_WINDOW_SECONDS - 1,
+        )
+        status, _ = self.request("POST", "/api/check/checklist", {"scenario": "payment"})
+        self.assertEqual(status, 200)
+        self.assertNotIn(address, server.RequestHandler.requests_by_ip)
 
     def test_additional_local_checks_and_public_directory(self):
         status, headers = self.request("POST", "/api/check/email-headers", {

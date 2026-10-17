@@ -117,6 +117,21 @@ class DatabaseMigrationTests(unittest.TestCase):
             self.assertEqual(snapshot["reviewer_workloads"][0]["reviewer"], "reviewer-a")
             self.assertEqual(snapshot["reviewer_workloads"][0]["pending_reports"], 1)
 
+    def test_scan_escalations_keep_only_the_25_most_recent(self):
+        with tempfile.TemporaryDirectory() as directory:
+            database = Database(Path(directory) / "alerts.sqlite3")
+            for index in range(30):
+                database.record_scan_escalation(
+                    "critical" if index % 2 else "high",
+                    "message-checker",
+                    f"signal {index}",
+                )
+
+            alerts = database.recent_scan_escalations()
+            self.assertEqual(len(alerts), 25)
+            self.assertEqual(alerts[0]["summary"], "signal 29")
+            self.assertEqual(alerts[-1]["summary"], "signal 5")
+
 
 if __name__ == "__main__":
     unittest.main()
