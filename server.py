@@ -251,12 +251,18 @@ class RequestHandler(BaseHTTPRequestHandler):
             if not self._require_admin():
                 return
             try:
-                self._send_json(HTTPStatus.OK, {"appeals": self.server.database.pending_appeals()})
+                reviewer = self._authenticated_username() if self._authenticated_role() == "reviewer" else None
+                self._send_json(HTTPStatus.OK, {
+                    "appeals": self.server.database.pending_appeals(reviewer),
+                })
             except sqlite3.Error:
                 self._send_json(HTTPStatus.INTERNAL_SERVER_ERROR, {"error": "The appeal queue could not be loaded."})
             return
         if path == "/api/admin/audit":
             if not self._require_admin():
+                return
+            if self._authenticated_role() != "admin":
+                self._send_json(HTTPStatus.FORBIDDEN, {"error": "Only administrators can view the moderation audit history."})
                 return
             try:
                 self._send_json(HTTPStatus.OK, {"entries": self.server.database.audit_entries()})
@@ -265,6 +271,9 @@ class RequestHandler(BaseHTTPRequestHandler):
             return
         if path == "/api/admin/audit/export":
             if not self._require_admin():
+                return
+            if self._authenticated_role() != "admin":
+                self._send_json(HTTPStatus.FORBIDDEN, {"error": "Only administrators can export the moderation audit history."})
                 return
             try:
                 rows = self.server.database.audit_entries(10_000)
@@ -569,6 +578,9 @@ class RequestHandler(BaseHTTPRequestHandler):
             self._send_json(HTTPStatus.INTERNAL_SERVER_ERROR, {"error": "The request could not be saved. Please try again later."})
 
     def do_PATCH(self) -> None:
+        if not self._allow_request():
+            self._send_json(HTTPStatus.TOO_MANY_REQUESTS, {"error": "Too many requests. Please wait and try again."})
+            return
         if not self._require_admin():
             return
         try:
@@ -593,7 +605,12 @@ class RequestHandler(BaseHTTPRequestHandler):
                 reason = self._required_text(data, "reason", 1000)
                 if status not in {"accepted", "rejected"}:
                     raise ApiError(HTTPStatus.BAD_REQUEST, "Choose accepted or rejected.")
-                updated = self.server.database.review_appeal(appeal_match.group(1), status, reason)
+                reviewer = self._authenticated_username() if self._authenticated_role() == "reviewer" else None
+                updated = self.server.database.review_appeal(
+                    appeal_match.group(1), status, reason, reviewer,
+                )
+                if updated is None:
+                    raise ApiError(HTTPStatus.FORBIDDEN, "This appeal is not assigned to your reviewer account.")
                 if not updated:
                     raise ApiError(HTTPStatus.NOT_FOUND, "No pending appeal was found.")
             elif path == "/api/admin/reports/assign":
@@ -637,6 +654,9 @@ class RequestHandler(BaseHTTPRequestHandler):
             self._send_json(HTTPStatus.INTERNAL_SERVER_ERROR, {"error": "The moderation action could not be saved."})
 
     def do_PUT(self) -> None:
+        if not self._allow_request():
+            self._send_json(HTTPStatus.TOO_MANY_REQUESTS, {"error": "Too many requests. Please wait and try again."})
+            return
         if not self._require_admin():
             return
         if self._authenticated_role() != "admin":

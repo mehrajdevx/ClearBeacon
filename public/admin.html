@@ -37,7 +37,7 @@
         <p class="sidebar-caption">CASE MANAGEMENT</p>
         <a class="sidebar-link" href="#reports-panel"><span class="sidebar-icon" aria-hidden="true">▤</span><span>Reports</span></a>
         <a class="sidebar-link" href="#appeals-panel"><span class="sidebar-icon" aria-hidden="true">↺</span><span>Appeals</span></a>
-        <a class="sidebar-link" href="#audit-panel"><span class="sidebar-icon" aria-hidden="true">◷</span><span>Action history</span></a>
+        <a class="sidebar-link" data-admin-only href="#audit-panel" hidden><span class="sidebar-icon" aria-hidden="true">◷</span><span>Action history</span></a>
         <a class="sidebar-link" href="#feedback-panel"><span class="sidebar-icon" aria-hidden="true">✳</span><span>Check feedback</span></a>
         <p class="sidebar-caption" data-admin-only hidden>ADMINISTRATION</p>
         <a class="sidebar-link" data-admin-only href="#feeds-panel" hidden><span class="sidebar-icon" aria-hidden="true">◈</span><span>Threat feeds</span></a>
@@ -101,8 +101,8 @@
         <div class="admin-panel-heading"><div><p class="eyebrow">REQUESTED REASSESSMENTS</p><h2 id="appeals-title">Appeals awaiting review</h2></div></div>
         <div id="appeal-list" class="admin-list" aria-live="polite"></div>
       </section>
-      <section id="audit-panel" class="admin-panel" aria-labelledby="audit-title">
-        <div class="admin-panel-heading"><div><p class="eyebrow">REVIEW TRACEABILITY</p><h2 id="audit-title">Recent action history</h2></div><button id="audit-export" class="secondary-button" type="button">Download protected CSV</button></div>
+      <section id="audit-panel" class="admin-panel" data-admin-only aria-labelledby="audit-title" hidden>
+        <div class="admin-panel-heading"><div><p class="eyebrow">REVIEW TRACEABILITY</p><h2 id="audit-title">Recent action history</h2></div><button id="audit-export" class="secondary-button" data-admin-only type="button">Download protected CSV</button></div>
         <div id="audit-list" class="admin-list" aria-live="polite"></div>
       </section>
       <section id="feedback-panel" class="admin-panel" aria-labelledby="feedback-title">

@@ -442,7 +442,7 @@ async function loadDashboard() {
     api("/api/admin/overview"),
     api(`/api/admin/reports?${query}`),
     api("/api/admin/appeals"),
-    api("/api/admin/audit"),
+    adminRole === "admin" ? api("/api/admin/audit") : Promise.resolve({ entries: [] }),
     api("/api/admin/feedback"),
     api("/api/admin/operations"),
   ]);

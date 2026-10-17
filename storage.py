@@ -745,33 +745,40 @@ class Database:
             )
             return "created"
 
-    def pending_appeals(self) -> list[dict[str, str]]:
+    def pending_appeals(self, assigned_to: str | None = None) -> list[dict[str, str]]:
         with self._connect() as connection:
+            assignment_filter = " AND reports.assigned_to = ?" if assigned_to is not None else ""
             rows = connection.execute(
-                """
+                f"""
                 SELECT appeals.id, appeals.details, appeals.created_at,
-                       reports.id AS report_id, reports.reference, reports.category,
+                       reports.id AS report_id, reports.category,
                        reports.target, reports.summary, reports.evidence_notes,
                        reports.status AS report_status
                 FROM appeals JOIN reports ON reports.id = appeals.report_id
-                WHERE appeals.status = 'pending'
+                WHERE appeals.status = 'pending'{assignment_filter}
                 ORDER BY appeals.created_at ASC
-                """
+                """,
+                (assigned_to,) if assigned_to is not None else (),
             ).fetchall()
             return [dict(row) for row in rows]
 
-    def review_appeal(self, appeal_id: str, status: str, reason: str) -> bool:
+    def review_appeal(
+        self, appeal_id: str, status: str, reason: str, assigned_to: str | None = None,
+    ) -> bool | None:
         now = _now()
         with self._connect() as connection:
             appeal = connection.execute(
                 """
-                SELECT appeals.report_id FROM appeals
+                SELECT appeals.report_id, reports.assigned_to
+                FROM appeals JOIN reports ON reports.id = appeals.report_id
                 WHERE appeals.id = ? AND appeals.status = 'pending'
                 """,
                 (appeal_id,),
             ).fetchone()
             if appeal is None:
                 return False
+            if assigned_to is not None and appeal["assigned_to"] != assigned_to:
+                return None
             connection.execute(
                 "UPDATE appeals SET status = ?, updated_at = ? WHERE id = ?",
                 (status, now, appeal_id),

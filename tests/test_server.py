@@ -473,6 +473,92 @@ class ApiTests(unittest.TestCase):
         finally:
             server.REVIEWER_ACCOUNTS = original
 
+    def test_reviewer_appeals_and_audit_are_scoped_to_authorized_data(self):
+        original = server.REVIEWER_ACCOUNTS
+        reviewer_name = "appeal-reviewer"
+        password_hash = "a" * 64
+        server.REVIEWER_ACCOUNTS = {
+            reviewer_name: {
+                "salt": "1a" * 16,
+                "password_hash": password_hash,
+                "role": "reviewer",
+            },
+        }
+        token = "test-reviewer-session"
+        self.httpd.sessions[token] = (
+            reviewer_name, "reviewer", time.monotonic() + 300, password_hash,
+        )
+        reviewer_auth = {"Authorization": f"Bearer {token}"}
+        admin_auth = {"Authorization": f"Bearer {server.ADMIN_TOKEN}"}
+        try:
+            reports = {}
+            for target in ("assigned-appeal.example.invalid", "other-appeal.example.invalid"):
+                status, created = self.request("POST", "/api/reports", {
+                    "category": "job",
+                    "target": target,
+                    "summary": "The recruiter requested an advance payment.",
+                })
+                self.assertEqual(status, 201)
+                reports[target] = created
+
+            report_ids = {
+                report["target"]: report["id"]
+                for report in self.database.admin_reports("pending")
+                if report["target"] in {target for target in reports}
+            }
+            self.assertTrue(self.database.assign_report(
+                report_ids["assigned-appeal.example.invalid"],
+                reviewer_name,
+                "Assign appeal to reviewer.",
+            ))
+            for target, report_id in report_ids.items():
+                self.assertTrue(self.database.review_report(
+                    report_id, "rejected", f"Initial review of {target}.",
+                ))
+                status, appeal = self.request("POST", "/api/reports/appeals", {
+                    "reference": reports[target]["reference"],
+                    "details": f"Please reconsider the report for {target}.",
+                })
+                self.assertEqual(status, 201)
+
+            status, all_appeals = self.request("GET", "/api/admin/appeals", headers=admin_auth)
+            self.assertEqual(status, 200)
+            self.assertEqual(len(all_appeals["appeals"]), 2)
+            unassigned_appeal_id = next(
+                appeal["id"] for appeal in all_appeals["appeals"]
+                if "other-appeal" in appeal["details"]
+            )
+            assigned_appeal_id = next(
+                appeal["id"] for appeal in all_appeals["appeals"]
+                if "assigned-appeal" in appeal["details"]
+            )
+
+            status, reviewer_appeals = self.request(
+                "GET", "/api/admin/appeals", headers=reviewer_auth,
+            )
+            self.assertEqual(status, 200)
+            self.assertEqual(len(reviewer_appeals["appeals"]), 1)
+            self.assertNotIn("reference", reviewer_appeals["appeals"][0])
+            status, _ = self.request(
+                "PATCH", f"/api/admin/appeals/{unassigned_appeal_id}",
+                {"status": "accepted", "reason": "Attempt unauthorized appeal review."},
+                reviewer_auth,
+            )
+            self.assertEqual(status, 403)
+            status, _ = self.request(
+                "PATCH", f"/api/admin/appeals/{assigned_appeal_id}",
+                {"status": "accepted", "reason": "Reconsidered assigned appeal."},
+                reviewer_auth,
+            )
+            self.assertEqual(status, 200)
+
+            for path in ("/api/admin/audit", "/api/admin/audit/export"):
+                status, _ = self.request("GET", path, headers=reviewer_auth)
+                self.assertEqual(status, 403)
+        finally:
+            self.httpd.sessions.pop(token, None)
+            server.REVIEWER_ACCOUNTS = original
+
     def test_private_clarification_reply_and_protected_audit_export(self):
         status, created = self.request("POST", "/api/reports", {
             "category": "job", "target": "clarification.example.invalid",
