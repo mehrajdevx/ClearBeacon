@@ -1,0 +1,72 @@
+html[data-theme="dark"]{color-scheme:dark;--paper:#131815;--ink:#eeeae2;--muted:#b5b1a9;--white:#202722;--line:#3b453e;--surface:#202722;--soft:#262e28}
+html[data-theme="dark"] body{background:#111110;color:#eeeae2}
+html[data-theme="dark"] .site-header{background:#111110;color:#eeeae2;border-color:transparent}
+html[data-theme="dark"] .brand,html[data-theme="dark"] .footer-brand{color:#eeeae2}
+html[data-theme="dark"] .brand-accent{color:#9cc5a1}
+html[data-theme="dark"] .main-nav{color:#d0ccc4}
+html[data-theme="dark"] .language-select{border-color:#59645b;background:#202722;color:#eeeae2}
+html[data-theme="dark"] .theme-toggle{border-color:#59645b;color:#eeeae2}
+html[data-theme="dark"] .theme-toggle:hover{background:#2c352e}
+html[data-theme="dark"] .checker-wrap,html[data-theme="dark"] .guides-section,html[data-theme="dark"] .public-trends{background:#171d19;color:#eeeae2}
+html[data-theme="dark"] .assistant-welcome h2,html[data-theme="dark"] .checker-intro h2,html[data-theme="dark"] .section-heading h2,html[data-theme="dark"] .report-intro h2,html[data-theme="dark"] .status-section h2,html[data-theme="dark"] .public-trends h2,html[data-theme="dark"] .public-trends h3{color:#eeeae2}
+html[data-theme="dark"] .assistant-welcome .eyebrow,html[data-theme="dark"] .checker-intro .eyebrow,html[data-theme="dark"] .section-heading .eyebrow,html[data-theme="dark"] .report-intro .eyebrow{color:#a5c6a6}
+html[data-theme="dark"] .assistant-subtitle,html[data-theme="dark"] .field-note,html[data-theme="dark"] .fine-print,html[data-theme="dark"] .history-privacy,html[data-theme="dark"] .history-language-note,html[data-theme="dark"] .history-empty,html[data-theme="dark"] .report-intro>p:not(.eyebrow),html[data-theme="dark"] .public-trends>p:not(.eyebrow){color:#b5b1a9}
+html[data-theme="dark"] .checker-card,html[data-theme="dark"] .history-item,html[data-theme="dark"] .guide-card,html[data-theme="dark"] .extra-tool,html[data-theme="dark"] .report-card,html[data-theme="dark"] .public-trends,html[data-theme="dark"] .safety-tool-extra,html[data-theme="dark"] .local-image-check,html[data-theme="dark"] .case-notes,html[data-theme="dark"] .casework-details{border-color:#3b453e;background:#202722;color:#eeeae2}
+html[data-theme="dark"] .assistant-composer-tools,html[data-theme="dark"] .checker-card .optional-tools{border-color:#3b453e}
+html[data-theme="dark"] .assistant-panels .field-note,html[data-theme="dark"] .tab-panel label,html[data-theme="dark"] .report-card label,html[data-theme="dark"] .guide-title,html[data-theme="dark"] .extra-tool h4,html[data-theme="dark"] .extra-tool h3,html[data-theme="dark"] .public-trends h2,html[data-theme="dark"] .public-trends h3{color:#eeeae2}
+html[data-theme="dark"] .assistant-composer-tools .tab,html[data-theme="dark"] .assistant-submit{background:#2b342d;color:#d5d1c9}
+html[data-theme="dark"] .assistant-composer-tools .tab.active{border-color:#536a56;background:#314234;color:#d5e7d2}
+html[data-theme="dark"] .assistant-attach,html[data-theme="dark"] .guide-excerpt,html[data-theme="dark"] .guide-arrow,html[data-theme="dark"] .extra-tool p,html[data-theme="dark"] .extra-tool-result,html[data-theme="dark"] .country-help-note,html[data-theme="dark"] .quiz-tool>p:not(.eyebrow){color:#b5b1a9}
+html[data-theme="dark"] .assistant-shortcut,html[data-theme="dark"] .extra-tool,html[data-theme="dark"] .report-card{background:#202722;color:#eeeae2}
+html[data-theme="dark"] input,html[data-theme="dark"] textarea,html[data-theme="dark"] select,html[data-theme="dark"] .status-form input{border-color:#59645b;background:#202722;color:#eeeae2}
+html[data-theme="dark"] input::placeholder,html[data-theme="dark"] textarea::placeholder{color:#a7a39b}
+html[data-theme="dark"] .assistant-panels input,html[data-theme="dark"] .assistant-panels textarea{background:transparent}
+html[data-theme="dark"] .assistant-panels .input-row input,html[data-theme="dark"] .assistant-panels textarea{color:#eeeae2}
+html[data-theme="dark"] .secondary-button{border-color:#59645b;background:#2b342d;color:#eeeae2}
+html[data-theme="dark"] .secondary-button:hover,html[data-theme="dark"] .assistant-shortcut:hover{background:#344139}
+html[data-theme="dark"] .primary-button{background:#45634b;color:#fff}
+html[data-theme="dark"] .checker-card .result,html[data-theme="dark"] .result{border-color:#3b453e;background:#262e28;color:#eeeae2}
+html[data-theme="dark"] .result h3,html[data-theme="dark"] .result h4,html[data-theme="dark"] .result p,html[data-theme="dark"] .result-disclaimer{color:#eeeae2}
+html[data-theme="dark"] .result-icon{background:#314b37;color:#d5e7d2}
+html[data-theme="dark"] .result[data-risk="caution"] .result-icon,html[data-theme="dark"] .result[data-risk="high_risk"] .result-icon{background:#55372e;color:#ffd1b8}
+html[data-theme="dark"] .feedback{background:#284031;color:#d5e7d2}
+html[data-theme="dark"] .feedback.error{background:#482b22;color:#ffd1b8}
+html[data-theme="dark"] .feedback.success{background:#284031;color:#d5e7d2}
+html[data-theme="dark"] .guide-filter{border-color:#59645b;color:#d0ccc4}
+html[data-theme="dark"] .guide-filter.active{border-color:#45634b;background:#45634b;color:#fff}
+html[data-theme="dark"] .guide-icon,html[data-theme="dark"] .public-trends li{background:#303a32;color:#c9ddc7}
+html[data-theme="dark"] .guide-card[open]{border-color:#78947a}
+html[data-theme="dark"] .help-banner{border-color:#465149;background:#252e28}
+html[data-theme="dark"] .safety-center{background:#101613;color:#eeeae2}
+html[data-theme="dark"] .safety-tool{border-color:#3b453e;background:#202722;color:#eeeae2}
+html[data-theme="dark"] .safety-tool h3,html[data-theme="dark"] .safety-tool label,html[data-theme="dark"] .quiz-prompt,html[data-theme="dark"] .quiz-result{color:#eeeae2}
+html[data-theme="dark"] .safety-tool select,html[data-theme="dark"] .quiz-choice,html[data-theme="dark"] .country-help-link{border-color:#59645b;background:#171d19;color:#eeeae2}
+html[data-theme="dark"] .response-steps li{background:#2b342d;color:#eeeae2}
+html[data-theme="dark"] .country-help-link a{color:#e1c995}
+html[data-theme="dark"] .quiz-choice:hover:not(:disabled){border-color:#9cc5a1;background:#26362b}
+html[data-theme="dark"] .quiz-feedback.correct{background:#1c3a2a;color:#b8e4bc}
+html[data-theme="dark"] .quiz-feedback.incorrect{background:#482b22;color:#ffd1b8}
+html[data-theme="dark"] .report-section{background:#252d27;color:#eeeae2}
+html[data-theme="dark"] .report-card{border-color:#3b453e;background:#202722;color:#eeeae2}
+html[data-theme="dark"] .report-privacy{border-color:#59645b;background:#2b342d;color:#d0ccc4}
+html[data-theme="dark"] .status-section{background:#101613;color:#eeeae2}
+html[data-theme="dark"] .status-section h2,html[data-theme="dark"] .status-section p:not(.eyebrow){color:#eeeae2}
+html[data-theme="dark"] .site-footer{background:#0e1310;color:#eeeae2}
+html[data-theme="dark"] .footer-bottom,html[data-theme="dark"] .footer-theme-toggle{border-color:#414a43}
+html[data-theme="dark"] .footer-column h2{color:#eeeae2}
+html[data-theme="dark"] .footer-column a,html[data-theme="dark"] .footer-about>p,html[data-theme="dark"] .footer-bottom p,html[data-theme="dark"] .footer-bottom small,html[data-theme="dark"] .footer-bottom>span{color:#b5b1a9}
+html[data-theme="dark"] .footer-column a:hover,html[data-theme="dark"] .footer-bottom a:hover{color:#fff}
+html[data-theme="dark"] .policy-main,html[data-theme="dark"] .policy-main p,html[data-theme="dark"] .policy-main li{color:#eeeae2}
+html[data-theme="dark"] .optional-tools,html[data-theme="dark"] .history-section,html[data-theme="dark"] .local-image-check,html[data-theme="dark"] .case-notes,html[data-theme="dark"] .casework-details{border-color:#3b453e}
+html[data-theme="dark"] .optional-tools>summary,html[data-theme="dark"] .report-actions-details>summary,html[data-theme="dark"] .casework-details>summary{color:#c9ddc7}
+html[data-theme="dark"] .admin-page{background:#111110;color:#eeeae2}
+html[data-theme="dark"] .admin-header{background:#111110}
+html[data-theme="dark"] .admin-badge{border-color:#414a43;color:#b5b1a9}
+html[data-theme="dark"] .admin-login-card,html[data-theme="dark"] .admin-panel,html[data-theme="dark"] .admin-metrics article{border-color:#3b453e;background:#202722;color:#eeeae2}
+html[data-theme="dark"] .admin-login-card h1,html[data-theme="dark"] .admin-title-row h1,html[data-theme="dark"] .admin-panel h2,html[data-theme="dark"] .admin-record h3{color:#eeeae2}
+html[data-theme="dark"] .admin-login-card>p:not(.eyebrow),html[data-theme="dark"] .admin-metrics span,html[data-theme="dark"] .admin-record-copy,html[data-theme="dark"] .admin-record-target,html[data-theme="dark"] .admin-record time,html[data-theme="dark"] .audit-record time,html[data-theme="dark"] .audit-record span,html[data-theme="dark"] .audit-record p,html[data-theme="dark"] .admin-empty{color:#b5b1a9}
+html[data-theme="dark"] .admin-metrics strong{color:#a5c6a6}
+html[data-theme="dark"] .admin-record,html[data-theme="dark"] .audit-record{border-color:#3b453e;background:#171d19}
+html[data-theme="dark"] .admin-page input,html[data-theme="dark"] .admin-page textarea,html[data-theme="dark"] .admin-page select{border-color:#59645b;background:#171d19;color:#eeeae2}
+html[data-theme="dark"] .admin-page .secondary-button{border-color:#59645b;background:#2b342d;color:#eeeae2}
+html[data-theme="dark"] .admin-page .admin-login-card .primary-button{background:#45634b;color:#fff}

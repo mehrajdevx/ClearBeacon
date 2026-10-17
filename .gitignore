@@ -1,0 +1,8 @@
+.vscode/
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.sqlite3
+.DS_Store
+.vercel

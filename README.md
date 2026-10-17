@@ -6,10 +6,12 @@ A privacy-first, mobile-friendly anti-scam decision-support MVP. The app checks 
 
 ## Run locally
 
-Requires Python 3.10+; the app uses only the Python standard library.
+Requires Python 3.10+ for the server. The interactive sculpture hero is built with React and Vite; Node.js 20.19+ and npm are needed to build it.
 
 ```powershell
 cd "F:\Download File\Custom Website Zip\scamshield"
+npm install
+npm run build:hero
 python tools\create_reviewer.py
 # Copy the printed JSON object into this environment variable (do not commit it):
 $env:SCAMSHIELD_REVIEWERS = '{"reviewer-name":{"salt":"...","password_hash":"...","role":"admin"}}'
@@ -28,6 +30,7 @@ Legacy `SCAMSHIELD_*` environment variables, the `scamshield` Python package, an
 - Official-help directory: links to official reporting or cyber-safety resources in the United States, Canada, India, France, Bangladesh, the United Kingdom, Australia, Spain, Mexico, Pakistan, and the United Arab Emirates. The directory is a starting point, not a complete list of local authorities; links open external government or public-service websites, and urgent financial losses should be reported to the user's bank promptly. Links are references, not endorsements; the current application warns users to confirm the address and remit before sharing information.
 - Scam-awareness quiz: three short scenarios test safer choices in a single browser session. Answers and scores are not sent or saved.
 - Language switching: the interface, guide library, check results, explanations, actions, and disclaimer support English (`en`), Spanish (`es`), French (`fr`), Hindi (`hi`), Arabic (`ar`), and Bengali (`bn`). The browser's preferred supported language is selected on first visit; a manual choice is saved in that browser. Arabic uses a right-to-left layout.
+- Day and night display modes: the theme toggle in the header and footer switches the page and interactive sculpture together. The choice is saved in the current browser.
 - Bangla: Bengali (`bn`) UI labels, locally analyzed scam phrases, Bangla safety-guide steps, response-planner examples, quiz questions, and Bangladesh official-help link are included. Some long-form copy remains English and needs native-speaker review before wider release.
 - Message checks: local illustrative phrase rules cover OTP/PIN requests, urgency, advance fees, unexpected prizes, job offers, identity-data requests, link-pushing, and unrealistic returns. English has broader phrase coverage; all other languages include representative phrases, not comprehensive national-language detection. Extracted link hostnames are never visited.
 - Safety library: thirteen searchable, category-filtered guides cover account codes, urgent payments, job fees, unfamiliar shops, links, prizes, recovery, romance, investments, tech-support, delivery, and impersonation. Guide titles and summaries are available in English, Bangla, Spanish, French, Hindi, and Arabic; some long-form copy remains English or Bangla.

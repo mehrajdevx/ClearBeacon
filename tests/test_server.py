@@ -63,18 +63,50 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(health["status"], "ok")
         status, page = self.request("GET", "/")
         self.assertEqual(status, 200)
-        self.assertIn(b"Private by default", page)
-        self.assertIn(b"ClearBeacon is an independent educational project", page)
-        self.assertIn(b"name is provisional", page)
-        self.assertIn(b'class="hero-cta" href="#check"', page)
-        self.assertIn(b"Start a quick check", page)
-        self.assertIn(b"Privacy notice (pre-launch draft)", page)
+        self.assertIn(b'id="sculpture-hero-root"', page)
+        self.assertIn(b'id="theme-toggle-root"', page)
+        self.assertIn(b'id="footer-root"', page)
+        self.assertIn(b'href="/liquid-sculpture-hero.css"', page)
+        self.assertIn(b'href="/footer.css"', page)
+        self.assertIn(b'href="/theme.css"', page)
+        self.assertIn(b'src="/theme-bootstrap.js"', page)
+        self.assertIn(b'src="/assets/sculpture-hero.js"', page)
+        status, hero_bundle = self.request("GET", "/assets/sculpture-hero.js")
+        self.assertEqual(status, 200)
+        self.assertIn(b"Start a quick check", hero_bundle)
+        self.assertIn(b"Switch to night mode", hero_bundle)
+        self.assertIn(b"Information", hero_bundle)
+        status, hero_styles = self.request("GET", "/liquid-sculpture-hero.css")
+        self.assertEqual(status, 200)
+        self.assertIn(b".sh-root", hero_styles)
+        for path, expected in (
+            ("/footer.css", b".footer-main"),
+            ("/theme.css", b'html[data-theme="dark"]'),
+            ("/theme-bootstrap.js", b"clearbeacon-theme"),
+            ("/sculpture-hero-desktop.webp", b"RIFF"),
+            ("/sculpture-hero-mobile.webp", b"RIFF"),
+            ("/sculpture-hero-desktop-dark.webp", b"RIFF"),
+            ("/sculpture-hero-mobile-dark.webp", b"RIFF"),
+        ):
+            with self.subTest(path=path):
+                status, asset = self.request("GET", path)
+                self.assertEqual(status, 200)
+                self.assertIn(expected, asset)
         self.assertNotIn(b"Moderator access", page)
         status, admin_page = self.request("GET", "/admin")
         self.assertEqual(status, 200)
         self.assertIn(b"Reviewer console", admin_page)
         self.assertIn(b'<label for="bulk-reason">Reason for all selected actions</label>', admin_page)
         self.assertIn(b"noindex, nofollow", admin_page)
+        self.assertIn(b'id="theme-toggle"', admin_page)
+        self.assertIn(b'src="/admin-theme.js"', admin_page)
+        self.assertIn(b'id="admin-sidebar"', admin_page)
+        self.assertIn(b'href="#reports-panel"', admin_page)
+        self.assertIn(b'href="/admin-template.css"', admin_page)
+        status, admin_styles = self.request("GET", "/admin-template.css")
+        self.assertEqual(status, 200)
+        self.assertIn(b".admin-sidebar", admin_styles)
+        self.assertIn(b"admin-sidebar-collapsed", admin_styles)
         status, privacy_page = self.request("GET", "/privacy.html")
         self.assertEqual(status, 200)
         self.assertIn(b"PRE-LAUNCH DRAFT", privacy_page)

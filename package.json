@@ -1,0 +1,21 @@
+{
+  "name": "clearbeacon-hero",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:hero": "node tools/extract-hero-styles.mjs && vite build --config vite.config.ts",
+    "typecheck:hero": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/node": "^24.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.8.0",
+    "vite": "^7.0.0"
+  }
+}

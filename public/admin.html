@@ -6,19 +6,49 @@
   <meta name="theme-color" content="#f5f7f6">
   <meta name="robots" content="noindex, nofollow">
   <title>Reviewer console — ClearBeacon</title>
+  <script src="/theme-bootstrap.js"></script>
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/theme.css">
+  <link rel="stylesheet" href="/footer.css">
+  <link rel="stylesheet" href="/admin-template.css">
   <script src="/admin.js" defer></script>
+  <script src="/admin-theme.js" defer></script>
 </head>
 <body class="admin-page">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header admin-header">
-    <a class="brand" href="/" aria-label="ClearBeacon home">
+    <a class="brand admin-header-brand" href="/" aria-label="ClearBeacon home">
       <span class="brand-mark" aria-hidden="true">C</span>
       <span>Clear<span class="brand-accent">Beacon</span></span>
     </a>
-    <span class="admin-badge">Restricted reviewer area</span>
+    <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-label="Open reviewer navigation" aria-expanded="false" aria-controls="admin-sidebar"><span aria-hidden="true">☰</span></button>
+    <div class="header-context"><span>Workspace</span><strong>Moderation dashboard</strong></div>
+    <div class="header-actions"><span class="admin-badge"><span class="status-indicator" aria-hidden="true"></span> Restricted reviewer area</span><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to night mode" aria-pressed="false"><span aria-hidden="true">☾</span></button></div>
   </header>
-  <main id="main" class="admin-main">
+  <div class="admin-layout">
+    <aside id="admin-sidebar" class="admin-sidebar" aria-label="Reviewer workspace navigation" hidden>
+      <a class="brand sidebar-brand" href="/" aria-label="ClearBeacon home">
+        <span class="brand-mark" aria-hidden="true">C</span>
+        <span>Clear<span class="brand-accent">Beacon</span></span>
+      </a>
+      <p class="sidebar-caption">WORKSPACE</p>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link active" href="#dashboard"><span class="sidebar-icon" aria-hidden="true">⌂</span><span>Overview</span></a>
+        <p class="sidebar-caption">CASE MANAGEMENT</p>
+        <a class="sidebar-link" href="#reports-panel"><span class="sidebar-icon" aria-hidden="true">▤</span><span>Reports</span></a>
+        <a class="sidebar-link" href="#appeals-panel"><span class="sidebar-icon" aria-hidden="true">↺</span><span>Appeals</span></a>
+        <a class="sidebar-link" href="#audit-panel"><span class="sidebar-icon" aria-hidden="true">◷</span><span>Action history</span></a>
+        <a class="sidebar-link" href="#feedback-panel"><span class="sidebar-icon" aria-hidden="true">✳</span><span>Check feedback</span></a>
+        <p class="sidebar-caption" data-admin-only hidden>ADMINISTRATION</p>
+        <a class="sidebar-link" data-admin-only href="#feeds-panel" hidden><span class="sidebar-icon" aria-hidden="true">◈</span><span>Threat feeds</span></a>
+        <a class="sidebar-link" data-admin-only href="#sessions-panel" hidden><span class="sidebar-icon" aria-hidden="true">♙</span><span>Reviewer access</span></a>
+        <p class="sidebar-caption">SYSTEM</p>
+        <a class="sidebar-link" href="#operations-panel"><span class="sidebar-icon" aria-hidden="true">⌁</span><span>Operations</span></a>
+        <a class="sidebar-link" href="/"><span class="sidebar-icon" aria-hidden="true">↗</span><span>View website</span></a>
+      </nav>
+      <div class="sidebar-note"><span class="sidebar-note-icon" aria-hidden="true">◉</span><strong>Private workspace</strong><span>Reviewer actions are recorded for accountability.</span></div>
+    </aside>
+    <main id="main" class="admin-main">
     <section class="admin-login-card" aria-labelledby="admin-title">
       <p class="eyebrow">PRIVATE MODERATION</p>
       <h1 id="admin-title">Reviewer console</h1>
@@ -48,7 +78,7 @@
         <article><span>Escalated</span><strong id="count-escalated">0</strong></article>
         <article><span>Pending appeals</span><strong id="count-appeals">0</strong></article>
       </section>
-      <section class="admin-panel" aria-labelledby="reports-title">
+      <section id="reports-panel" class="admin-panel" aria-labelledby="reports-title">
         <div class="admin-panel-heading"><div><p class="eyebrow">PRIVATE SUBMISSIONS</p><h2 id="reports-title">Reports</h2></div></div>
         <div class="admin-filters">
           <label for="report-filter">Status<select id="report-filter"><option value="pending">Pending</option><option value="all">All statuses</option><option value="verified">Verified</option><option value="rejected">Rejected</option><option value="escalated">Escalated</option></select></label>
@@ -67,23 +97,23 @@
         <div id="report-list" class="admin-list" aria-live="polite"></div>
         <div class="admin-pagination"><button id="reports-previous" class="secondary-button" type="button">Previous page</button><span id="reports-page">Page 1</span><button id="reports-next" class="secondary-button" type="button">Next page</button></div>
       </section>
-      <section class="admin-panel" aria-labelledby="appeals-title">
+      <section id="appeals-panel" class="admin-panel" aria-labelledby="appeals-title">
         <div class="admin-panel-heading"><div><p class="eyebrow">REQUESTED REASSESSMENTS</p><h2 id="appeals-title">Appeals awaiting review</h2></div></div>
         <div id="appeal-list" class="admin-list" aria-live="polite"></div>
       </section>
-      <section class="admin-panel" aria-labelledby="audit-title">
+      <section id="audit-panel" class="admin-panel" aria-labelledby="audit-title">
         <div class="admin-panel-heading"><div><p class="eyebrow">REVIEW TRACEABILITY</p><h2 id="audit-title">Recent action history</h2></div><button id="audit-export" class="secondary-button" type="button">Download protected CSV</button></div>
         <div id="audit-list" class="admin-list" aria-live="polite"></div>
       </section>
-      <section class="admin-panel" aria-labelledby="feedback-title">
+      <section id="feedback-panel" class="admin-panel" aria-labelledby="feedback-title">
         <div class="admin-panel-heading"><div><p class="eyebrow">USER CORRECTIONS</p><h2 id="feedback-title">Check feedback</h2></div></div>
         <div id="feedback-list" class="admin-list" aria-live="polite"></div>
       </section>
-      <section class="admin-panel" aria-labelledby="operations-title">
+      <section id="operations-panel" class="admin-panel" aria-labelledby="operations-title">
         <div class="admin-panel-heading"><div><p class="eyebrow">SERVICE STATUS</p><h2 id="operations-title">Operations and alerts</h2></div></div>
         <div id="operations-summary" class="admin-list" aria-live="polite"></div>
       </section>
-      <section class="admin-panel" data-admin-only aria-labelledby="feeds-title">
+      <section id="feeds-panel" class="admin-panel" data-admin-only aria-labelledby="feeds-title">
         <div class="admin-panel-heading"><div><p class="eyebrow">LOCAL THREAT DATA</p><h2 id="feeds-title">Threat-feed versions</h2></div></div>
         <p>Paste a JSON feed to stage it. ClearBeacon never fetches external feed URLs. Feeds must be fresh, valid, and no larger than 1.5 MB.</p>
         <label for="feed-json">Feed JSON</label>
@@ -93,7 +123,7 @@
         <div id="feed-feedback" class="feedback" role="status" aria-live="polite" hidden></div>
         <div id="feed-versions" class="admin-list" aria-live="polite"></div>
       </section>
-      <section class="admin-panel" data-admin-only aria-labelledby="sessions-title">
+      <section id="sessions-panel" class="admin-panel" data-admin-only aria-labelledby="sessions-title">
         <div class="admin-panel-heading"><div><p class="eyebrow">ACCESS CONTROL</p><h2 id="sessions-title">Reviewer sessions</h2></div></div>
         <label for="session-user">Username to revoke</label>
         <input id="session-user" maxlength="120" autocomplete="off">
@@ -102,6 +132,7 @@
         <div id="session-list" class="admin-list" aria-live="polite"></div>
       </section>
     </section>
-  </main>
+    </main>
+  </div>
 </body>
 </html>

@@ -113,7 +113,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "DENY")
         self.send_header("Referrer-Policy", "no-referrer")
-        self.send_header("Content-Security-Policy", "default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'")
+        self.send_header("Content-Security-Policy", "default-src 'self'; style-src 'self'; style-src-attr 'unsafe-inline'; script-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'")
         self.send_header("Cache-Control", "no-store")
         super().end_headers()
 
@@ -145,6 +145,30 @@ class RequestHandler(BaseHTTPRequestHandler):
                 })
             except sqlite3.Error:
                 self._send_json(HTTPStatus.SERVICE_UNAVAILABLE, {"error": "Aggregate trends are temporarily unavailable."})
+            return
+        if path == "/api/bot/alert":
+            try:
+                data = self._read_json(MAX_BODY_BYTES)
+                severity = self._required_text(data, "severity", 32)
+                title = self._required_text(data, "title", 200)
+                summary = self._required_text(data, "summary", 2000)
+                source = self._required_text(data, "source", 80)
+                if severity not in {"low", "medium", "high", "critical"}:
+                    raise ApiError(HTTPStatus.BAD_REQUEST, "Choose a valid alert severity.")
+                alert = {
+                    "severity": severity,
+                    "title": title,
+                    "summary": summary,
+                    "source": source,
+                    "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                }
+                self.server.bot_alerts.insert(0, alert)
+                self.server.bot_alerts = self.server.bot_alerts[:25]
+                self._send_json(HTTPStatus.CREATED, {"alerted": True})
+            except ApiError as error:
+                self._send_json(error.status, {"error": error.message})
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                self._send_json(HTTPStatus.BAD_REQUEST, {"error": "Send a valid JSON request."})
             return
         if path == "/api/admin/reports":
             if not self._require_admin():
@@ -223,6 +247,13 @@ class RequestHandler(BaseHTTPRequestHandler):
                         "code": "backup_missing",
                         "message": "Scheduled backups are configured, but no completed backup file exists yet.",
                     })
+                    snapshot["status"] = "alert"
+                for alert in self.server.bot_alerts:
+                    snapshot["alerts"].append({
+                        "code": f"bot_{alert['severity']}",
+                        "message": f"[Bot escalation] {alert['title']} — {alert['summary']} ({alert['source']})",
+                    })
+                if self.server.bot_alerts:
                     snapshot["status"] = "alert"
                 self._send_json(HTTPStatus.OK, snapshot)
             except (sqlite3.Error, OSError, ValueError):
@@ -356,7 +387,23 @@ class RequestHandler(BaseHTTPRequestHandler):
         try:
             path = urlsplit(self.path).path
             data = self._read_json(MAX_FEED_UPLOAD_BYTES if path == "/api/admin/feed/stage" else MAX_BODY_BYTES)
-            if path == "/api/admin/login":
+            if path == "/api/bot/alert":
+                severity = self._required_text(data, "severity", 32)
+                title = self._required_text(data, "title", 200)
+                summary = self._required_text(data, "summary", 2000)
+                source = self._required_text(data, "source", 80)
+                if severity not in {"low", "medium", "high", "critical"}:
+                    raise ApiError(HTTPStatus.BAD_REQUEST, "Choose a valid alert severity.")
+                self.server.bot_alerts.insert(0, {
+                    "severity": severity,
+                    "title": title,
+                    "summary": summary,
+                    "source": source,
+                    "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                })
+                self.server.bot_alerts = self.server.bot_alerts[:25]
+                self._send_json(HTTPStatus.CREATED, {"alerted": True})
+            elif path == "/api/admin/login":
                 username = self._required_text(data, "username", 120)
                 password = self._required_text(data, "password", 256)
                 now = time.time()
@@ -810,6 +857,12 @@ class RequestHandler(BaseHTTPRequestHandler):
             target = PUBLIC_DIR / "index.html"
         elif path == "/admin":
             target = PUBLIC_DIR / "admin.html"
+        elif path.startswith("/assets/"):
+            name = unquote(path.removeprefix("/assets/"))
+            if not name or "/" in name or "\\" in name or name.startswith("."):
+                self.send_error(HTTPStatus.NOT_FOUND)
+                return
+            target = PUBLIC_DIR / "assets" / name
         else:
             name = unquote(path.lstrip("/"))
             if not name or "/" in name or "\\" in name or name.startswith("."):
@@ -824,6 +877,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             ".css": "text/css; charset=utf-8",
             ".js": "text/javascript; charset=utf-8",
             ".svg": "image/svg+xml",
+            ".webp": "image/webp",
         }.get(target.suffix, "application/octet-stream")
         payload = target.read_bytes()
         self.send_response(HTTPStatus.OK)
@@ -847,6 +901,7 @@ class ScamShieldServer(ThreadingHTTPServer):
         self.database = database
         self.started_at = time.monotonic()
         self.sessions: dict[str, tuple[str, str, float, str]] = {}
+        self.bot_alerts: list[dict[str, str]] = []
         self.maintenance_stop = threading.Event()
 
 

@@ -3,11 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f7f6">
+  <meta name="theme-color" content="#2F4436">
   <meta name="description" content="Check suspicious links and messages, understand the warning signs, and learn what to do next.">
   <title>ClearBeacon — pause, check, protect</title>
+  <script src="/theme-bootstrap.js"></script>
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/liquid-sculpture-hero.css">
+  <link rel="stylesheet" href="/footer.css">
+  <link rel="stylesheet" href="/theme.css">
   <script src="/app.js" defer></script>
+  <script type="module" src="/assets/sculpture-hero.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main" data-i18n="skipLink">Skip to content</a>
@@ -22,50 +27,41 @@
       <a href="#safety-center" data-i18n="navSafetyCenter">Safety tools</a>
       <a href="#report" data-i18n="navReport">Report a scam</a>
     </nav>
-    <div class="header-actions"><label class="sr-only" for="language-select" data-i18n="languageSelectLabel">Choose language</label><select id="language-select" class="language-select" aria-label="Choose language"><option value="en">English</option><option value="bn">বাংলা</option><option value="es">Español</option><option value="fr">Français</option><option value="hi">हिन्दी</option><option value="ar">العربية</option></select></div>
+    <div class="header-actions"><label class="sr-only" for="language-select" data-i18n="languageSelectLabel">Choose language</label><select id="language-select" class="language-select" aria-label="Choose language"><option value="en">English</option><option value="bn">বাংলা</option><option value="es">Español</option><option value="fr">Français</option><option value="hi">हिन्दी</option><option value="ar">العربية</option></select><span id="theme-toggle-root"></span></div>
   </header>
 
   <main id="main">
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="pulse-dot"></span> <span data-i18n="heroEyebrow">A calmer way to check</span></p>
-        <h1><span data-i18n="heroLineOne">That message feels off.</span><br><span data-i18n="heroLineTwo">Let's look closer.</span></h1>
-        <p class="hero-text" data-i18n="heroText">Check a suspicious link or message. See the warning signs, understand what we checked, and choose a safer next step.</p>
-        <a class="hero-cta" href="#check"><span data-i18n="heroCta">Start a quick check</span><span aria-hidden="true">↓</span></a>
-        <p class="brand-disclaimer">ClearBeacon is an independent educational project, not affiliated with any government agency. The name is provisional and has not been legally cleared.</p>
-        <div class="privacy-pill"><span aria-hidden="true">◈</span> <span data-i18n="privacyPill">Private by default · No account needed</span></div>
-      </div>
-      <div class="hero-art" aria-hidden="true">
-        <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
-        <div class="art-shield"><span>✓</span></div>
-        <div class="art-spark spark-one">✦</div><div class="art-spark spark-two">✳</div>
-        <div class="art-note note-top" data-i18n="artPause">pause first</div><div class="art-note note-bottom" data-i18n="artCheck">check the details</div>
-      </div>
-    </section>
+    <div id="sculpture-hero-root"></div>
 
     <section class="checker-wrap" id="check" aria-labelledby="checker-heading">
-      <div class="checker-intro">
-        <div><p class="eyebrow" data-i18n="quickCheck">YOUR QUICK CHECK</p><h2 id="checker-heading" data-i18n="checkerHeading">What would you like to check?</h2></div>
-        <span class="step-badge"><span>01</span> <span data-i18n="checkLabel">CHECK</span></span>
+      <div class="assistant-welcome">
+        <p class="eyebrow" data-i18n="quickCheck">YOUR QUICK CHECK</p>
+        <h2 id="checker-heading" data-i18n="checkerHeading">What would you like to check?</h2>
+        <p class="assistant-subtitle" data-i18n="heroText">Check a suspicious link or message. See the warning signs, understand what we checked, and choose a safer next step.</p>
       </div>
       <div class="checker-card">
-        <div class="tabs" role="tablist" aria-label="Choose what to check" data-i18n-aria="tablist">
-          <button class="tab active" id="url-tab" role="tab" aria-selected="true" aria-controls="url-panel" type="button"><span aria-hidden="true">↗</span> <span data-i18n="tabUrl">A link</span></button>
-          <button class="tab" id="message-tab" role="tab" aria-selected="false" aria-controls="message-panel" type="button"><span aria-hidden="true">▤</span> <span data-i18n="tabMessage">A message</span></button>
-        </div>
+        <div class="assistant-panels">
         <div class="tab-panel" id="url-panel" role="tabpanel" aria-labelledby="url-tab">
           <form id="url-form">
-            <label for="url-input" data-i18n="urlLabel">Paste the web address you want to check</label>
-            <div class="input-row"><input id="url-input" name="url" type="text" inputmode="url" autocomplete="url" maxlength="2048" placeholder="example.com/offer" data-i18n-placeholder="urlPlaceholder" required><button class="primary-button" type="submit"><span data-i18n="checkLink">Check link</span> <span aria-hidden="true">→</span></button></div>
+            <label class="sr-only" for="url-input" data-i18n="urlLabel">Paste the web address you want to check</label>
+            <div class="input-row"><input id="url-input" name="url" type="text" inputmode="url" autocomplete="url" maxlength="2048" placeholder="example.com/offer" data-i18n-placeholder="urlPlaceholder" required><button class="primary-button assistant-submit" type="submit" aria-label="Check link" data-i18n-aria="checkLink"><span aria-hidden="true">↑</span></button></div>
             <p class="field-note"><span aria-hidden="true">ⓘ</span> <span data-i18n="urlPrivacy">We never open the link. Don’t paste links containing private tokens or personal details.</span></p>
           </form>
         </div>
         <div class="tab-panel" id="message-panel" role="tabpanel" aria-labelledby="message-tab" hidden>
           <form id="message-form">
-            <label for="message-input" data-i18n="messageLabel">Paste the suspicious text</label>
-            <textarea id="message-input" name="text" maxlength="6000" rows="5" placeholder="Paste the message here — remove names, phone numbers, and codes first." data-i18n-placeholder="messagePlaceholder" required></textarea>
-            <div class="input-row message-submit"><p class="field-note"><span aria-hidden="true">◈</span> <span data-i18n="messagePrivacy">Analyzed on this server in memory. Not saved or sent to an outside service.</span></p><button class="primary-button" type="submit"><span data-i18n="checkMessage">Check message</span> <span aria-hidden="true">→</span></button></div>
+            <label class="sr-only" for="message-input" data-i18n="messageLabel">Paste the suspicious text</label>
+            <textarea id="message-input" name="text" maxlength="6000" rows="3" placeholder="Paste the message here — remove names, phone numbers, and codes first." data-i18n-placeholder="messagePlaceholder" required></textarea>
+            <div class="assistant-form-footer"><p class="field-note"><span aria-hidden="true">◈</span> <span data-i18n="messagePrivacy">Analyzed on this server in memory. Not saved or sent to an outside service.</span></p><button class="primary-button assistant-submit" type="submit" aria-label="Check message" data-i18n-aria="checkMessage"><span aria-hidden="true">↑</span></button></div>
           </form>
+        </div>
+        </div>
+        <div class="assistant-composer-tools">
+          <div class="tabs" role="tablist" aria-label="Choose what to check" data-i18n-aria="tablist">
+            <button class="tab active" id="url-tab" role="tab" aria-selected="true" aria-controls="url-panel" type="button"><span aria-hidden="true">↗</span> <span data-i18n="tabUrl">A link</span></button>
+            <button class="tab" id="message-tab" role="tab" aria-selected="false" aria-controls="message-panel" type="button"><span aria-hidden="true">▤</span> <span data-i18n="tabMessage">A message</span></button>
+          </div>
+          <button class="assistant-attach" type="button" data-open-tool="image"><span aria-hidden="true">＋</span> Check an image or QR</button>
         </div>
         <div id="check-feedback" class="feedback" role="status" aria-live="polite" hidden></div>
         <div id="result" class="result" aria-live="polite" hidden></div>
@@ -107,16 +103,6 @@
               <button class="secondary-button" type="submit">Compare domain</button>
               <div id="organization-check-result" class="extra-tool-result" role="status" aria-live="polite"></div>
             </form>
-            <section class="extra-tool" aria-labelledby="phone-safety-title">
-              <h4 id="phone-safety-title">Unexpected caller? Verify safely</h4>
-              <p>ClearBeacon does not identify or rate phone numbers. Caller ID can be spoofed.</p>
-              <ul><li>Do not share codes, passwords, payment details, or remote access.</li><li>Hang up and call the organization back using a number from its official app, card, or website you type yourself.</li><li>Do not rely on a search ad or the caller's callback number to verify them.</li></ul>
-            </section>
-            <section class="extra-tool" aria-labelledby="organization-directory-title">
-              <h4 id="organization-directory-title">Official-help reference directory</h4>
-              <p>These are reference links, not live-verified endorsements. Confirm each site's address and remit before sharing personal information.</p>
-              <div id="organization-directory-list" class="extra-tool-result" aria-live="polite"></div>
-            </section>
             <section class="extra-tool" aria-labelledby="checklist-title">
               <h4 id="checklist-title">Printable safety checklist</h4>
               <label for="checklist-scenario">Choose a situation</label>
@@ -128,6 +114,11 @@
         </section>
           </div>
         </details>
+      </div>
+      <div class="assistant-shortcuts" aria-label="More ways to get help">
+        <button class="assistant-shortcut" type="button" data-open-check="url"><span class="shortcut-icon" aria-hidden="true">↗</span><span data-i18n="checkLink">Check link</span></button>
+        <button class="assistant-shortcut" type="button" data-open-check="message"><span class="shortcut-icon" aria-hidden="true">▤</span><span data-i18n="checkMessage">Check message</span></button>
+        <button class="assistant-shortcut" type="button" data-open-tool="tools"><span class="shortcut-icon" aria-hidden="true">◇</span><span>Explore safety tools</span></button>
       </div>
       <p class="fine-print" data-i18n="finePrint">ClearBeacon is an independent educational tool — not a government service, security guarantee, or replacement for official reporting.</p>
       <section class="history-section" aria-labelledby="history-heading">
@@ -171,6 +162,18 @@
           <p class="country-help-note" data-i18n="countryHelpNote">These links go to official reporting or cyber-safety services. Availability and remit vary. For urgent financial loss, contact your bank using a trusted number.</p>
           <div id="country-help-links" class="country-help-links" aria-live="polite"></div>
         </section>
+        <section class="safety-tool" aria-labelledby="phone-safety-title">
+          <p class="eyebrow">CALLER SAFETY</p>
+          <h3 id="phone-safety-title">Unexpected caller? Verify safely</h3>
+          <p>ClearBeacon does not identify or rate phone numbers. Caller ID can be spoofed.</p>
+          <ul class="caller-safety-list"><li>Do not share codes, passwords, payment details, or remote access.</li><li>Hang up and call the organization back using a number from its official app, card, or website you type yourself.</li><li>Do not rely on a search ad or the caller's callback number to verify them.</li></ul>
+        </section>
+        <section class="safety-tool directory-tool" aria-labelledby="organization-directory-title">
+          <p class="eyebrow">MORE PLACES TO GET HELP</p>
+          <h3 id="organization-directory-title">Official-help reference directory</h3>
+          <p>These are reference links, not live-verified endorsements. Confirm each site's address and remit before sharing personal information.</p>
+          <div id="organization-directory-list" class="extra-tool-result" aria-live="polite"></div>
+        </section>
         <section class="safety-tool quiz-tool" aria-labelledby="quiz-title">
           <p class="eyebrow" data-i18n="quizEyebrow">PRACTICE SPOTTING SCAMS</p>
           <h3 id="quiz-title" data-i18n="quizTitle">Quick safety quiz</h3>
@@ -208,6 +211,7 @@
     </section>
     <section class="public-trends" aria-labelledby="trends-title"><p class="eyebrow">COMMUNITY TRENDS</p><h2 id="trends-title">Verified report patterns</h2><p>Only categories with at least five verified reports are shown. This is historical aggregate information, not a live threat alert.</p><div id="public-trends-list" aria-live="polite"></div></section>
   </main>
-  <footer class="site-footer"><a class="brand footer-brand" href="/"><span class="brand-mark" aria-hidden="true">C</span><span>Clear<span class="brand-accent">Beacon</span></span></a><p data-i18n="footerIntro">An independent, educational decision-support project. No result guarantees that a link or message is safe.</p><div class="footer-links"><a href="#check" data-i18n="footerCheck">Check</a><a href="#report" data-i18n="footerReport">Report</a><a href="#guides" data-i18n="footerGuides">Safety tips</a><a href="#safety-center" data-i18n="footerHelp">Official help ↗</a><a href="/privacy.html">Privacy notice (pre-launch draft)</a></div><small>ClearBeacon is not affiliated with any government agency. Its provisional name has not been cleared for public use.</small></footer>
+  <div id="footer-root"></div>
+  <div id="react-app-root"></div>
 </body>
 </html>

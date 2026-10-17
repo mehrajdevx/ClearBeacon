@@ -596,7 +596,10 @@ $("#admin-login").addEventListener("submit", async (event) => {
     for (const item of document.querySelectorAll("[data-admin-only]")) item.hidden = adminRole !== "admin";
     await loadDashboard();
     $("#admin-login").hidden = true;
+    $("#admin-login").closest(".admin-login-card").hidden = true;
     $("#dashboard").hidden = false;
+    $("#admin-sidebar").hidden = false;
+    document.body.classList.add("admin-authenticated");
     sessionTimer = window.setTimeout(signOut, result.expires_in * 1000);
   } catch (error) {
     adminToken = "";
@@ -670,6 +673,12 @@ async function signOut() {
   adminRole = "";
   reports = [];
   $("#dashboard").hidden = true;
+  $("#admin-sidebar").hidden = true;
+  document.body.classList.remove("admin-authenticated", "admin-sidebar-open", "admin-sidebar-collapsed");
+  $("#admin-sidebar").classList.remove("is-open");
+  $("#sidebar-toggle").setAttribute("aria-expanded", "false");
+  $("#sidebar-toggle").setAttribute("aria-label", "Open reviewer navigation");
+  $("#admin-login").closest(".admin-login-card").hidden = false;
   $("#admin-login").hidden = false;
   $("#admin-username").value = "";
   $("#admin-password").value = "";

@@ -18,7 +18,7 @@ const translations = {
     heroText: "Check a suspicious link or message. See the warning signs, understand what we checked, and choose a safer next step.",
     heroCta: "Start a quick check",
     privacyPill: "Private by default · No account needed", artPause: "pause first", artCheck: "check the details",
-    quickCheck: "YOUR QUICK CHECK", checkerHeading: "What would you like to check?", checkLabel: "CHECK",
+    quickCheck: "YOUR QUICK CHECK", checkerHeading: "Ready to check with you?", checkLabel: "CHECK",
     tablist: "Choose what to check", tabUrl: "A link", tabMessage: "A message",
     urlLabel: "Paste the web address you want to check", urlPlaceholder: "example.com/offer", checkLink: "Check link",
     urlPrivacy: "We never open the link. Don’t paste links containing private tokens or personal details.",
@@ -126,7 +126,7 @@ const translations = {
     heroText: "সন্দেহজনক লিংক বা বার্তা পরীক্ষা করুন। সতর্কতার সংকেত বুঝুন, কী যাচাই হয়েছে দেখুন এবং নিরাপদ পরবর্তী পদক্ষেপ নিন।",
     heroCta: "দ্রুত যাচাই শুরু করুন",
     privacyPill: "গোপনীয়তা আগে · অ্যাকাউন্ট লাগবে না", artPause: "আগে থামুন", artCheck: "বিস্তারিত যাচাই",
-    quickCheck: "দ্রুত যাচাই", checkerHeading: "আপনি কী যাচাই করতে চান?", checkLabel: "যাচাই",
+    quickCheck: "দ্রুত যাচাই", checkerHeading: "আপনাকে যাচাই করতে সাহায্য করতে প্রস্তুত", checkLabel: "যাচাই",
     tablist: "যাচাইয়ের ধরন বেছে নিন", tabUrl: "লিংক", tabMessage: "বার্তা",
     urlLabel: "যে ওয়েব ঠিকানাটি যাচাই করতে চান পেস্ট করুন", urlPlaceholder: "example.com/offer", checkLink: "লিংক যাচাই",
     urlPrivacy: "আমরা লিংকটি খুলি না। ব্যক্তিগত টোকেন বা তথ্যসহ লিংক পেস্ট করবেন না।",
@@ -188,7 +188,7 @@ const translations = {
     heroText: "Comprueba un enlace o mensaje sospechoso. Consulta las señales, entiende qué verificamos y elige un siguiente paso más seguro.",
     heroCta: "Empezar una comprobación",
     privacyPill: "Privacidad primero · Sin cuenta", artPause: "detente primero", artCheck: "revisa los detalles",
-    quickCheck: "COMPROBACIÓN RÁPIDA", checkerHeading: "¿Qué quieres comprobar?", checkLabel: "COMPROBAR",
+    quickCheck: "COMPROBACIÓN RÁPIDA", checkerHeading: "Listo para ayudarte a comprobarlo", checkLabel: "COMPROBAR",
     tablist: "Elige qué quieres comprobar", tabUrl: "Un enlace", tabMessage: "Un mensaje",
     urlLabel: "Pega la dirección web que quieres comprobar", urlPlaceholder: "ejemplo.com/oferta", checkLink: "Comprobar enlace",
     urlPrivacy: "Nunca abrimos el enlace. No pegues enlaces con datos personales o tokens privados.",
@@ -281,7 +281,7 @@ const translations = {
     heroText: "Vérifiez un lien ou un message suspect. Consultez les signaux, comprenez nos vérifications et choisissez une prochaine étape plus sûre.",
     heroCta: "Commencer une vérification",
     privacyPill: "Confidentialité d'abord · Sans compte", artPause: "faites une pause", artCheck: "vérifiez les détails",
-    quickCheck: "VÉRIFICATION RAPIDE", checkerHeading: "Que souhaitez-vous vérifier ?", checkLabel: "VÉRIFIER",
+    quickCheck: "VÉRIFICATION RAPIDE", checkerHeading: "Prêt à vous aider à vérifier", checkLabel: "VÉRIFIER",
     tablist: "Choisissez ce que vous voulez vérifier", tabUrl: "Un lien", tabMessage: "Un message",
     urlLabel: "Collez l'adresse web à vérifier", urlPlaceholder: "exemple.fr/offre", checkLink: "Vérifier le lien",
     urlPrivacy: "Nous n'ouvrons jamais le lien. Ne collez pas d'adresse contenant des données personnelles ou des jetons privés.",
@@ -374,7 +374,7 @@ const translations = {
     heroText: "संदिग्ध लिंक या संदेश जाँचें। चेतावनी के संकेत समझें, जाँच का विवरण देखें और सुरक्षित अगला कदम चुनें।",
     heroCta: "त्वरित जाँच शुरू करें",
     privacyPill: "गोपनीयता पहले · खाता आवश्यक नहीं", artPause: "पहले रुकें", artCheck: "विवरण जाँचें",
-    quickCheck: "त्वरित जाँच", checkerHeading: "आप क्या जाँचना चाहते हैं?", checkLabel: "जाँचें",
+    quickCheck: "त्वरित जाँच", checkerHeading: "जाँच में आपकी मदद के लिए तैयार", checkLabel: "जाँचें",
     tablist: "जाँचने के लिए चुनें", tabUrl: "लिंक", tabMessage: "संदेश",
     urlLabel: "जाँचने के लिए वेब पता पेस्ट करें", urlPlaceholder: "example.in/offer", checkLink: "लिंक जाँचें",
     urlPrivacy: "हम लिंक कभी नहीं खोलते। निजी टोकन या व्यक्तिगत जानकारी वाले लिंक पेस्ट न करें।",
@@ -467,7 +467,7 @@ const translations = {
     heroText: "تحقق من رابط أو رسالة مريبة. اطّلع على المؤشرات وافهم ما فحصناه واختر خطوة تالية أكثر أماناً.",
     heroCta: "ابدأ فحصاً سريعاً",
     privacyPill: "الخصوصية أولاً · لا حاجة إلى حساب", artPause: "توقف أولاً", artCheck: "تحقق من التفاصيل",
-    quickCheck: "فحص سريع", checkerHeading: "ما الذي تريد فحصه؟", checkLabel: "افحص",
+    quickCheck: "فحص سريع", checkerHeading: "مستعدون لمساعدتك في التحقق", checkLabel: "افحص",
     tablist: "اختر ما تريد فحصه", tabUrl: "رابط", tabMessage: "رسالة",
     urlLabel: "ألصق عنوان الويب الذي تريد فحصه", urlPlaceholder: "example.com/offer", checkLink: "افحص الرابط",
     urlPrivacy: "لا نفتح الرابط مطلقاً. لا تلصق روابط تتضمن رموزاً خاصة أو بيانات شخصية.",
@@ -571,7 +571,7 @@ translations.bn = {
   heroCta: "দ্রুত যাচাই শুরু করুন",
   privacyPill: "গোপনীয়তা আগে · অ্যাকাউন্ট লাগবে না",
   quickCheck: "দ্রুত যাচাই",
-  checkerHeading: "আপনি কী যাচাই করতে চান?",
+  checkerHeading: "আপনাকে যাচাই করতে সাহায্য করতে প্রস্তুত",
   tabUrl: "লিংক",
   tabMessage: "বার্তা",
   urlLabel: "যাচাইয়ের জন্য ওয়েব ঠিকানাটি পেস্ট করুন",
@@ -1072,7 +1072,7 @@ function guideActions(guide) {
     : guideSteps[currentLocale][guide.category];
 }
 
-function applyLocale() {
+function applyLocaleMarkup() {
   document.documentElement.lang = currentLocale;
   document.documentElement.dir = currentLocale === "ar" ? "rtl" : "ltr";
   document.title = translations[currentLocale].pageTitle || translations.en.pageTitle;
@@ -1086,6 +1086,12 @@ function applyLocale() {
     element.setAttribute("aria-label", t(element.dataset.i18nAria));
   });
   $("#language-select").value = currentLocale;
+}
+
+window.addEventListener("clearbeacon:react-ready", applyLocaleMarkup);
+
+function applyLocale() {
+  applyLocaleMarkup();
   if (lastResult) {
     lastResult = null;
     $("#result").hidden = true;
@@ -1281,6 +1287,12 @@ function renderResult(result) {
   const threatStatus = threatCheck?.status || "not_configured";
   coverage.textContent = `${t("resultCoverage")} · Threat-list status: ${threatStatus}${threatCheck?.provider ? ` (${threatCheck.provider})` : ""}${threatCheck?.updated_at ? ` · Updated ${threatCheck.updated_at}` : ""}`;
   target.append(coverage);
+  if (result.risk_label === "high_risk" || result.risk_label === "known_malicious") {
+    const escalation = document.createElement("p");
+    escalation.className = "bot-escalation-note";
+    escalation.textContent = "Auto-scan bot flagged this result and sent it to the admin review queue for human support.";
+    target.append(escalation);
+  }
   const disclaimer = document.createElement("p");
   disclaimer.className = "result-disclaimer";
   disclaimer.textContent = result.disclaimer || t("resultDisclaimer");
@@ -1534,6 +1546,50 @@ function setupTabs() {
   }
 }
 
+function setupCheckerShortcuts() {
+  $$("[data-open-check]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const mode = button.dataset.openCheck;
+      const tab = $(`#${mode}-tab`);
+      tab.click();
+      $(`#${mode === "url" ? "url-input" : "message-input"}`).focus();
+      $("#check").scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  });
+  $$("[data-open-tool]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const tools = $(".optional-tools");
+      tools.open = true;
+      const target = button.dataset.openTool === "image"
+        ? $("#image-check-input")
+        : $(".optional-tools>summary");
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (button.dataset.openTool === "image") target.focus();
+    });
+  });
+}
+
+async function notifyBotEscalation(body, inputType, rawInput) {
+  const risky = body?.risk_label === "high_risk" || body?.risk_label === "known_malicious";
+  if (!risky) return;
+  const evidence = (body?.evidence || []).slice(0, 3).map((item) => item.text).join(" | ");
+  const summary = evidence || "High-risk indicators were found during the automatic scan.";
+  try {
+    await request("/api/bot/alert", {
+      method: "POST",
+      body: JSON.stringify({
+        severity: body.risk_label === "known_malicious" ? "critical" : "high",
+        title: "Auto-scan escalation",
+        summary,
+        source: inputType === "url" ? "link-checker" : "message-checker",
+        target: rawInput,
+      }),
+    });
+  } catch {
+    // Bot alert failures should not block the user-facing result.
+  }
+}
+
 function setupCheckForm(formId, path, valueKey) {
   $(formId).addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -1552,6 +1608,7 @@ function setupCheckForm(formId, path, valueKey) {
       feedback.hidden = true;
       lastCheckInput = { type: valueKey === "url" ? "url" : "message", value: input };
       renderResult(body);
+      await notifyBotEscalation(body, valueKey, input);
       saveCheckHistory(body, valueKey);
     } catch (error) {
       setFeedback(feedback, readableError(error), "error");
@@ -2026,6 +2083,7 @@ setupGuides();
 setupHistory();
 setupSafetyCenter();
 setupTabs();
+setupCheckerShortcuts();
 setupCheckForm("#url-form", "/api/check/url", "url");
 setupCheckForm("#message-form", "/api/check/message", "text");
 setupReport();
