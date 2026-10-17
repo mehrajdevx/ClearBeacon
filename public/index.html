@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f6">
+  <meta name="description" content="Check suspicious links and messages, understand the warning signs, and learn what to do next.">
+  <title>ClearBeacon — pause, check, protect</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="skipLink">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="ClearBeacon home">
+      <span class="brand-mark" aria-hidden="true">C</span>
+      <span>Clear<span class="brand-accent">Beacon</span></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation" data-i18n-aria="mainNavigation">
+      <a href="#check" data-i18n="navCheck">Check a message</a>
+      <a href="#guides" data-i18n="navGuides">Safety guides</a>
+      <a href="#safety-center" data-i18n="navSafetyCenter">Safety tools</a>
+      <a href="#report" data-i18n="navReport">Report a scam</a>
+    </nav>
+    <div class="header-actions"><label class="sr-only" for="language-select" data-i18n="languageSelectLabel">Choose language</label><select id="language-select" class="language-select" aria-label="Choose language"><option value="en">English</option><option value="bn">বাংলা</option><option value="es">Español</option><option value="fr">Français</option><option value="hi">हिन्दी</option><option value="ar">العربية</option></select></div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="pulse-dot"></span> <span data-i18n="heroEyebrow">A calmer way to check</span></p>
+        <h1><span data-i18n="heroLineOne">That message feels off.</span><br><span data-i18n="heroLineTwo">Let's look closer.</span></h1>
+        <p class="hero-text" data-i18n="heroText">Check a suspicious link or message. See the warning signs, understand what we checked, and choose a safer next step.</p>
+        <a class="hero-cta" href="#check"><span data-i18n="heroCta">Start a quick check</span><span aria-hidden="true">↓</span></a>
+        <p class="brand-disclaimer">ClearBeacon is an independent educational project, not affiliated with any government agency. The name is provisional and has not been legally cleared.</p>
+        <div class="privacy-pill"><span aria-hidden="true">◈</span> <span data-i18n="privacyPill">Private by default · No account needed</span></div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
+        <div class="art-shield"><span>✓</span></div>
+        <div class="art-spark spark-one">✦</div><div class="art-spark spark-two">✳</div>
+        <div class="art-note note-top" data-i18n="artPause">pause first</div><div class="art-note note-bottom" data-i18n="artCheck">check the details</div>
+      </div>
+    </section>
+
+    <section class="checker-wrap" id="check" aria-labelledby="checker-heading">
+      <div class="checker-intro">
+        <div><p class="eyebrow" data-i18n="quickCheck">YOUR QUICK CHECK</p><h2 id="checker-heading" data-i18n="checkerHeading">What would you like to check?</h2></div>
+        <span class="step-badge"><span>01</span> <span data-i18n="checkLabel">CHECK</span></span>
+      </div>
+      <div class="checker-card">
+        <div class="tabs" role="tablist" aria-label="Choose what to check" data-i18n-aria="tablist">
+          <button class="tab active" id="url-tab" role="tab" aria-selected="true" aria-controls="url-panel" type="button"><span aria-hidden="true">↗</span> <span data-i18n="tabUrl">A link</span></button>
+          <button class="tab" id="message-tab" role="tab" aria-selected="false" aria-controls="message-panel" type="button"><span aria-hidden="true">▤</span> <span data-i18n="tabMessage">A message</span></button>
+        </div>
+        <div class="tab-panel" id="url-panel" role="tabpanel" aria-labelledby="url-tab">
+          <form id="url-form">
+            <label for="url-input" data-i18n="urlLabel">Paste the web address you want to check</label>
+            <div class="input-row"><input id="url-input" name="url" type="text" inputmode="url" autocomplete="url" maxlength="2048" placeholder="example.com/offer" data-i18n-placeholder="urlPlaceholder" required><button class="primary-button" type="submit"><span data-i18n="checkLink">Check link</span> <span aria-hidden="true">→</span></button></div>
+            <p class="field-note"><span aria-hidden="true">ⓘ</span> <span data-i18n="urlPrivacy">We never open the link. Don’t paste links containing private tokens or personal details.</span></p>
+          </form>
+        </div>
+        <div class="tab-panel" id="message-panel" role="tabpanel" aria-labelledby="message-tab" hidden>
+          <form id="message-form">
+            <label for="message-input" data-i18n="messageLabel">Paste the suspicious text</label>
+            <textarea id="message-input" name="text" maxlength="6000" rows="5" placeholder="Paste the message here — remove names, phone numbers, and codes first." data-i18n-placeholder="messagePlaceholder" required></textarea>
+            <div class="input-row message-submit"><p class="field-note"><span aria-hidden="true">◈</span> <span data-i18n="messagePrivacy">Analyzed on this server in memory. Not saved or sent to an outside service.</span></p><button class="primary-button" type="submit"><span data-i18n="checkMessage">Check message</span> <span aria-hidden="true">→</span></button></div>
+          </form>
+        </div>
+        <div id="check-feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+        <div id="result" class="result" aria-live="polite" hidden></div>
+        <details class="optional-tools">
+          <summary id="advanced-tools-title">More ways to check</summary>
+          <div class="optional-tools-content">
+        <section class="local-image-check" aria-labelledby="image-check-title">
+          <h3 id="image-check-title">Check a screenshot or QR code on this device</h3>
+          <p>Choose an image up to 5 MB. Image data stays in your browser. QR extraction and OCR depend on browser support; extracted links are never opened.</p>
+          <label for="image-check-input">Image file (PNG, JPEG, or WebP)</label>
+          <input id="image-check-input" type="file" accept="image/png,image/jpeg,image/webp">
+          <div id="image-check-feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+        </section>
+        <section class="safety-tool-extra" aria-labelledby="advanced-tools-title">
+          <div class="extra-tool-grid">
+            <form id="email-header-form" class="extra-tool">
+              <h4>Email header review</h4>
+              <p>Paste header text only. It is checked locally and not stored. Remove personal addresses first.</p>
+              <label for="email-headers">Email headers</label>
+              <textarea id="email-headers" rows="5" maxlength="12000" placeholder="From:, Reply-To:, Return-Path:, Authentication-Results:"></textarea>
+              <button class="secondary-button" type="submit">Review headers</button>
+              <div id="email-header-result" class="extra-tool-result" role="status" aria-live="polite"></div>
+            </form>
+            <form id="context-check-form" class="extra-tool">
+              <h4>Job, marketplace, or payment check</h4>
+              <p>Checks warning phrases locally. Do not include names, phone numbers, or codes.</p>
+              <label for="context-kind">Request type</label>
+              <select id="context-kind"><option value="job">Job offer</option><option value="marketplace">Marketplace listing</option><option value="payment">Payment request</option></select>
+              <label for="context-text">Offer or request text</label>
+              <textarea id="context-text" rows="4" maxlength="6000"></textarea>
+              <button class="secondary-button" type="submit">Check request</button>
+              <div id="context-check-result" class="extra-tool-result" role="status" aria-live="polite"></div>
+            </form>
+            <form id="organization-check-form" class="extra-tool">
+              <h4>Compare an organization domain</h4>
+              <p>Compares the entered host with ClearBeacon's small reference directory; no website is opened.</p>
+              <label for="organization-domain">Domain or web address</label>
+              <input id="organization-domain" maxlength="2048" placeholder="example.gov">
+              <button class="secondary-button" type="submit">Compare domain</button>
+              <div id="organization-check-result" class="extra-tool-result" role="status" aria-live="polite"></div>
+            </form>
+            <section class="extra-tool" aria-labelledby="phone-safety-title">
+              <h4 id="phone-safety-title">Unexpected caller? Verify safely</h4>
+              <p>ClearBeacon does not identify or rate phone numbers. Caller ID can be spoofed.</p>
+              <ul><li>Do not share codes, passwords, payment details, or remote access.</li><li>Hang up and call the organization back using a number from its official app, card, or website you type yourself.</li><li>Do not rely on a search ad or the caller's callback number to verify them.</li></ul>
+            </section>
+            <section class="extra-tool" aria-labelledby="organization-directory-title">
+              <h4 id="organization-directory-title">Official-help reference directory</h4>
+              <p>These are reference links, not live-verified endorsements. Confirm each site's address and remit before sharing personal information.</p>
+              <div id="organization-directory-list" class="extra-tool-result" aria-live="polite"></div>
+            </section>
+            <section class="extra-tool" aria-labelledby="checklist-title">
+              <h4 id="checklist-title">Printable safety checklist</h4>
+              <label for="checklist-scenario">Choose a situation</label>
+              <select id="checklist-scenario"><option value="payment">Payment pressure</option><option value="job">Job offer</option><option value="marketplace">Marketplace purchase</option><option value="account">Account or code</option></select>
+              <button id="checklist-print" class="secondary-button" type="button">Prepare and print checklist</button>
+              <ol id="safety-checklist-output" class="extra-tool-result"></ol>
+            </section>
+          </div>
+        </section>
+          </div>
+        </details>
+      </div>
+      <p class="fine-print" data-i18n="finePrint">ClearBeacon is an independent educational tool — not a government service, security guarantee, or replacement for official reporting.</p>
+      <section class="history-section" aria-labelledby="history-heading">
+        <div class="history-heading">
+          <div><p class="eyebrow" data-i18n="historyEyebrow">PRIVATE TO THIS BROWSER</p><h2 id="history-heading" data-i18n="historyTitle">Recent checks</h2></div>
+          <button id="history-clear" class="secondary-button" type="button" data-i18n="historyClear">Clear history</button>
+        </div>
+        <p class="history-privacy" data-i18n="historyPrivacy">Saved on this device only. Original links and messages are not saved. Clear this history any time.</p>
+        <p class="history-language-note" data-i18n="historyLanguageNote">Saved result details stay in the language used when checked.</p>
+        <div id="history-feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+        <div id="check-history" class="check-history" aria-live="polite"></div>
+      </section>
+    </section>
+
+    <section class="guides-section" id="guides">
+      <div class="section-heading guide-heading"><div><p class="eyebrow" data-i18n="guidesEyebrow">A LITTLE KNOW-HOW GOES FAR</p><h2 data-i18n="guidesTitle">Keep these close.</h2></div></div>
+      <div class="guide-tools"><label class="sr-only" for="guide-search" data-i18n="guideSearchLabel">Search safety guides</label><input id="guide-search" type="search" placeholder="Search safety guides" data-i18n-placeholder="guideSearchPlaceholder"><div class="guide-filters" role="group" aria-label="Filter safety guides" data-i18n-aria="guideFilters"></div></div>
+      <div class="guide-grid" id="guides-list" aria-live="polite">
+      </div>
+      <div class="help-banner"><div><p class="eyebrow" data-i18n="helpEyebrow">ALREADY SENT MONEY OR SHARED A CODE?</p><h3 data-i18n="helpTitle">Act quickly. You’re not alone.</h3><p data-i18n="helpText">Contact your bank or payment provider using its official app or number, change affected passwords, and preserve the messages.</p></div><a href="#safety-center"><span data-i18n="helpLink">Find official help in your country</span> <span aria-hidden="true">↓</span></a></div>
+    </section>
+
+    <section class="safety-center" id="safety-center" aria-labelledby="safety-center-title">
+      <div class="section-heading">
+        <p class="eyebrow" data-i18n="safetyCenterEyebrow">PRACTICAL SAFETY TOOLS</p>
+        <h2 id="safety-center-title" data-i18n="safetyCenterTitle">Get help and build safer habits.</h2>
+      </div>
+      <div class="safety-tools-grid">
+        <section class="safety-tool" aria-labelledby="response-title">
+          <p class="eyebrow" data-i18n="responseEyebrow">IF SOMETHING HAPPENED</p>
+          <h3 id="response-title" data-i18n="responseTitle">What should I do now?</h3>
+          <label for="response-scenario" data-i18n="responseScenarioLabel">Choose what happened</label>
+          <select id="response-scenario"></select>
+          <div id="response-steps" class="response-steps" aria-live="polite"></div>
+        </section>
+        <section class="safety-tool" aria-labelledby="country-help-title">
+          <p class="eyebrow" data-i18n="countryHelpEyebrow">OFFICIAL SUPPORT</p>
+          <h3 id="country-help-title" data-i18n="countryHelpTitle">Find help in your country</h3>
+          <label for="country-select" data-i18n="countrySelectLabel">Choose a country</label>
+          <select id="country-select"></select>
+          <p class="country-help-note" data-i18n="countryHelpNote">These links go to official reporting or cyber-safety services. Availability and remit vary. For urgent financial loss, contact your bank using a trusted number.</p>
+          <div id="country-help-links" class="country-help-links" aria-live="polite"></div>
+        </section>
+        <section class="safety-tool quiz-tool" aria-labelledby="quiz-title">
+          <p class="eyebrow" data-i18n="quizEyebrow">PRACTICE SPOTTING SCAMS</p>
+          <h3 id="quiz-title" data-i18n="quizTitle">Quick safety quiz</h3>
+          <p data-i18n="quizIntro">Try three short scenarios. Your answers stay in this browser session.</p>
+          <div id="quiz-content" aria-live="polite"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="report-section" id="report">
+      <div class="report-intro"><p class="eyebrow" data-i18n="reportEyebrow">HELP OTHERS STAY ALERT</p><h2 data-i18n="reportTitle">Report a suspicious incident.</h2><p data-i18n="reportIntro">Reports start private and pending. They are never shown publicly unless reviewed.</p><div class="report-privacy"><span>◈</span> <span data-i18n="reportPrivacy">Your report is private. Please leave out OTPs, passwords, and personal identity details.</span></div></div>
+      <div class="report-card">
+        <form id="report-form">
+          <label for="report-category" data-i18n="reportCategoryLabel">What kind of scam?</label>
+          <select id="report-category" name="category" required><option value="" data-i18n="categoryChoose">Choose a category</option><option value="fake_shop" data-i18n="categoryShop">Fake shop or product</option><option value="job" data-i18n="categoryJob">Job or earning offer</option><option value="payment" data-i18n="categoryPayment">Payment or delivery request</option><option value="impersonation" data-i18n="categoryImpersonation">Someone impersonating an organization</option><option value="account" data-i18n="categoryAccount">Account access or verification</option><option value="other" data-i18n="categoryOther">Something else</option></select>
+          <label for="report-channel">How did they contact you?</label>
+          <select id="report-channel" name="contact_channel"><option value="unknown">Prefer not to say</option><option value="email">Email</option><option value="phone">Phone call</option><option value="text">Text message</option><option value="social">Social media</option><option value="marketplace">Marketplace</option><option value="website">Website</option><option value="in_person">In person</option><option value="other">Other</option></select>
+          <label for="report-date">Approximate incident date (optional)</label>
+          <input id="report-date" name="incident_date" type="date">
+          <label for="report-target" data-i18n="reportTargetLabel">Link or account identifier (optional)</label>
+          <input id="report-target" name="target" maxlength="2048" placeholder="example.com — don’t include private tokens" data-i18n-placeholder="reportTargetPlaceholder">
+          <label for="report-summary" data-i18n="reportSummaryLabel">What happened?</label>
+          <textarea id="report-summary" name="summary" rows="3" maxlength="2000" placeholder="Briefly describe the request. Please remove names, phone numbers, and codes." data-i18n-placeholder="reportSummaryPlaceholder" required></textarea>
+          <label for="report-evidence">Optional evidence notes (max 3,000 characters)</label>
+          <textarea id="report-evidence" name="evidence_notes" rows="3" maxlength="3000" placeholder="Add non-sensitive details only. Do not upload images or include passwords, codes, or identity documents."></textarea>
+          <button class="primary-button full-button" type="submit"><span data-i18n="reportSubmit">Send private report</span> <span aria-hidden="true">→</span></button>
+        </form>
+        <div id="report-feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+      </div>
+    </section>
+
+    <section class="status-section" aria-labelledby="status-heading">
+      <div><p class="eyebrow" data-i18n="statusEyebrow">FOLLOW UP PRIVATELY</p><h2 id="status-heading" data-i18n="statusTitle">Check your report status</h2><p data-i18n="statusText">Enter the private reference you received after reporting.</p></div>
+      <form id="status-form" class="status-form"><label class="sr-only" for="status-token" data-i18n="statusLabel">Private report reference</label><input id="status-token" name="token" maxlength="128" autocomplete="off" placeholder="Your private reference" data-i18n-placeholder="statusPlaceholder" required><button class="secondary-button" type="submit" data-i18n="statusSubmit">Check status</button><details id="report-actions" class="report-actions-details" hidden><summary>More actions for this report</summary><div class="report-actions"><button id="report-export" class="secondary-button" type="button">Download my report (JSON)</button><button id="report-csv" class="secondary-button" type="button">Download my report (CSV)</button><button id="report-print" class="secondary-button" type="button">Print / save as PDF</button><button id="report-delete" class="secondary-button" type="button">Delete my report and appeal</button></div></details><div id="status-feedback" class="feedback" role="status" aria-live="polite" hidden></div></form><div id="status-appeal" class="status-appeal" hidden></div>
+    </section>
+    <section class="public-trends" aria-labelledby="trends-title"><p class="eyebrow">COMMUNITY TRENDS</p><h2 id="trends-title">Verified report patterns</h2><p>Only categories with at least five verified reports are shown. This is historical aggregate information, not a live threat alert.</p><div id="public-trends-list" aria-live="polite"></div></section>
+  </main>
+  <footer class="site-footer"><a class="brand footer-brand" href="/"><span class="brand-mark" aria-hidden="true">C</span><span>Clear<span class="brand-accent">Beacon</span></span></a><p data-i18n="footerIntro">An independent, educational decision-support project. No result guarantees that a link or message is safe.</p><div class="footer-links"><a href="#check" data-i18n="footerCheck">Check</a><a href="#report" data-i18n="footerReport">Report</a><a href="#guides" data-i18n="footerGuides">Safety tips</a><a href="#safety-center" data-i18n="footerHelp">Official help ↗</a><a href="/privacy.html">Privacy notice (pre-launch draft)</a></div><small>ClearBeacon is not affiliated with any government agency. Its provisional name has not been cleared for public use.</small></footer>
+</body>
+</html>
