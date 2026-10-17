@@ -18,12 +18,14 @@ export default defineConfig({
     emptyOutDir: false,
     target: "es2022",
     rollupOptions: {
-      input: "frontend/main.tsx",
+      input: {
+        "sculpture-hero": "frontend/main.tsx",
+        "qr-decoder": "frontend/qr-decoder.ts",
+      },
       output: {
-        entryFileNames: "sculpture-hero.js",
+        entryFileNames: "[name].js",
         chunkFileNames: "sculpture-hero-[name].js",
         assetFileNames: "[name][extname]",
-        inlineDynamicImports: true,
       },
     },
   },

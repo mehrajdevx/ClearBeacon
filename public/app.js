@@ -1754,17 +1754,33 @@ function setupImageCheck() {
     try {
       const image = await createImageBitmap(file);
       let text = "";
-      if ("BarcodeDetector" in window) {
-        const detector = new BarcodeDetector({ formats: ["qr_code"] });
-        const codes = await detector.detect(image);
-        text = codes.find((code) => code.rawValue)?.rawValue || "";
+      try {
+        if ("BarcodeDetector" in window) {
+          const detector = new BarcodeDetector({ formats: ["qr_code"] });
+          const codes = await detector.detect(image);
+          text = codes.find((code) => code.rawValue)?.rawValue || "";
+        }
+        if (!text && typeof window.jsQR === "function") {
+          const scale = Math.min(1, 2048 / Math.max(image.width, image.height));
+          const width = Math.max(1, Math.round(image.width * scale));
+          const height = Math.max(1, Math.round(image.height * scale));
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          const context = canvas.getContext("2d", { willReadFrequently: true });
+          if (!context) throw new Error("Image decoding is unavailable in this browser.");
+          context.drawImage(image, 0, 0, width, height);
+          const pixels = context.getImageData(0, 0, width, height);
+          text = window.jsQR(pixels.data, width, height)?.data || "";
+        }
+        if (!text && "TextDetector" in window) {
+          const detector = new TextDetector();
+          const blocks = await detector.detect(image);
+          text = blocks.map((block) => block.rawValue).filter(Boolean).join("\n");
+        }
+      } finally {
+        image.close();
       }
-      if (!text && "TextDetector" in window) {
-        const detector = new TextDetector();
-        const blocks = await detector.detect(image);
-        text = blocks.map((block) => block.rawValue).filter(Boolean).join("\n");
-      }
-      image.close();
       if (!text) {
         setFeedback(feedback, t("imageNoContent"), "error");
         return;

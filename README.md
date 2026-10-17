@@ -24,7 +24,7 @@ Legacy `SCAMSHIELD_*` environment variables, the `scamshield` Python package, an
 
 ## Vercel classroom demo
 
-`vercel.json` publishes the `public` site, maps `/admin` to the dashboard, and `api/index.py` adapts the existing API to Vercel's Python function runtime. Configure `SCAMSHIELD_REVIEWERS` and a random `SCAMSHIELD_SESSION_SECRET` (at least 32 bytes) as Vercel Production Environment Variables before deploying. The signed 30-minute reviewer token works across function instances; changing the reviewer credentials invalidates it. The serverless adapter stores SQLite data under `/tmp`, so reports, feedback, and throttles remain temporary and may not be shared or survive a cold start. This is suitable only for a supervised class demonstration using synthetic data, not for real reports or sensitive information. Use a persistent database and shared rate-limit storage before relying on the dashboard.
+`vercel.json` publishes the `public` site, maps `/admin` to the dashboard, and routes `/api/*` to `api/index.py`, which adapts the existing API to Vercel's Python function runtime. Configure `SCAMSHIELD_REVIEWERS` and a random `SCAMSHIELD_SESSION_SECRET` (at least 32 bytes) as Vercel Production Environment Variables before deploying. The signed 30-minute reviewer token works across function instances; changing the reviewer credentials invalidates it. The serverless adapter stores SQLite data under `/tmp`, so reports, feedback, and throttles remain temporary and may not be shared or survive a cold start. This is suitable only for a supervised class demonstration using synthetic data, not for real reports or sensitive information. Use a persistent database and shared rate-limit storage before relying on the dashboard.
 
 ## What works in this MVP
 

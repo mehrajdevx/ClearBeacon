@@ -11,7 +11,8 @@
   <link rel="stylesheet" href="/liquid-sculpture-hero.css">
   <link rel="stylesheet" href="/footer.css">
   <link rel="stylesheet" href="/theme.css">
-  <script src="/app.js" defer></script>
+  <script type="module" src="/assets/qr-decoder.js"></script>
+  <script type="module" src="/app.js"></script>
   <script type="module" src="/assets/sculpture-hero.js"></script>
 </head>
 <body>
@@ -70,7 +71,7 @@
           <div class="optional-tools-content">
         <section class="local-image-check" aria-labelledby="image-check-title">
           <h3 id="image-check-title">Check a screenshot or QR code on this device</h3>
-          <p>Choose an image up to 5 MB. Image data stays in your browser. QR extraction and OCR depend on browser support; extracted links are never opened.</p>
+          <p>Choose an image up to 5 MB. Image data stays in your browser. QR codes use a local fallback decoder when needed; text recognition depends on browser support. Extracted links are never opened.</p>
           <label for="image-check-input">Image file (PNG, JPEG, or WebP)</label>
           <input id="image-check-input" type="file" accept="image/png,image/jpeg,image/webp">
           <div id="image-check-feedback" class="feedback" role="status" aria-live="polite" hidden></div>
