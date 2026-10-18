@@ -486,8 +486,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                     safe_browsing_url = "https://" + safe_browsing_url
                 safe_browsing_reputation = check_google_safe_browsing(
                     safe_browsing_url,
-                    os.environ.get("GOOGLE_SAFE_BROWSING_API_KEY")
-                    or os.environ.get("GEMINI_API_KEY", ""),
+                    os.environ.get("GOOGLE_SAFE_BROWSING_API_KEY", ""),
                 )
                 result = apply_threat_result(
                     result, local_reputation, safe_browsing_reputation,

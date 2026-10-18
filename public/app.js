@@ -24,7 +24,7 @@ const translations = {
     urlPrivacy: "We never open the link. Don’t paste links containing private tokens or personal details.",
     messageLabel: "Paste the suspicious text", messagePlaceholder: "Paste the message here — remove names, phone numbers, and codes first.",
     messagePrivacy: "Analyzed in memory by ClearBeacon and sent to Google Gemini for AI review when submitted.", checkMessage: "Check message",
-    aiNotice: "When you check a link, its full URL is sent to Google Safe Browsing for a threat lookup; submitted text is sent to Google Gemini for AI review. These checks can miss threats or flag safe sites. Remove names, contact details, passwords, verification codes, and private link tokens first.",
+    aiNotice: "When Safe Browsing is configured, link checks send the full URL to Google Safe Browsing; submitted text is sent to Google Gemini for AI review. The lookup can miss threats or flag safe sites. Remove names, contact details, passwords, verification codes, and private link tokens first.",
     finePrint: "ClearBeacon is an independent educational tool — not a government service, security guarantee, or replacement for official reporting.",
      
     
@@ -143,7 +143,7 @@ const translations = {
     urlPrivacy: "আমরা লিংকটি খুলি না। ব্যক্তিগত টোকেন বা তথ্যসহ লিংক পেস্ট করবেন না।",
     messageLabel: "সন্দেহজনক লেখাটি পেস্ট করুন", messagePlaceholder: "বার্তাটি পেস্ট করুন — আগে নাম, ফোন নম্বর ও কোড মুছে দিন।",
     messagePrivacy: "ClearBeacon মেমোরিতে বিশ্লেষণ করে এবং জমা দিলে AI পর্যালোচনার জন্য Google Gemini-তে পাঠায়।", checkMessage: "বার্তা যাচাই",
-    aiNotice: "লিংক যাচাই করলে সম্পূর্ণ URL হুমকি-তালিকা যাচাইয়ের জন্য Google Safe Browsing-এ পাঠানো হয়; জমা দেওয়া লেখা AI পর্যালোচনার জন্য Google Gemini-তে যায়। এই যাচাই হুমকি শনাক্ত করতে ব্যর্থ হতে পারে বা নিরাপদ সাইটকে ভুলভাবে চিহ্নিত করতে পারে। আগে ব্যক্তিগত তথ্য ও গোপন কোড সরান।",
+    aiNotice: "Safe Browsing কনফিগার করা থাকলে লিংক যাচাইয়ের সম্পূর্ণ URL Google Safe Browsing-এ যায়; জমা দেওয়া লেখা AI পর্যালোচনার জন্য Google Gemini-তে যায়। যাচাইয়ে হুমকি বাদ পড়তে পারে বা নিরাপদ সাইট ভুলভাবে চিহ্নিত হতে পারে। আগে ব্যক্তিগত তথ্য ও গোপন কোড সরান।",
     finePrint: "ClearBeacon একটি স্বতন্ত্র শিক্ষামূলক টুল — সরকারি সেবা বা নিরাপত্তার নিশ্চয়তা নয় এবং অফিসিয়াল রিপোর্টিংয়ের বিকল্পও নয়।",
      
     
@@ -207,7 +207,7 @@ const translations = {
     urlPrivacy: "Nunca abrimos el enlace. No pegues enlaces con datos personales o tokens privados.",
     messageLabel: "Pega el texto sospechoso", messagePlaceholder: "Pega el mensaje aquí; elimina antes nombres, teléfonos y códigos.",
     messagePrivacy: "ClearBeacon lo analiza en memoria y, al enviarlo, también lo manda a Google Gemini para una revisión con IA.", checkMessage: "Comprobar mensaje",
-    aiNotice: "Al comprobar un enlace, la URL completa se envía a Google Safe Browsing para consultar amenazas; el texto enviado se comparte con Google Gemini para su revisión mediante IA. Estas comprobaciones pueden pasar por alto amenazas o marcar sitios seguros por error. Elimina antes los datos personales y códigos secretos.",
+    aiNotice: "Cuando Safe Browsing está configurado, al comprobar un enlace se envía la URL completa a Google Safe Browsing; el texto enviado se comparte con Google Gemini para su revisión mediante IA. La consulta puede pasar por alto amenazas o marcar sitios seguros por error. Elimina antes los datos personales y códigos secretos.",
     finePrint: "ClearBeacon es una herramienta educativa independiente; no es un servicio gubernamental ni una garantía de seguridad.",
      
     
@@ -301,7 +301,7 @@ const translations = {
     urlPrivacy: "Nous n'ouvrons jamais le lien. Ne collez pas d'adresse contenant des données personnelles ou des jetons privés.",
     messageLabel: "Collez le texte suspect", messagePlaceholder: "Collez le message ici ; supprimez d'abord noms, numéros et codes.",
     messagePrivacy: "ClearBeacon analyse le texte en mémoire et l'envoie à Google Gemini pour une analyse par IA lors de l'envoi.", checkMessage: "Vérifier le message",
-    aiNotice: "Lors de la vérification d'un lien, son URL complète est envoyée à Google Safe Browsing pour rechercher des menaces ; le texte soumis est envoyé à Google Gemini pour analyse par IA. Ces vérifications peuvent manquer des menaces ou signaler par erreur des sites sûrs. Supprimez d'abord les données personnelles et codes secrets.",
+    aiNotice: "Lorsque Safe Browsing est configuré, l'URL complète est envoyée à Google Safe Browsing lors de la vérification d'un lien ; le texte soumis est envoyé à Google Gemini pour analyse par IA. La vérification peut manquer des menaces ou signaler par erreur des sites sûrs. Supprimez d'abord les données personnelles et codes secrets.",
     finePrint: "ClearBeacon est un outil éducatif indépendant, ni un service public ni une garantie de sécurité.",
      
     
@@ -395,7 +395,7 @@ const translations = {
     urlPrivacy: "हम लिंक कभी नहीं खोलते। निजी टोकन या व्यक्तिगत जानकारी वाले लिंक पेस्ट न करें।",
     messageLabel: "संदिग्ध संदेश पेस्ट करें", messagePlaceholder: "यहाँ संदेश पेस्ट करें — पहले नाम, फ़ोन नंबर और कोड हटा दें।",
     messagePrivacy: "ClearBeacon इसे मेमोरी में जाँचता है और जमा करने पर AI समीक्षा के लिए Google Gemini को भेजता है।", checkMessage: "संदेश जाँचें",
-    aiNotice: "लिंक जाँचने पर उसका पूरा URL खतरा खोजने के लिए Google Safe Browsing को भेजा जाता है; जमा किया गया पाठ AI समीक्षा के लिए Google Gemini को भेजा जाता है। ये जाँच खतरे चूक सकती हैं या सुरक्षित साइट को गलती से चिह्नित कर सकती हैं। पहले निजी जानकारी और गुप्त कोड हटाएँ।",
+    aiNotice: "Safe Browsing कॉन्फ़िगर होने पर लिंक जाँच का पूरा URL Google Safe Browsing को भेजा जाता है; जमा किया गया पाठ AI समीक्षा के लिए Google Gemini को भेजा जाता है। जाँच खतरे चूक सकती है या सुरक्षित साइट को गलती से चिह्नित कर सकती है। पहले निजी जानकारी और गुप्त कोड हटाएँ।",
     finePrint: "ClearBeacon एक स्वतंत्र शैक्षिक टूल है — सरकारी सेवा या सुरक्षा की गारंटी नहीं।",
      
     
@@ -489,7 +489,7 @@ const translations = {
     urlPrivacy: "لا نفتح الرابط مطلقاً. لا تلصق روابط تتضمن رموزاً خاصة أو بيانات شخصية.",
     messageLabel: "ألصق النص المريب", messagePlaceholder: "ألصق الرسالة هنا — احذف الأسماء وأرقام الهاتف والرموز أولاً.",
     messagePrivacy: "يفحص ClearBeacon النص في الذاكرة ويرسله إلى Google Gemini لمراجعته بالذكاء الاصطناعي عند الإرسال.", checkMessage: "افحص الرسالة",
-    aiNotice: "عند فحص رابط، يُرسل عنوان URL الكامل إلى Google Safe Browsing للتحقق من التهديدات؛ ويُرسل النص المُقدّم إلى Google Gemini لمراجعته بالذكاء الاصطناعي. قد تفوت هذه الفحوصات بعض التهديدات أو تُصنّف مواقع آمنة عن طريق الخطأ. احذف المعلومات الشخصية والرموز السرية أولاً.",
+    aiNotice: "عند إعداد Safe Browsing، يُرسل عنوان URL الكامل لفحص الرابط إلى Google Safe Browsing؛ ويُرسل النص المُقدّم إلى Google Gemini لمراجعته بالذكاء الاصطناعي. قد يفوت الفحص بعض التهديدات أو يصنّف مواقع آمنة عن طريق الخطأ. احذف المعلومات الشخصية والرموز السرية أولاً.",
     finePrint: "ClearBeacon أداة تعليمية مستقلة، وليست خدمة حكومية أو ضماناً للأمان.",
      
     
@@ -596,7 +596,7 @@ translations.bn = {
   urlPrivacy: "আমরা লিংক খুলি না। ব্যক্তিগত তথ্য বা গোপন টোকেনসহ লিংক দেবেন না।",
   messageLabel: "সন্দেহজনক বার্তাটি পেস্ট করুন",
   messagePrivacy: "ClearBeacon মেমোরিতে বিশ্লেষণ করে এবং জমা দিলে AI পর্যালোচনার জন্য Google Gemini-তে পাঠায়।",
-  aiNotice: "লিংক যাচাই করলে সম্পূর্ণ URL হুমকি-তালিকা যাচাইয়ের জন্য Google Safe Browsing-এ পাঠানো হয়; জমা দেওয়া লেখা AI পর্যালোচনার জন্য Google Gemini-তে যায়। এই যাচাই হুমকি শনাক্ত করতে ব্যর্থ হতে পারে বা নিরাপদ সাইটকে ভুলভাবে চিহ্নিত করতে পারে। আগে ব্যক্তিগত তথ্য ও গোপন কোড সরান।",
+  aiNotice: "Safe Browsing কনফিগার করা থাকলে লিংক যাচাইয়ের সম্পূর্ণ URL Google Safe Browsing-এ যায়; জমা দেওয়া লেখা AI পর্যালোচনার জন্য Google Gemini-তে যায়। যাচাইয়ে হুমকি বাদ পড়তে পারে বা নিরাপদ সাইট ভুলভাবে চিহ্নিত হতে পারে। আগে ব্যক্তিগত তথ্য ও গোপন কোড সরান।",
   checkMessage: "বার্তা যাচাই",
   finePrint: "ClearBeacon একটি স্বাধীন শিক্ষামূলক সহায়ক; এটি সরকারি সেবা বা নিরাপত্তার নিশ্চয়তা নয়।",
   guidesEyebrow: "নিরাপত্তার কিছু সহজ অভ্যাস",

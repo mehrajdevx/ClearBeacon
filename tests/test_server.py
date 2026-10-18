@@ -132,6 +132,24 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(status, 400)
         self.assertIn("Private or reserved", response["error"])
 
+    def test_url_check_does_not_reuse_gemini_key_for_safe_browsing(self):
+        provider_result = {
+            "status": "not_configured",
+            "provider": "Google Safe Browsing",
+            "updated_at": None,
+            "match": False,
+            "error": "Google Safe Browsing is not configured.",
+        }
+        with patch.dict(server.os.environ, {
+            "GEMINI_API_KEY": "gemini-only-test-key",
+            "GOOGLE_SAFE_BROWSING_API_KEY": "",
+        }), patch("server.check_google_safe_browsing", return_value=provider_result) as lookup:
+            status, result = self.request("POST", "/api/check/url", {"url": "https://example.com"})
+        self.assertEqual(status, 200)
+        lookup.assert_called_once_with("https://example.com", "")
+        self.assertEqual(result["title"], "Live lookup unavailable")
+        self.assertEqual(result["threat_intelligence_error"], "Google Safe Browsing is not configured.")
+
     def test_ai_review_runs_automatically_and_does_not_create_a_report(self):
         body = {"input_type": "message", "text": "Please verify your account.", "locale": "en"}
         with patch.dict(server.os.environ, {"GEMINI_API_KEY": ""}), patch("server.review_with_gemini") as ai_review:

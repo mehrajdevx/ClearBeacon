@@ -23,7 +23,7 @@ SAFE_BROWSING_COPY = {
         "no_match_evidence": "Google Safe Browsing did not find this URL in its current threat results. This does not prove the site is safe.",
         "unavailable_title": "Live lookup unavailable",
         "unavailable_actions": [
-            "Try the live reputation check again later; failure is not evidence the site is safe.",
+            "The live reputation check did not return a result; this is not evidence the site is safe.",
             "Verify the exact domain independently before entering payment or account details.",
         ],
         "unavailable_disclaimer": "No live reputation result was obtained. This does not mean the site is safe.",
@@ -206,7 +206,13 @@ def match_local_feed(host: str, path: str | None, payload_json: str | None = Non
 def check_google_safe_browsing(url: str, api_key: str) -> dict[str, Any]:
     provider = "Google Safe Browsing"
     if not api_key:
-        return {"status": "not_configured", "provider": provider, "updated_at": None, "match": False}
+        return {
+            "status": "not_configured",
+            "provider": provider,
+            "updated_at": None,
+            "match": False,
+            "error": "Google Safe Browsing is not configured.",
+        }
 
     body = json.dumps({
         "client": {"clientId": "clearbeacon", "clientVersion": "1.0"},
