@@ -3,6 +3,7 @@ import tempfile
 import unittest
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from urllib.parse import parse_qs, urlsplit
 from unittest.mock import MagicMock, patch
 from urllib.error import HTTPError
 
@@ -67,10 +68,12 @@ class LocalThreatFeedTests(unittest.TestCase):
     def test_safe_browsing_no_match_marks_url_checked_but_not_safe(self):
         response = MagicMock()
         response.__enter__.return_value.read.return_value = b"{}"
+        api_key = "test key/+"
         with patch("threat_intel.urlopen", return_value=response) as open_url:
-            reputation = check_google_safe_browsing("https://example.org/", "test-key")
+            reputation = check_google_safe_browsing("https://example.org/", api_key)
         request = open_url.call_args.args[0]
-        self.assertEqual(request.get_header("X-goog-api-key"), "test-key")
+        self.assertEqual(parse_qs(urlsplit(request.full_url).query), {"key": [api_key]})
+        self.assertIsNone(request.get_header("X-goog-api-key"))
         self.assertEqual(json.loads(request.data)["threatInfo"]["threatEntries"], [
             {"url": "https://example.org/"},
         ])

@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError, URLError
+from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 
@@ -186,12 +187,10 @@ def check_google_safe_browsing(url: str, api_key: str) -> dict[str, Any]:
         },
     }).encode("utf-8")
     request = Request(
-        "https://safebrowsing.googleapis.com/v4/threatMatches:find",
+        "https://safebrowsing.googleapis.com/v4/threatMatches:find?"
+        + urlencode({"key": api_key}),
         data=body,
-        headers={
-            "Content-Type": "application/json",
-            "X-Goog-Api-Key": api_key,
-        },
+        headers={"Content-Type": "application/json"},
         method="POST",
     )
     try:
