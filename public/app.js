@@ -40,7 +40,7 @@ const translations = {
     reportIntro: "Reports start private and pending. They are never shown publicly unless reviewed.",
     reportPrivacy: "Only submit this form to send a report to reviewers. A check alone does not create a report. Leave out OTPs, passwords, and personal identity details.",
     shareResult: "Prepare a private report from this result",
-    aiReviewTitle: "Supplemental AI review",
+    aiReviewTitle: "Additional analysis",
     aiRiskLow: "Few scam indicators noted",
     aiRiskCaution: "Some indicators to verify",
     aiRiskHigh: "Several concerning indicators",
@@ -85,7 +85,7 @@ const translations = {
     resultRisk: "This is a risk signal, not proof that a person or organization is a scammer.",
     resultEvidence: "What we noticed", resultNoEvidence: "No strong local-rule signal was found.",
     resultLinks: "Links found (not opened):", resultNext: "A safer next step",
-    resultCoverage: "Local text rules: complete",
+    resultCoverage: "Local text rules: complete", resultMoreDetails: "More details",
     resultDisclaimer: "A result cannot guarantee that something is safe.",
     guidesNoMatch: "No guides match that search. Try another word or category.",
     statusPending: "pending review", statusVerified: "verified", statusRejected: "rejected", statusEscalated: "escalated",
@@ -184,7 +184,7 @@ const translations = {
     resultRisk: "এটি ঝুঁকির সংকেত, কোনো ব্যক্তি বা প্রতিষ্ঠান প্রতারক—তার প্রমাণ নয়।",
     resultEvidence: "যা চোখে পড়েছে", resultNoEvidence: "স্থানীয় নিয়মে জোরালো সংকেত পাওয়া যায়নি।",
     resultLinks: "যে লিংকগুলো পাওয়া গেছে (খোলা হয়নি):", resultNext: "নিরাপদ পরবর্তী পদক্ষেপ",
-    resultCoverage: "স্থানীয় নিয়ম: সম্পন্ন",
+    resultCoverage: "স্থানীয় নিয়ম: সম্পন্ন", resultMoreDetails: "আরও বিস্তারিত",
     resultDisclaimer: "কোনো ফলাফলই নিরাপদ হওয়ার নিশ্চয়তা দিতে পারে না।",
     guidesNoMatch: "এই খোঁজে কোনো নির্দেশিকা মেলেনি। অন্য শব্দ বা ধরন দিয়ে খুঁজুন।",
     statusPending: "পর্যালোচনার অপেক্ষায়", statusVerified: "যাচাইকৃত", statusRejected: "গ্রহণ করা হয়নি", statusEscalated: "এগিয়ে পাঠানো হয়েছে",
@@ -246,7 +246,7 @@ const translations = {
     resultRisk: "Es una señal de riesgo, no una prueba de que una persona u organización sea fraudulenta.",
     resultEvidence: "Lo que observamos", resultNoEvidence: "Las reglas locales no detectaron indicios claros.",
     resultLinks: "Enlaces encontrados (no abiertos):", resultNext: "Siguiente paso más seguro",
-    resultCoverage: "Reglas locales: completas",
+    resultCoverage: "Reglas locales: completas", resultMoreDetails: "Más detalles",
     resultDisclaimer: "Ningún resultado puede garantizar que algo sea seguro.",
     guidesNoMatch: "No hay guías que coincidan. Prueba con otra palabra o categoría.",
     strengthWeak: "indicio débil", strengthMedium: "indicio moderado", strengthStrong: "indicio fuerte",
@@ -340,7 +340,7 @@ const translations = {
     resultRisk: "C'est un signal de risque, pas la preuve qu'une personne ou organisation est frauduleuse.",
     resultEvidence: "Ce que nous avons observé", resultNoEvidence: "Les règles locales n'ont détecté aucun indice fort.",
     resultLinks: "Liens détectés (non ouverts) :", resultNext: "Prochaine étape plus sûre",
-    resultCoverage: "Règles locales : terminées",
+    resultCoverage: "Règles locales : terminées", resultMoreDetails: "Plus de détails",
     resultDisclaimer: "Aucun résultat ne peut garantir qu'un élément est sûr.",
     guidesNoMatch: "Aucun conseil ne correspond. Essayez un autre mot ou filtre.",
     strengthWeak: "indice faible", strengthMedium: "indice modéré", strengthStrong: "indice fort",
@@ -434,7 +434,7 @@ const translations = {
     resultRisk: "यह जोखिम का संकेत है, किसी व्यक्ति या संस्था के धोखेबाज़ होने का प्रमाण नहीं।",
     resultEvidence: "हमें क्या दिखा", resultNoEvidence: "स्थानीय नियमों में कोई मज़बूत संकेत नहीं मिला।",
     resultLinks: "मिले लिंक (खोले नहीं गए):", resultNext: "सुरक्षित अगला कदम",
-    resultCoverage: "स्थानीय नियम: पूरे",
+    resultCoverage: "स्थानीय नियम: पूरे", resultMoreDetails: "ज़्यादा जानकारी",
     resultDisclaimer: "कोई परिणाम सुरक्षित होने की गारंटी नहीं दे सकता।",
     guidesNoMatch: "इस खोज से कोई सलाह नहीं मिली। दूसरा शब्द या श्रेणी आज़माएँ।",
     strengthWeak: "कमज़ोर संकेत", strengthMedium: "मध्यम संकेत", strengthStrong: "मज़बूत संकेत",
@@ -528,7 +528,7 @@ const translations = {
     resultRisk: "هذا مؤشر خطر، وليس دليلاً على احتيال شخص أو مؤسسة.",
     resultEvidence: "ما لاحظناه", resultNoEvidence: "لم تعثر القواعد المحلية على مؤشرات قوية.",
     resultLinks: "روابط تم العثور عليها (لم تُفتح):", resultNext: "خطوة تالية أكثر أماناً",
-    resultCoverage: "القواعد المحلية: مكتملة",
+    resultCoverage: "القواعد المحلية: مكتملة", resultMoreDetails: "مزيد من التفاصيل",
     resultDisclaimer: "لا يمكن لأي نتيجة أن تضمن الأمان.",
     guidesNoMatch: "لم نعثر على إرشادات مطابقة. جرّب كلمة أو فئة أخرى.",
     strengthWeak: "مؤشر ضعيف", strengthMedium: "مؤشر متوسط", strengthStrong: "مؤشر قوي",
@@ -1265,12 +1265,32 @@ function renderResult(result) {
   header.append(icon, heading);
   target.append(header);
 
+  const evidenceItems = result.evidence || [];
+  const aiAnalysis = result.ai_analysis;
+  const firstAction = result.recommended_actions?.[0] || aiAnalysis?.recommended_actions?.[0];
+  const summary = document.createElement("p");
+  summary.className = "result-summary";
+  summary.textContent = evidenceItems[0]?.text || aiAnalysis?.summary || t("resultNoEvidence");
+  target.append(summary);
+  if (firstAction) {
+    const nextStep = document.createElement("p");
+    nextStep.className = "result-next-step";
+    nextStep.textContent = `${t("resultNext")}: ${firstAction}`;
+    target.append(nextStep);
+  }
+
+  const moreDetails = document.createElement("details");
+  moreDetails.className = "result-details";
+  const moreSummary = document.createElement("summary");
+  moreSummary.textContent = t("resultMoreDetails");
+  const detailsContent = document.createElement("div");
+  detailsContent.className = "result-details-content";
   const evidenceHeading = document.createElement("h4");
   evidenceHeading.textContent = t("resultEvidence");
-  target.append(evidenceHeading);
+  detailsContent.append(evidenceHeading);
   const evidence = document.createElement("ul");
   evidence.className = "evidence-list";
-  for (const item of result.evidence || []) {
+  for (const item of evidenceItems) {
     const li = document.createElement("li");
     li.textContent = item.text;
     evidence.append(li);
@@ -1280,17 +1300,17 @@ function renderResult(result) {
     li.textContent = t("resultNoEvidence");
     evidence.append(li);
   }
-  target.append(evidence);
+  detailsContent.append(evidence);
 
   if (result.detected_links?.length) {
     const links = document.createElement("p");
     links.className = "coverage";
     links.textContent = `${t("resultLinks")} ${result.detected_links.join(", ")}`;
-    target.append(links);
+    detailsContent.append(links);
   }
   const adviceHeading = document.createElement("h4");
   adviceHeading.textContent = t("resultNext");
-  target.append(adviceHeading);
+  detailsContent.append(adviceHeading);
   const actions = document.createElement("ul");
   actions.className = "action-list";
   for (const action of result.recommended_actions || []) {
@@ -1298,33 +1318,35 @@ function renderResult(result) {
     li.textContent = action;
     actions.append(li);
   }
-  target.append(actions);
+  detailsContent.append(actions);
 
   const coverage = document.createElement("p");
   coverage.className = "coverage";
   const threatCheck = result.coverage?.find((item) => item.check === "threat_intelligence");
   const threatStatus = threatCheck?.status || "not_configured";
   coverage.textContent = `${t("resultCoverage")} · Threat-list status: ${threatStatus}${threatCheck?.provider ? ` (${threatCheck.provider})` : ""}${threatCheck?.updated_at ? ` · Updated ${threatCheck.updated_at}` : ""}`;
-  target.append(coverage);
+  detailsContent.append(coverage);
   if (result.threat_intelligence_error) {
     const threatError = document.createElement("p");
     threatError.className = "feedback error";
     threatError.textContent = result.threat_intelligence_error;
-    target.append(threatError);
+    detailsContent.append(threatError);
   }
   if (result.ai_analysis || result.ai_error) {
-    appendAIReview(target, result.ai_analysis, result.ai_error);
+    appendAIReview(detailsContent, result.ai_analysis, result.ai_error);
   }
   if (result.risk_label === "high_risk" || result.risk_label === "known_malicious") {
     const escalation = document.createElement("p");
     escalation.className = "bot-escalation-note";
     escalation.textContent = "An automated high-risk signal may be visible in the restricted admin scan-alert panel. It is not a user report; submit the private report form to ask reviewers to review an incident.";
-    target.append(escalation);
+    detailsContent.append(escalation);
   }
   const disclaimer = document.createElement("p");
   disclaimer.className = "result-disclaimer";
   disclaimer.textContent = result.disclaimer || t("resultDisclaimer");
-  target.append(disclaimer);
+  detailsContent.append(disclaimer);
+  moreDetails.append(moreSummary, detailsContent);
+  target.append(moreDetails);
   if (result.attribution?.text && result.attribution?.url) {
     const attribution = document.createElement("p");
     attribution.className = "result-disclaimer";
@@ -1334,7 +1356,7 @@ function renderResult(result) {
     link.rel = "noopener noreferrer";
     link.textContent = result.attribution.text.replace(/[.,]$/, "");
     attribution.append(link, document.createTextNode(","));
-    target.append(attribution);
+    target.insertBefore(attribution, moreDetails);
   }
   const reportButton = document.createElement("button");
   reportButton.type = "button";
@@ -1526,7 +1548,7 @@ function appendAIReview(target, analysis, error, append = true) {
   section.className = "ai-review-result";
   if (analysis) {
     const heading = document.createElement("h4");
-    heading.textContent = `${t("aiReviewTitle")} · ${analysis.provider}`;
+    heading.textContent = t("aiReviewTitle");
     const levelKeys = {
       low: "aiRiskLow",
       caution: "aiRiskCaution",
