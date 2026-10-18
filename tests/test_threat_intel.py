@@ -121,15 +121,37 @@ class LocalThreatFeedTests(unittest.TestCase):
     def test_safe_browsing_http_failures_are_sanitized_and_nonfatal(self):
         error = HTTPError(
             "https://safebrowsing.googleapis.com/v4/threatMatches:find",
-            403, "key disabled", {}, None,
+            400, "bad request", {}, None,
         )
         with patch("threat_intel.urlopen", side_effect=error):
             result = check_google_safe_browsing(
                 "https://example.org/", "secret-key",
             )
         self.assertEqual(result["status"], "unavailable")
+        self.assertIn("HTTP 400", result["error"])
         self.assertNotIn("secret-key", str(result))
-        self.assertNotIn("key disabled", str(result))
+        self.assertNotIn("bad request", str(result))
+
+    def test_unavailable_live_lookup_has_an_explicit_non_safe_result(self):
+        result = apply_threat_result({
+            "locale": "en",
+            "risk_label": "unknown",
+            "title": "Unable to determine",
+            "coverage": [{"check": "local_rules", "status": "completed"}],
+            "evidence": [],
+            "decision_reason": [],
+            "recommended_actions": ["No live threat-list check is configured."],
+        }, {"status": "not_configured", "match": False}, {
+            "status": "unavailable",
+            "provider": "Google Safe Browsing",
+            "match": False,
+            "error": "Google Safe Browsing rejected the request (HTTP 400).",
+        })
+        self.assertEqual(result["risk_label"], "unknown")
+        self.assertEqual(result["title"], "Live lookup unavailable")
+        self.assertIn("not evidence the site is safe", result["recommended_actions"][0])
+        self.assertIn("does not mean the site is safe", result["disclaimer"])
+        self.assertEqual(result["threat_intelligence_error"], "Google Safe Browsing rejected the request (HTTP 400).")
 
 
 if __name__ == "__main__":

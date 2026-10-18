@@ -21,6 +21,12 @@ SAFE_BROWSING_COPY = {
         "match_evidence": "Google Safe Browsing reports this URL as a potentially unsafe resource.",
         "no_match_title": "No known threat detected",
         "no_match_evidence": "Google Safe Browsing did not find this URL in its current threat results. This does not prove the site is safe.",
+        "unavailable_title": "Live lookup unavailable",
+        "unavailable_actions": [
+            "Try the live reputation check again later; failure is not evidence the site is safe.",
+            "Verify the exact domain independently before entering payment or account details.",
+        ],
+        "unavailable_disclaimer": "No live reputation result was obtained. This does not mean the site is safe.",
         "actions": [
             "A new, unreported, or missed threat may not appear in Google's results.",
             "Verify the exact domain independently before entering payment or account details.",
@@ -32,6 +38,12 @@ SAFE_BROWSING_COPY = {
         "match_evidence": "Google Safe Browsing এই URL-টিকে সম্ভাব্য ঝুঁকিপূর্ণ হিসেবে চিহ্নিত করেছে।",
         "no_match_title": "পরিচিত হুমকি শনাক্ত হয়নি",
         "no_match_evidence": "Google Safe Browsing-এর বর্তমান ফলাফলে এই URL মেলেনি। এর অর্থ সাইটটি নিরাপদ—এমন নিশ্চয়তা নয়।",
+        "unavailable_title": "লাইভ যাচাই উপলভ্য নয়",
+        "unavailable_actions": [
+            "লাইভ যাচাই ব্যর্থ হয়েছে; পরে আবার চেষ্টা করুন। ব্যর্থতা সাইটটি নিরাপদ হওয়ার প্রমাণ নয়।",
+            "পেমেন্ট বা তথ্য দেওয়ার আগে ডোমেইনটি আলাদাভাবে যাচাই করুন।",
+        ],
+        "unavailable_disclaimer": "লাইভ ফলাফল পাওয়া যায়নি। এটি সাইটটি নিরাপদ—এমন প্রমাণ নয়।",
         "actions": [
             "নতুন বা রিপোর্ট না হওয়া হুমকি Google-এর ফলে নাও থাকতে পারে।",
             "পেমেন্ট বা অ্যাকাউন্টের তথ্য দেওয়ার আগে ডোমেইনটি আলাদাভাবে যাচাই করুন।",
@@ -43,6 +55,12 @@ SAFE_BROWSING_COPY = {
         "match_evidence": "Google Safe Browsing informa que esta URL podría ser un recurso peligroso.",
         "no_match_title": "No se detectaron amenazas conocidas",
         "no_match_evidence": "Google Safe Browsing no encontró esta URL en sus resultados actuales. Esto no demuestra que el sitio sea seguro.",
+        "unavailable_title": "Análisis en vivo no disponible",
+        "unavailable_actions": [
+            "El análisis de reputación en vivo no se completó; inténtalo más tarde. El fallo no demuestra que el sitio sea seguro.",
+            "Verifica el dominio por separado antes de introducir datos de pago o de cuenta.",
+        ],
+        "unavailable_disclaimer": "No se obtuvo un resultado de reputación en vivo. Esto no significa que el sitio sea seguro.",
         "actions": [
             "Una amenaza nueva, no denunciada o no detectada puede no aparecer en los resultados de Google.",
             "Verifica el dominio por separado antes de introducir datos de pago o de cuenta.",
@@ -54,6 +72,12 @@ SAFE_BROWSING_COPY = {
         "match_evidence": "Google Safe Browsing signale cette URL comme une ressource potentiellement dangereuse.",
         "no_match_title": "Aucune menace connue détectée",
         "no_match_evidence": "Google Safe Browsing n'a pas trouvé cette URL dans ses résultats actuels. Cela ne prouve pas que le site est sûr.",
+        "unavailable_title": "Vérification en direct indisponible",
+        "unavailable_actions": [
+            "La vérification de réputation n'a pas abouti ; réessayez plus tard. Cet échec ne prouve pas que le site est sûr.",
+            "Vérifiez le domaine indépendamment avant de saisir des données de paiement ou de compte.",
+        ],
+        "unavailable_disclaimer": "Aucun résultat de réputation en direct n'a été obtenu. Cela ne signifie pas que le site est sûr.",
         "actions": [
             "Une menace nouvelle, non signalée ou non détectée peut être absente des résultats de Google.",
             "Vérifiez le domaine indépendamment avant de saisir des données de paiement ou de compte.",
@@ -65,6 +89,12 @@ SAFE_BROWSING_COPY = {
         "match_evidence": "Google Safe Browsing इस URL को संभावित रूप से असुरक्षित बता रहा है।",
         "no_match_title": "कोई ज्ञात खतरा नहीं मिला",
         "no_match_evidence": "Google Safe Browsing को अपने मौजूदा नतीजों में यह URL नहीं मिला। इससे साइट सुरक्षित साबित नहीं होती।",
+        "unavailable_title": "लाइव जाँच उपलब्ध नहीं",
+        "unavailable_actions": [
+            "लाइव प्रतिष्ठा जाँच पूरी नहीं हुई; बाद में फिर कोशिश करें। विफलता से साइट सुरक्षित साबित नहीं होती।",
+            "भुगतान या खाता जानकारी देने से पहले डोमेन को स्वतंत्र रूप से सत्यापित करें।",
+        ],
+        "unavailable_disclaimer": "लाइव प्रतिष्ठा परिणाम नहीं मिला। इसका अर्थ यह नहीं कि साइट सुरक्षित है।",
         "actions": [
             "नया, रिपोर्ट न किया गया या छूटा हुआ खतरा Google के नतीजों में न हो सकता है।",
             "भुगतान या खाता जानकारी देने से पहले डोमेन को स्वतंत्र रूप से सत्यापित करें।",
@@ -76,6 +106,12 @@ SAFE_BROWSING_COPY = {
         "match_evidence": "تشير خدمة Google Safe Browsing إلى أن عنوان URL هذا قد يكون مورداً غير آمن.",
         "no_match_title": "لم يُعثر على تهديد معروف",
         "no_match_evidence": "لم تعثر Google Safe Browsing على عنوان URL هذا في نتائجها الحالية. وهذا لا يثبت أن الموقع آمن.",
+        "unavailable_title": "الفحص المباشر غير متاح",
+        "unavailable_actions": [
+            "تعذر إكمال فحص السمعة المباشر؛ حاول لاحقاً. هذا الإخفاق لا يثبت أن الموقع آمن.",
+            "تحقق من النطاق بشكل مستقل قبل إدخال بيانات الدفع أو الحساب.",
+        ],
+        "unavailable_disclaimer": "لم يتم الحصول على نتيجة سمعة مباشرة. هذا لا يعني أن الموقع آمن.",
         "actions": [
             "قد لا يظهر التهديد الجديد أو غير المُبلّغ عنه أو الذي لم يُكتشف في نتائج Google.",
             "تحقق من النطاق بشكل مستقل قبل إدخال بيانات الدفع أو الحساب.",
@@ -204,10 +240,14 @@ def check_google_safe_browsing(url: str, api_key: str) -> dict[str, Any]:
                 "Google Safe Browsing access is not enabled for this API key. "
                 "Enable the Safe Browsing API in Google Cloud."
             )
+        elif error.code == 401:
+            message = "Google Safe Browsing rejected the API key (HTTP 401). Check the configured key."
         elif error.code == 429:
             message = "Google Safe Browsing quota is temporarily exhausted."
+        elif error.code == 400:
+            message = "Google Safe Browsing rejected the request (HTTP 400). Check API access and request configuration."
         else:
-            message = "Google Safe Browsing could not complete the reputation lookup."
+            message = f"Google Safe Browsing request failed (HTTP {error.code})."
         return {
             "status": status,
             "provider": provider,
@@ -315,6 +355,16 @@ def apply_threat_result(
         result["decision_reason"] = [copy["no_match_evidence"]]
         result["recommended_actions"] = copy["actions"]
         result["disclaimer"] = copy["disclaimer"]
+    elif (
+        safe_browsing
+        and safe_browsing.get("error")
+        and result.get("risk_label") == "unknown"
+    ):
+        locale = result.get("locale", "en")
+        copy = SAFE_BROWSING_COPY.get(locale, SAFE_BROWSING_COPY["en"])
+        result["title"] = copy["unavailable_title"]
+        result["recommended_actions"] = copy["unavailable_actions"]
+        result["disclaimer"] = copy["unavailable_disclaimer"]
     if reputation.get("error"):
         result["feed_error"] = reputation["error"]
     if safe_browsing and safe_browsing.get("error"):
