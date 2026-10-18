@@ -23,7 +23,8 @@ const translations = {
     urlLabel: "Paste the web address you want to check", urlPlaceholder: "example.com/offer", checkLink: "Check link",
     urlPrivacy: "We never open the link. Don’t paste links containing private tokens or personal details.",
     messageLabel: "Paste the suspicious text", messagePlaceholder: "Paste the message here — remove names, phone numbers, and codes first.",
-    messagePrivacy: "Analyzed on this server in memory. Not saved or sent to an outside service.", checkMessage: "Check message",
+    messagePrivacy: "Analyzed in memory by ClearBeacon and sent to Google Gemini for AI review when submitted.", checkMessage: "Check message",
+    aiNotice: "When you check a link, its full URL is sent to Google Safe Browsing for a threat lookup; submitted text is sent to Google Gemini for AI review. These checks can miss threats or flag safe sites. Remove names, contact details, passwords, verification codes, and private link tokens first.",
     finePrint: "ClearBeacon is an independent educational tool — not a government service, security guarantee, or replacement for official reporting.",
      
     
@@ -37,7 +38,15 @@ const translations = {
     helpText: "Contact your bank or payment provider using its official app or number, change affected passwords, and preserve the messages.",
     helpLink: "Find official help in your country", reportEyebrow: "HELP OTHERS STAY ALERT", reportTitle: "Report a suspicious incident.",
     reportIntro: "Reports start private and pending. They are never shown publicly unless reviewed.",
-    reportPrivacy: "Your report is private. Please leave out OTPs, passwords, and personal identity details.",
+    reportPrivacy: "Only submit this form to send a report to reviewers. A check alone does not create a report. Leave out OTPs, passwords, and personal identity details.",
+    shareResult: "Prepare a private report from this result",
+    aiReviewTitle: "Supplemental AI review",
+    aiRiskLow: "Few scam indicators noted",
+    aiRiskCaution: "Some indicators to verify",
+    aiRiskHigh: "Several concerning indicators",
+    aiRiskUnknown: "AI could not determine",
+    aiReviewDisclaimer: "AI-generated guidance can be wrong. It is not proof, a live reputation check, or a substitute for independent verification.",
+    aiReviewUnavailable: "AI review could not run:",
     reportCategoryLabel: "What kind of scam?", categoryChoose: "Choose a category", categoryShop: "Fake shop or product",
     categoryJob: "Job or earning offer", categoryPayment: "Payment or delivery request",
     categoryImpersonation: "Someone impersonating an organization", categoryAccount: "Account access or verification",
@@ -60,21 +69,23 @@ const translations = {
     feedbackSubmit: "Send private feedback",
     feedbackReceived: "Thank you. Feedback was sent to the private review queue.",
     imageNoSupport: "This browser does not support local QR or text extraction. Your image was not uploaded.",
-    imageNoContent: "No QR code or readable text was found. Nothing was uploaded.",
-    imageFoundUrl: "QR code found. The decoded link was not opened; it has been added to the link checker.",
-    imageFoundText: "Text extracted locally and copied to the message checker. Review it before submitting.",
+    imageNoContent: "No QR code or readable text was found. Nothing was sent for analysis.",
+    imageScanning: "Scanning image on this device…",
+    imageScanComplete: "Image checked automatically. Review the result shown above; text recognition can make mistakes.",
+    imageAnalysisFailed: "Text was extracted, but the checker could not complete. See the checker message above.",
+    imageOcrFailed: "Couldn’t read this image. Try a clearer image or paste the text manually. The image stayed on this device.",
     deleteReport: "Delete my report and appeal",
     deleteConfirm: "Permanently delete this report, its appeal, and moderation history?",
     reportDeleted: "Your report and related appeal/history were deleted.",
      
      
     riskHigh: "High risk indicators", riskCaution: "Pause and verify", riskUnknown: "Unable to determine",
-    riskNoKnown: "No known threat found", riskKnown: "Known malicious match", resultUnknown:
+    riskNoKnown: "No known threat found", riskKnown: "Potentially unsafe match", resultUnknown:
       "We could not make a reliable call from the checks currently available.",
     resultRisk: "This is a risk signal, not proof that a person or organization is a scammer.",
     resultEvidence: "What we noticed", resultNoEvidence: "No strong local-rule signal was found.",
     resultLinks: "Links found (not opened):", resultNext: "A safer next step",
-    resultCoverage: "Local text rules: complete · Live threat-list check: not configured",
+    resultCoverage: "Local text rules: complete",
     resultDisclaimer: "A result cannot guarantee that something is safe.",
     guidesNoMatch: "No guides match that search. Try another word or category.",
     statusPending: "pending review", statusVerified: "verified", statusRejected: "rejected", statusEscalated: "escalated",
@@ -131,7 +142,8 @@ const translations = {
     urlLabel: "যে ওয়েব ঠিকানাটি যাচাই করতে চান পেস্ট করুন", urlPlaceholder: "example.com/offer", checkLink: "লিংক যাচাই",
     urlPrivacy: "আমরা লিংকটি খুলি না। ব্যক্তিগত টোকেন বা তথ্যসহ লিংক পেস্ট করবেন না।",
     messageLabel: "সন্দেহজনক লেখাটি পেস্ট করুন", messagePlaceholder: "বার্তাটি পেস্ট করুন — আগে নাম, ফোন নম্বর ও কোড মুছে দিন।",
-    messagePrivacy: "এই সার্ভারে মেমোরিতে বিশ্লেষণ হয়। সংরক্ষণ বা বাইরের সেবায় পাঠানো হয় না।", checkMessage: "বার্তা যাচাই",
+    messagePrivacy: "ClearBeacon মেমোরিতে বিশ্লেষণ করে এবং জমা দিলে AI পর্যালোচনার জন্য Google Gemini-তে পাঠায়।", checkMessage: "বার্তা যাচাই",
+    aiNotice: "লিংক যাচাই করলে সম্পূর্ণ URL হুমকি-তালিকা যাচাইয়ের জন্য Google Safe Browsing-এ পাঠানো হয়; জমা দেওয়া লেখা AI পর্যালোচনার জন্য Google Gemini-তে যায়। এই যাচাই হুমকি শনাক্ত করতে ব্যর্থ হতে পারে বা নিরাপদ সাইটকে ভুলভাবে চিহ্নিত করতে পারে। আগে ব্যক্তিগত তথ্য ও গোপন কোড সরান।",
     finePrint: "ClearBeacon একটি স্বতন্ত্র শিক্ষামূলক টুল — সরকারি সেবা বা নিরাপত্তার নিশ্চয়তা নয় এবং অফিসিয়াল রিপোর্টিংয়ের বিকল্পও নয়।",
      
     
@@ -145,7 +157,8 @@ const translations = {
     helpText: "ব্যাংক বা পেমেন্ট সেবার অফিসিয়াল অ্যাপ/নম্বরে যোগাযোগ করুন, আক্রান্ত পাসওয়ার্ড বদলান এবং বার্তাগুলো সংরক্ষণ করুন।",
     helpLink: "BGD e-GOV CIRT দেখুন", reportEyebrow: "অন্যদের সতর্ক থাকতে সাহায্য করুন",
     reportTitle: "সন্দেহজনক ঘটনার তথ্য দিন।", reportIntro: "রিপোর্ট প্রথমে গোপন ও পর্যালোচনার অপেক্ষায় থাকে। যাচাই ছাড়া প্রকাশ করা হয় না।",
-    reportPrivacy: "আপনার রিপোর্ট গোপন। ওটিপি, পাসওয়ার্ড বা পরিচয়সংক্রান্ত ব্যক্তিগত তথ্য দেবেন না।",
+    reportPrivacy: "পর্যালোচকদের কাছে প্রতিবেদন পাঠাতে এই ফর্ম জমা দিন। শুধু যাচাই করলে প্রতিবেদন তৈরি হয় না। ওটিপি, পাসওয়ার্ড বা ব্যক্তিগত তথ্য দেবেন না।",
+    shareResult: "এই ফলাফল থেকে গোপন প্রতিবেদন তৈরি করুন",
     reportCategoryLabel: "কী ধরনের প্রতারণা?", categoryChoose: "ধরন বেছে নিন", categoryShop: "ভুয়া দোকান বা পণ্য",
     categoryJob: "চাকরি বা আয়ের প্রস্তাব", categoryPayment: "পেমেন্ট বা ডেলিভারির অনুরোধ",
     categoryImpersonation: "প্রতিষ্ঠানের ছদ্মবেশ", categoryAccount: "অ্যাকাউন্ট বা যাচাইকরণ",
@@ -166,12 +179,12 @@ const translations = {
      
      
     riskHigh: "উচ্চ ঝুঁকির সংকেত", riskCaution: "থামুন এবং যাচাই করুন", riskUnknown: "নিশ্চিত হওয়া যায়নি",
-    riskNoKnown: "পরিচিত হুমকি মেলেনি", riskKnown: "ক্ষতিকর হিসেবে তালিকাভুক্ত",
+    riskNoKnown: "পরিচিত হুমকি মেলেনি", riskKnown: "সম্ভাব্য ঝুঁকিপূর্ণ লিংক",
     resultUnknown: "উপলভ্য যাচাই দিয়ে নির্ভরযোগ্য সিদ্ধান্তে পৌঁছানো যায়নি।",
     resultRisk: "এটি ঝুঁকির সংকেত, কোনো ব্যক্তি বা প্রতিষ্ঠান প্রতারক—তার প্রমাণ নয়।",
     resultEvidence: "যা চোখে পড়েছে", resultNoEvidence: "স্থানীয় নিয়মে জোরালো সংকেত পাওয়া যায়নি।",
     resultLinks: "যে লিংকগুলো পাওয়া গেছে (খোলা হয়নি):", resultNext: "নিরাপদ পরবর্তী পদক্ষেপ",
-    resultCoverage: "স্থানীয় নিয়ম: সম্পন্ন · লাইভ হুমকি-তালিকা যাচাই: চালু নেই",
+    resultCoverage: "স্থানীয় নিয়ম: সম্পন্ন",
     resultDisclaimer: "কোনো ফলাফলই নিরাপদ হওয়ার নিশ্চয়তা দিতে পারে না।",
     guidesNoMatch: "এই খোঁজে কোনো নির্দেশিকা মেলেনি। অন্য শব্দ বা ধরন দিয়ে খুঁজুন।",
     statusPending: "পর্যালোচনার অপেক্ষায়", statusVerified: "যাচাইকৃত", statusRejected: "গ্রহণ করা হয়নি", statusEscalated: "এগিয়ে পাঠানো হয়েছে",
@@ -193,7 +206,8 @@ const translations = {
     urlLabel: "Pega la dirección web que quieres comprobar", urlPlaceholder: "ejemplo.com/oferta", checkLink: "Comprobar enlace",
     urlPrivacy: "Nunca abrimos el enlace. No pegues enlaces con datos personales o tokens privados.",
     messageLabel: "Pega el texto sospechoso", messagePlaceholder: "Pega el mensaje aquí; elimina antes nombres, teléfonos y códigos.",
-    messagePrivacy: "Se analiza en memoria en este servidor. No se guarda ni se envía a otros servicios.", checkMessage: "Comprobar mensaje",
+    messagePrivacy: "ClearBeacon lo analiza en memoria y, al enviarlo, también lo manda a Google Gemini para una revisión con IA.", checkMessage: "Comprobar mensaje",
+    aiNotice: "Al comprobar un enlace, la URL completa se envía a Google Safe Browsing para consultar amenazas; el texto enviado se comparte con Google Gemini para su revisión mediante IA. Estas comprobaciones pueden pasar por alto amenazas o marcar sitios seguros por error. Elimina antes los datos personales y códigos secretos.",
     finePrint: "ClearBeacon es una herramienta educativa independiente; no es un servicio gubernamental ni una garantía de seguridad.",
      
     
@@ -207,7 +221,7 @@ const translations = {
     helpText: "Contacta con tu banco o proveedor de pagos mediante su aplicación o número oficial, cambia las contraseñas afectadas y guarda los mensajes.",
     helpLink: "Encuentra ayuda oficial en tu país", reportEyebrow: "AYUDA A PROTEGER A OTRAS PERSONAS",
     reportTitle: "Informa de un incidente sospechoso.", reportIntro: "Los informes son privados y quedan pendientes. No se publican sin revisión.",
-    reportPrivacy: "Tu informe es privado. No incluyas OTP, contraseñas ni datos de identidad.",
+    reportPrivacy: "Envía este formulario solo si quieres compartir un informe con los revisores. Una comprobación no crea un informe. No incluyas OTP, contraseñas ni datos personales.",
     reportCategoryLabel: "¿Qué tipo de estafa?", categoryChoose: "Elige una categoría", categoryShop: "Tienda o producto falso",
     categoryJob: "Oferta de empleo o ingresos", categoryPayment: "Pago o entrega", categoryImpersonation: "Suplantación de una organización",
     categoryAccount: "Acceso o verificación de cuenta", categoryOther: "Otro", reportTargetLabel: "Enlace o identificador (opcional)",
@@ -227,12 +241,12 @@ const translations = {
       
     
     riskHigh: "Indicios de riesgo alto", riskCaution: "Detente y verifica", riskUnknown: "No se pudo determinar",
-    riskNoKnown: "No se encontraron amenazas conocidas", riskKnown: "Coincidencia con amenaza conocida",
+    riskNoKnown: "No se detectaron amenazas conocidas", riskKnown: "Coincidencia potencialmente peligrosa",
     resultUnknown: "No podemos llegar a una conclusión fiable con las comprobaciones disponibles.",
     resultRisk: "Es una señal de riesgo, no una prueba de que una persona u organización sea fraudulenta.",
     resultEvidence: "Lo que observamos", resultNoEvidence: "Las reglas locales no detectaron indicios claros.",
     resultLinks: "Enlaces encontrados (no abiertos):", resultNext: "Siguiente paso más seguro",
-    resultCoverage: "Reglas locales: completas · Consulta de amenazas en línea: no configurada",
+    resultCoverage: "Reglas locales: completas",
     resultDisclaimer: "Ningún resultado puede garantizar que algo sea seguro.",
     guidesNoMatch: "No hay guías que coincidan. Prueba con otra palabra o categoría.",
     strengthWeak: "indicio débil", strengthMedium: "indicio moderado", strengthStrong: "indicio fuerte",
@@ -286,7 +300,8 @@ const translations = {
     urlLabel: "Collez l'adresse web à vérifier", urlPlaceholder: "exemple.fr/offre", checkLink: "Vérifier le lien",
     urlPrivacy: "Nous n'ouvrons jamais le lien. Ne collez pas d'adresse contenant des données personnelles ou des jetons privés.",
     messageLabel: "Collez le texte suspect", messagePlaceholder: "Collez le message ici ; supprimez d'abord noms, numéros et codes.",
-    messagePrivacy: "Analyse en mémoire sur ce serveur. Aucune sauvegarde ni transmission à un service externe.", checkMessage: "Vérifier le message",
+    messagePrivacy: "ClearBeacon analyse le texte en mémoire et l'envoie à Google Gemini pour une analyse par IA lors de l'envoi.", checkMessage: "Vérifier le message",
+    aiNotice: "Lors de la vérification d'un lien, son URL complète est envoyée à Google Safe Browsing pour rechercher des menaces ; le texte soumis est envoyé à Google Gemini pour analyse par IA. Ces vérifications peuvent manquer des menaces ou signaler par erreur des sites sûrs. Supprimez d'abord les données personnelles et codes secrets.",
     finePrint: "ClearBeacon est un outil éducatif indépendant, ni un service public ni une garantie de sécurité.",
      
     
@@ -300,7 +315,7 @@ const translations = {
     helpText: "Contactez votre banque ou service de paiement via son application ou numéro officiel, changez les mots de passe concernés et conservez les messages.",
     helpLink: "Trouver une aide officielle dans votre pays", reportEyebrow: "AIDEZ À PROTÉGER LES AUTRES",
     reportTitle: "Signaler un incident suspect.", reportIntro: "Les signalements restent privés et en attente. Ils ne sont pas publiés sans examen.",
-    reportPrivacy: "Votre signalement est privé. N'incluez ni OTP, ni mot de passe, ni identité personnelle.",
+    reportPrivacy: "Envoyez ce formulaire uniquement pour transmettre un signalement aux réviseurs. Une vérification seule ne crée pas de signalement. N'incluez ni OTP, ni mot de passe, ni identité personnelle.",
     reportCategoryLabel: "Quel type d'arnaque ?", categoryChoose: "Choisir une catégorie", categoryShop: "Fausse boutique ou produit",
     categoryJob: "Offre d'emploi ou de revenus", categoryPayment: "Paiement ou livraison", categoryImpersonation: "Usurpation d'une organisation",
     categoryAccount: "Accès ou vérification de compte", categoryOther: "Autre", reportTargetLabel: "Lien ou identifiant (facultatif)",
@@ -320,12 +335,12 @@ const translations = {
       
     
     riskHigh: "Indices de risque élevé", riskCaution: "Faites une pause et vérifiez", riskUnknown: "Impossible à déterminer",
-    riskNoKnown: "Aucune menace connue trouvée", riskKnown: "Correspondance avec une menace connue",
+    riskNoKnown: "Aucune menace connue détectée", riskKnown: "Correspondance potentiellement dangereuse",
     resultUnknown: "Les vérifications disponibles ne permettent pas de conclure de façon fiable.",
     resultRisk: "C'est un signal de risque, pas la preuve qu'une personne ou organisation est frauduleuse.",
     resultEvidence: "Ce que nous avons observé", resultNoEvidence: "Les règles locales n'ont détecté aucun indice fort.",
     resultLinks: "Liens détectés (non ouverts) :", resultNext: "Prochaine étape plus sûre",
-    resultCoverage: "Règles locales : terminées · Vérification en ligne des menaces : non configurée",
+    resultCoverage: "Règles locales : terminées",
     resultDisclaimer: "Aucun résultat ne peut garantir qu'un élément est sûr.",
     guidesNoMatch: "Aucun conseil ne correspond. Essayez un autre mot ou filtre.",
     strengthWeak: "indice faible", strengthMedium: "indice modéré", strengthStrong: "indice fort",
@@ -379,7 +394,8 @@ const translations = {
     urlLabel: "जाँचने के लिए वेब पता पेस्ट करें", urlPlaceholder: "example.in/offer", checkLink: "लिंक जाँचें",
     urlPrivacy: "हम लिंक कभी नहीं खोलते। निजी टोकन या व्यक्तिगत जानकारी वाले लिंक पेस्ट न करें।",
     messageLabel: "संदिग्ध संदेश पेस्ट करें", messagePlaceholder: "यहाँ संदेश पेस्ट करें — पहले नाम, फ़ोन नंबर और कोड हटा दें।",
-    messagePrivacy: "इस सर्वर पर मेमोरी में विश्लेषण होता है। इसे सहेजा या बाहरी सेवा को भेजा नहीं जाता।", checkMessage: "संदेश जाँचें",
+    messagePrivacy: "ClearBeacon इसे मेमोरी में जाँचता है और जमा करने पर AI समीक्षा के लिए Google Gemini को भेजता है।", checkMessage: "संदेश जाँचें",
+    aiNotice: "लिंक जाँचने पर उसका पूरा URL खतरा खोजने के लिए Google Safe Browsing को भेजा जाता है; जमा किया गया पाठ AI समीक्षा के लिए Google Gemini को भेजा जाता है। ये जाँच खतरे चूक सकती हैं या सुरक्षित साइट को गलती से चिह्नित कर सकती हैं। पहले निजी जानकारी और गुप्त कोड हटाएँ।",
     finePrint: "ClearBeacon एक स्वतंत्र शैक्षिक टूल है — सरकारी सेवा या सुरक्षा की गारंटी नहीं।",
      
     
@@ -393,7 +409,7 @@ const translations = {
     helpText: "अपने बैंक या भुगतान सेवा से उसके आधिकारिक ऐप/नंबर पर संपर्क करें, प्रभावित पासवर्ड बदलें और संदेश सुरक्षित रखें।",
     helpLink: "अपने देश में आधिकारिक सहायता पाएँ", reportEyebrow: "दूसरों को सतर्क रहने में मदद करें",
     reportTitle: "संदिग्ध घटना की रिपोर्ट करें।", reportIntro: "रिपोर्ट निजी रहती है और समीक्षा की प्रतीक्षा करती है। जाँच के बिना सार्वजनिक नहीं होती।",
-    reportPrivacy: "आपकी रिपोर्ट निजी है। OTP, पासवर्ड या पहचान की निजी जानकारी न दें।",
+    reportPrivacy: "समीक्षकों को रिपोर्ट भेजने के लिए यह फ़ॉर्म सबमिट करें। केवल जाँच करने से रिपोर्ट नहीं बनती। OTP, पासवर्ड या पहचान की निजी जानकारी न दें।",
     reportCategoryLabel: "किस प्रकार की धोखाधड़ी?", categoryChoose: "श्रेणी चुनें", categoryShop: "नकली दुकान या उत्पाद",
     categoryJob: "नौकरी या कमाई का प्रस्ताव", categoryPayment: "भुगतान या डिलीवरी का अनुरोध", categoryImpersonation: "किसी संस्था की नकल",
     categoryAccount: "खाता एक्सेस या सत्यापन", categoryOther: "अन्य", reportTargetLabel: "लिंक या खाते की पहचान (वैकल्पिक)",
@@ -413,12 +429,12 @@ const translations = {
       
     
     riskHigh: "ज़्यादा जोखिम के संकेत", riskCaution: "रुकें और जाँचें", riskUnknown: "निर्धारित नहीं किया जा सका",
-    riskNoKnown: "कोई ज्ञात खतरा नहीं मिला", riskKnown: "ज्ञात खतरे से मेल",
+    riskNoKnown: "कोई ज्ञात खतरा नहीं मिला", riskKnown: "संभावित रूप से असुरक्षित लिंक मिला",
     resultUnknown: "उपलब्ध जाँच से विश्वसनीय निर्णय नहीं हो सका।",
     resultRisk: "यह जोखिम का संकेत है, किसी व्यक्ति या संस्था के धोखेबाज़ होने का प्रमाण नहीं।",
     resultEvidence: "हमें क्या दिखा", resultNoEvidence: "स्थानीय नियमों में कोई मज़बूत संकेत नहीं मिला।",
     resultLinks: "मिले लिंक (खोले नहीं गए):", resultNext: "सुरक्षित अगला कदम",
-    resultCoverage: "स्थानीय नियम: पूरे · लाइव खतरा-सूची जाँच: उपलब्ध नहीं",
+    resultCoverage: "स्थानीय नियम: पूरे",
     resultDisclaimer: "कोई परिणाम सुरक्षित होने की गारंटी नहीं दे सकता।",
     guidesNoMatch: "इस खोज से कोई सलाह नहीं मिली। दूसरा शब्द या श्रेणी आज़माएँ।",
     strengthWeak: "कमज़ोर संकेत", strengthMedium: "मध्यम संकेत", strengthStrong: "मज़बूत संकेत",
@@ -472,7 +488,8 @@ const translations = {
     urlLabel: "ألصق عنوان الويب الذي تريد فحصه", urlPlaceholder: "example.com/offer", checkLink: "افحص الرابط",
     urlPrivacy: "لا نفتح الرابط مطلقاً. لا تلصق روابط تتضمن رموزاً خاصة أو بيانات شخصية.",
     messageLabel: "ألصق النص المريب", messagePlaceholder: "ألصق الرسالة هنا — احذف الأسماء وأرقام الهاتف والرموز أولاً.",
-    messagePrivacy: "يُحلل النص في ذاكرة هذا الخادم. لا يُحفظ ولا يُرسل إلى خدمة خارجية.", checkMessage: "افحص الرسالة",
+    messagePrivacy: "يفحص ClearBeacon النص في الذاكرة ويرسله إلى Google Gemini لمراجعته بالذكاء الاصطناعي عند الإرسال.", checkMessage: "افحص الرسالة",
+    aiNotice: "عند فحص رابط، يُرسل عنوان URL الكامل إلى Google Safe Browsing للتحقق من التهديدات؛ ويُرسل النص المُقدّم إلى Google Gemini لمراجعته بالذكاء الاصطناعي. قد تفوت هذه الفحوصات بعض التهديدات أو تُصنّف مواقع آمنة عن طريق الخطأ. احذف المعلومات الشخصية والرموز السرية أولاً.",
     finePrint: "ClearBeacon أداة تعليمية مستقلة، وليست خدمة حكومية أو ضماناً للأمان.",
      
     
@@ -486,7 +503,7 @@ const translations = {
     helpText: "اتصل بالبنك أو مزود الدفع عبر التطبيق أو الرقم الرسمي، وغيّر كلمات المرور المتأثرة واحتفظ بالرسائل.",
     helpLink: "اعثر على مساعدة رسمية في بلدك", reportEyebrow: "ساعد الآخرين على البقاء يقظين",
     reportTitle: "أبلغ عن حادثة مريبة.", reportIntro: "تظل البلاغات خاصة وقيد المراجعة، ولا تُنشر دون مراجعتها.",
-    reportPrivacy: "بلاغك خاص. لا تذكر رموز OTP أو كلمات المرور أو بيانات الهوية الشخصية.",
+    reportPrivacy: "أرسل هذا النموذج فقط إذا أردت مشاركة بلاغ مع المراجعين. الفحص وحده لا ينشئ بلاغاً. لا تذكر رموز OTP أو كلمات المرور أو بيانات الهوية الشخصية.",
     reportCategoryLabel: "ما نوع الاحتيال؟", categoryChoose: "اختر فئة", categoryShop: "متجر أو منتج مزيف",
     categoryJob: "عرض عمل أو دخل", categoryPayment: "طلب دفع أو توصيل", categoryImpersonation: "انتحال صفة مؤسسة",
     categoryAccount: "الوصول إلى الحساب أو التحقق", categoryOther: "غير ذلك", reportTargetLabel: "الرابط أو معرّف الحساب (اختياري)",
@@ -506,12 +523,12 @@ const translations = {
       
     
     riskHigh: "مؤشرات خطورة مرتفعة", riskCaution: "توقف وتحقق", riskUnknown: "تعذر التحديد",
-    riskNoKnown: "لم يُعثر على تهديد معروف", riskKnown: "تطابق مع تهديد معروف",
+    riskNoKnown: "لم يُعثر على تهديد معروف", riskKnown: "تطابق قد يكون خطيراً",
     resultUnknown: "لا تسمح الفحوصات المتاحة باستنتاج موثوق.",
     resultRisk: "هذا مؤشر خطر، وليس دليلاً على احتيال شخص أو مؤسسة.",
     resultEvidence: "ما لاحظناه", resultNoEvidence: "لم تعثر القواعد المحلية على مؤشرات قوية.",
     resultLinks: "روابط تم العثور عليها (لم تُفتح):", resultNext: "خطوة تالية أكثر أماناً",
-    resultCoverage: "القواعد المحلية: مكتملة · الفحص المباشر لقوائم التهديدات: غير مُعد",
+    resultCoverage: "القواعد المحلية: مكتملة",
     resultDisclaimer: "لا يمكن لأي نتيجة أن تضمن الأمان.",
     guidesNoMatch: "لم نعثر على إرشادات مطابقة. جرّب كلمة أو فئة أخرى.",
     strengthWeak: "مؤشر ضعيف", strengthMedium: "مؤشر متوسط", strengthStrong: "مؤشر قوي",
@@ -578,7 +595,8 @@ translations.bn = {
   checkLink: "লিংক যাচাই",
   urlPrivacy: "আমরা লিংক খুলি না। ব্যক্তিগত তথ্য বা গোপন টোকেনসহ লিংক দেবেন না।",
   messageLabel: "সন্দেহজনক বার্তাটি পেস্ট করুন",
-  messagePrivacy: "বার্তা মেমরিতে বিশ্লেষণ করা হয়; সংরক্ষণ বা বাইরের সেবায় পাঠানো হয় না।",
+  messagePrivacy: "ClearBeacon মেমোরিতে বিশ্লেষণ করে এবং জমা দিলে AI পর্যালোচনার জন্য Google Gemini-তে পাঠায়।",
+  aiNotice: "লিংক যাচাই করলে সম্পূর্ণ URL হুমকি-তালিকা যাচাইয়ের জন্য Google Safe Browsing-এ পাঠানো হয়; জমা দেওয়া লেখা AI পর্যালোচনার জন্য Google Gemini-তে যায়। এই যাচাই হুমকি শনাক্ত করতে ব্যর্থ হতে পারে বা নিরাপদ সাইটকে ভুলভাবে চিহ্নিত করতে পারে। আগে ব্যক্তিগত তথ্য ও গোপন কোড সরান।",
   checkMessage: "বার্তা যাচাই",
   finePrint: "ClearBeacon একটি স্বাধীন শিক্ষামূলক সহায়ক; এটি সরকারি সেবা বা নিরাপত্তার নিশ্চয়তা নয়।",
   guidesEyebrow: "নিরাপত্তার কিছু সহজ অভ্যাস",
@@ -592,7 +610,8 @@ translations.bn = {
   guideShopping: "কেনাকাটা ও লিংক",
   reportTitle: "সন্দেহজনক ঘটনার প্রতিবেদন দিন।",
   reportIntro: "প্রতিবেদন ব্যক্তিগত থাকে এবং পর্যালোচনার অপেক্ষায় থাকে; যাচাই ছাড়া প্রকাশ করা হয় না।",
-  reportPrivacy: "OTP, পাসওয়ার্ড বা পরিচয়সংক্রান্ত ব্যক্তিগত তথ্য দেবেন না।",
+  reportPrivacy: "পর্যালোচকদের কাছে প্রতিবেদন পাঠাতে এই ফর্ম জমা দিন। শুধু যাচাই করলে প্রতিবেদন তৈরি হয় না। OTP, পাসওয়ার্ড বা ব্যক্তিগত তথ্য দেবেন না।",
+  shareResult: "এই ফলাফল থেকে গোপন প্রতিবেদন তৈরি করুন",
   reportCategoryLabel: "কী ধরনের প্রতারণা?",
   reportSubmit: "ব্যক্তিগত প্রতিবেদন পাঠান",
   categoryChoose: "একটি ধরন বেছে নিন",
@@ -1287,16 +1306,50 @@ function renderResult(result) {
   const threatStatus = threatCheck?.status || "not_configured";
   coverage.textContent = `${t("resultCoverage")} · Threat-list status: ${threatStatus}${threatCheck?.provider ? ` (${threatCheck.provider})` : ""}${threatCheck?.updated_at ? ` · Updated ${threatCheck.updated_at}` : ""}`;
   target.append(coverage);
+  if (result.threat_intelligence_error) {
+    const threatError = document.createElement("p");
+    threatError.className = "feedback error";
+    threatError.textContent = result.threat_intelligence_error;
+    target.append(threatError);
+  }
+  if (result.ai_analysis || result.ai_error) {
+    appendAIReview(target, result.ai_analysis, result.ai_error);
+  }
   if (result.risk_label === "high_risk" || result.risk_label === "known_malicious") {
     const escalation = document.createElement("p");
     escalation.className = "bot-escalation-note";
-    escalation.textContent = "Auto-scan bot flagged this result and sent it to the admin review queue for human support.";
+    escalation.textContent = "An automated high-risk signal may be visible in the restricted admin scan-alert panel. It is not a user report; submit the private report form to ask reviewers to review an incident.";
     target.append(escalation);
   }
   const disclaimer = document.createElement("p");
   disclaimer.className = "result-disclaimer";
   disclaimer.textContent = result.disclaimer || t("resultDisclaimer");
   target.append(disclaimer);
+  if (result.attribution?.text && result.attribution?.url) {
+    const attribution = document.createElement("p");
+    attribution.className = "result-disclaimer";
+    const link = document.createElement("a");
+    link.href = result.attribution.url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = result.attribution.text.replace(/[.,]$/, "");
+    attribution.append(link, document.createTextNode(","));
+    target.append(attribution);
+  }
+  const reportButton = document.createElement("button");
+  reportButton.type = "button";
+  reportButton.className = "secondary-button";
+  reportButton.textContent = t("shareResult");
+  reportButton.addEventListener("click", () => {
+    const details = [
+      `ClearBeacon scan result: ${result.risk_label}.`,
+      `Signals: ${(result.evidence || []).map((item) => item.text).join(" ") || "No strong local-rule signal was found."}`,
+      result.ai_analysis ? `AI review: ${result.ai_analysis.summary}` : "",
+      "The checked message or full URL is not automatically included. Add only details you want the reviewers to receive.",
+    ].filter(Boolean).join("\n");
+    openReportDraft(details, result.normalized_host || result.detected_links?.[0] || "");
+  });
+  target.append(reportButton);
   if (lastCheckInput) {
     const feedbackForm = document.createElement("form");
     feedbackForm.className = "result-feedback-form";
@@ -1461,6 +1514,77 @@ function renderHistory() {
   }
 }
 
+function openReportDraft(summary, targetValue = "") {
+  $("#report-summary").value = summary.slice(0, 2000);
+  $("#report-target").value = targetValue.slice(0, 2048);
+  $("#report").scrollIntoView({ behavior: "smooth", block: "start" });
+  $("#report-category").focus({ preventScroll: true });
+}
+
+function appendAIReview(target, analysis, error, append = true) {
+  const section = document.createElement("section");
+  section.className = "ai-review-result";
+  if (analysis) {
+    const heading = document.createElement("h4");
+    heading.textContent = `${t("aiReviewTitle")} · ${analysis.provider}`;
+    const levelKeys = {
+      low: "aiRiskLow",
+      caution: "aiRiskCaution",
+      high: "aiRiskHigh",
+      unknown: "aiRiskUnknown",
+    };
+    const level = document.createElement("strong");
+    level.textContent = t(levelKeys[analysis.risk_level] || "aiRiskUnknown");
+    const summary = document.createElement("p");
+    summary.textContent = analysis.summary;
+    section.append(heading, level, summary);
+    if (analysis.findings?.length) {
+      const findings = document.createElement("ul");
+      for (const finding of analysis.findings) {
+        const item = document.createElement("li");
+        item.textContent = finding;
+        findings.append(item);
+      }
+      section.append(findings);
+    }
+    if (analysis.recommended_actions?.length) {
+      const advice = document.createElement("ul");
+      for (const action of analysis.recommended_actions) {
+        const item = document.createElement("li");
+        item.textContent = action;
+        advice.append(item);
+      }
+      section.append(advice);
+    }
+    const disclaimer = document.createElement("p");
+    disclaimer.className = "result-disclaimer";
+    disclaimer.textContent = analysis.disclaimer || t("aiReviewDisclaimer");
+    section.append(disclaimer);
+  }
+  if (error) {
+    const message = document.createElement("p");
+    message.className = "feedback error";
+    message.textContent = `${t("aiReviewUnavailable")} ${error}`;
+    section.append(message);
+  }
+  if (append && (analysis || error)) target.append(section);
+  return section;
+}
+
+function appendReportDraftButton(target, title, lines, reportTarget = "") {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "secondary-button";
+  button.textContent = t("shareResult");
+  button.addEventListener("click", () => {
+    openReportDraft(
+      [`ClearBeacon review: ${title}.`, ...lines, "Add only details you want reviewers to receive."].join("\n"),
+      reportTarget,
+    );
+  });
+  target.append(button);
+}
+
 function saveCheckHistory(result, valueKey) {
   try {
     const entries = readCheckHistory();
@@ -1569,31 +1693,70 @@ function setupCheckerShortcuts() {
   });
 }
 
+async function runCheck(path, valueKey, input, submit) {
+  const feedback = $("#check-feedback");
+  const result = $("#result");
+  result.hidden = true;
+  feedback.hidden = false;
+  feedback.className = "feedback";
+  feedback.textContent = t("checking");
+  submit.disabled = true;
+  try {
+    const body = await request(path, { method: "POST", body: JSON.stringify({ [valueKey]: input, locale: currentLocale }) });
+    try {
+      body.ai_analysis = await request("/api/check/ai", {
+        method: "POST",
+        body: JSON.stringify({
+          input_type: valueKey === "url" ? "url" : "message",
+          [valueKey]: input,
+          locale: currentLocale,
+        }),
+      });
+    } catch (error) {
+      body.ai_error = readableError(error);
+    }
+    feedback.hidden = true;
+    lastCheckInput = { type: valueKey === "url" ? "url" : "message", value: input };
+    renderResult(body);
+    saveCheckHistory(body, valueKey);
+    return true;
+  } catch (error) {
+    setFeedback(feedback, readableError(error), "error");
+    return false;
+  } finally {
+    submit.disabled = false;
+  }
+}
+
 function setupCheckForm(formId, path, valueKey) {
   $(formId).addEventListener("submit", async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-    const feedback = $("#check-feedback");
-    const result = $("#result");
-    result.hidden = true;
-    feedback.hidden = false;
-    feedback.className = "feedback";
-    feedback.textContent = t("checking");
-    const submit = $("button[type=submit]", form);
-    submit.disabled = true;
-    try {
-      const input = $(`[name="${valueKey}"]`, form).value;
-      const body = await request(path, { method: "POST", body: JSON.stringify({ [valueKey]: input, locale: currentLocale }) });
-      feedback.hidden = true;
-      lastCheckInput = { type: valueKey === "url" ? "url" : "message", value: input };
-      renderResult(body);
-      saveCheckHistory(body, valueKey);
-    } catch (error) {
-      setFeedback(feedback, readableError(error), "error");
-    } finally {
-      submit.disabled = false;
-    }
+    await runCheck(
+      path,
+      valueKey,
+      $(`[name="${valueKey}"]`, form).value,
+      $("button[type=submit]", form),
+    );
   });
+}
+
+async function checkExtractedImageText(text) {
+  const trimmed = text.trim();
+  const isUrl = /^(?:https?:\/\/|www\.)/i.test(trimmed);
+  const valueKey = isUrl ? "url" : "text";
+  const form = isUrl ? $("#url-form") : $("#message-form");
+  const value = isUrl ? trimmed.replace(/^www\./i, "https://www.") : trimmed.slice(0, 6000);
+  (isUrl ? $("#url-tab") : $("#message-tab")).click();
+  $(`[name="${valueKey}"]`, form).value = value;
+  const success = await runCheck(
+    isUrl ? "/api/check/url" : "/api/check/message",
+    valueKey,
+    value,
+    $("button[type=submit]", form),
+  );
+  if (success) $("#result").scrollIntoView({ behavior: "smooth", block: "center" });
+  return success;
 }
 
 function setupReport() {
@@ -1743,62 +1906,57 @@ function renderClarifications(container, reference, clarifications) {
 
 function setupImageCheck() {
   $("#image-check-input").addEventListener("change", async (event) => {
-    const file = event.currentTarget.files[0];
+    const input = event.currentTarget;
+    const file = input.files[0];
     const feedback = $("#image-check-feedback");
     if (!file) return;
-    event.currentTarget.value = "";
+    input.value = "";
     if (!["image/png", "image/jpeg", "image/webp"].includes(file.type) || file.size > 5 * 1024 * 1024) {
       setFeedback(feedback, "Choose a PNG, JPEG, or WebP image no larger than 5 MB.", "error");
       return;
     }
+    input.disabled = true;
     try {
       const image = await createImageBitmap(file);
       let text = "";
       try {
-        if ("BarcodeDetector" in window) {
-          const detector = new BarcodeDetector({ formats: ["qr_code"] });
-          const codes = await detector.detect(image);
-          text = codes.find((code) => code.rawValue)?.rawValue || "";
-        }
+        setFeedback(feedback, t("imageScanning"));
+        const scale = Math.min(1, 2048 / Math.max(image.width, image.height));
+        const width = Math.max(1, Math.round(image.width * scale));
+        const height = Math.max(1, Math.round(image.height * scale));
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d", { willReadFrequently: true });
+        if (!context) throw new Error("Image decoding is unavailable in this browser.");
+        context.drawImage(image, 0, 0, width, height);
         if (!text && typeof window.jsQR === "function") {
-          const scale = Math.min(1, 2048 / Math.max(image.width, image.height));
-          const width = Math.max(1, Math.round(image.width * scale));
-          const height = Math.max(1, Math.round(image.height * scale));
-          const canvas = document.createElement("canvas");
-          canvas.width = width;
-          canvas.height = height;
-          const context = canvas.getContext("2d", { willReadFrequently: true });
-          if (!context) throw new Error("Image decoding is unavailable in this browser.");
-          context.drawImage(image, 0, 0, width, height);
           const pixels = context.getImageData(0, 0, width, height);
           text = window.jsQR(pixels.data, width, height)?.data || "";
         }
-        if (!text && "TextDetector" in window) {
-          const detector = new TextDetector();
-          const blocks = await detector.detect(image);
-          text = blocks.map((block) => block.rawValue).filter(Boolean).join("\n");
+        if (!text && window.clearBeaconImageOcr) {
+          const language = { en: "eng", bn: "ben", es: "spa", fr: "fra", hi: "hin", ar: "ara" }[currentLocale] || "eng";
+          text = await window.clearBeaconImageOcr(canvas, language, (status, progress) => {
+            setFeedback(feedback, `${t("imageScanning")} ${status} ${Math.round(progress * 100)}%`);
+          });
         }
       } finally {
         image.close();
       }
       if (!text) {
-        setFeedback(feedback, t("imageNoContent"), "error");
+        setFeedback(feedback, window.clearBeaconImageOcr ? t("imageNoContent") : t("imageNoSupport"), "error");
         return;
       }
-      if (/^(?:https?:\/\/|www\.)/i.test(text.trim())) {
-        const url = text.trim().replace(/^www\./i, "https://www.");
-        $("#url-input").value = url;
-        $("#url-tab").click();
-        setFeedback(feedback, t("imageFoundUrl"), "success");
-      } else if ($("#message-input")) {
-        $("#message-input").value = text.slice(0, 6000);
-        $("#message-tab").click();
-        setFeedback(feedback, t("imageFoundText"), "success");
-      } else {
-        setFeedback(feedback, t("imageNoSupport"), "error");
-      }
+      const checked = await checkExtractedImageText(text);
+      setFeedback(
+        feedback,
+        checked ? t("imageScanComplete") : t("imageAnalysisFailed"),
+        checked ? "success" : "error",
+      );
     } catch {
-      setFeedback(feedback, t("imageNoSupport"), "error");
+      setFeedback(feedback, t("imageOcrFailed"), "error");
+    } finally {
+      input.disabled = false;
     }
   });
 }
@@ -1886,10 +2044,24 @@ function setupAdditionalTools() {
         method: "POST",
         body: JSON.stringify({ headers: $("#email-headers").value }),
       });
+      try {
+        data.ai_analysis = await request("/api/check/ai", {
+          method: "POST",
+          body: JSON.stringify({
+            input_type: "email_headers",
+            headers: $("#email-headers").value,
+            locale: currentLocale,
+          }),
+        });
+      } catch (error) {
+        data.ai_error = readableError(error);
+      }
       appendLines(result, `Header review: ${data.risk_label}`, [
         ...data.findings,
         data.disclaimer,
       ]);
+      appendAIReview(result, data.ai_analysis, data.ai_error);
+      appendReportDraftButton(result, `email header review: ${data.risk_label}`, data.findings);
     } catch (error) {
       result.textContent = readableError(error);
     }
@@ -1902,7 +2074,22 @@ function setupAdditionalTools() {
         method: "POST",
         body: JSON.stringify({ kind: $("#context-kind").value, text: $("#context-text").value }),
       });
+      try {
+        data.ai_analysis = await request("/api/check/ai", {
+          method: "POST",
+          body: JSON.stringify({
+            input_type: "context",
+            kind: $("#context-kind").value,
+            text: $("#context-text").value,
+            locale: currentLocale,
+          }),
+        });
+      } catch (error) {
+        data.ai_error = readableError(error);
+      }
       appendLines(result, `Local review: ${data.risk_label}`, [...data.findings, data.disclaimer]);
+      appendAIReview(result, data.ai_analysis, data.ai_error);
+      appendReportDraftButton(result, `context review: ${data.risk_label}`, data.findings);
     } catch (error) {
       result.textContent = readableError(error);
     }
@@ -1915,9 +2102,26 @@ function setupAdditionalTools() {
         method: "POST",
         body: JSON.stringify({ domain: $("#organization-domain").value }),
       });
+      try {
+        data.ai_analysis = await request("/api/check/ai", {
+          method: "POST",
+          body: JSON.stringify({
+            input_type: "url",
+            url: $("#organization-domain").value,
+            locale: currentLocale,
+          }),
+        });
+      } catch (error) {
+        data.ai_error = readableError(error);
+      }
       appendLines(result, data.message, data.matches.length
         ? data.matches.map((organization) => `${organization.name}: ${organization.url} (checked ${organization.verified_on})`)
         : ["No directory match. This does not establish whether a site is safe."]);
+      appendAIReview(result, data.ai_analysis, data.ai_error);
+      appendReportDraftButton(result, "organization domain comparison", [
+        data.message,
+        ...data.matches.map((organization) => `${organization.name}: ${organization.url}`),
+      ]);
     } catch (error) {
       result.textContent = readableError(error);
     }

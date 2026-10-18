@@ -6,6 +6,7 @@ import tempfile
 import threading
 import time
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -33,6 +34,7 @@ class ApiTests(unittest.TestCase):
     def setUp(self):
         server.ADMIN_TOKEN = "test-moderator-token"
         server.RequestHandler.requests_by_ip.clear()
+        server.RequestHandler.ai_requests_by_ip.clear()
         connection = sqlite3.connect(self.database.path)
         try:
             connection.execute("DELETE FROM clarifications")
@@ -82,6 +84,9 @@ class ApiTests(unittest.TestCase):
         status, hero_styles = self.request("GET", "/liquid-sculpture-hero.css")
         self.assertEqual(status, 200)
         self.assertIn(b".sh-root", hero_styles)
+        status, ocr_worker = self.request("GET", "/assets/ocr/worker.min.js")
+        self.assertEqual(status, 200)
+        self.assertGreater(len(ocr_worker), 1000)
         for path, expected in (
             ("/footer.css", b".footer-main"),
             ("/theme.css", b'html[data-theme="dark"]'),
@@ -126,6 +131,32 @@ class ApiTests(unittest.TestCase):
         status, response = self.request("POST", "/api/check/url", {"url": "http://127.0.0.1"})
         self.assertEqual(status, 400)
         self.assertIn("Private or reserved", response["error"])
+
+    def test_ai_review_runs_automatically_and_does_not_create_a_report(self):
+        body = {"input_type": "message", "text": "Please verify your account.", "locale": "en"}
+        with patch.dict(server.os.environ, {"GEMINI_API_KEY": ""}), patch("server.review_with_gemini") as ai_review:
+            ai_review.return_value = {
+                "provider": "Google Gemini",
+                "model": "gemini-flash-latest",
+                "risk_level": "caution",
+                "summary": "Verify independently.",
+                "findings": ["The request asks the user to verify an account."],
+                "recommended_actions": ["Use the official app."],
+                "disclaimer": "AI can be wrong.",
+            }
+            status, response = self.request("POST", "/api/check/ai", body)
+            self.assertEqual(status, 200)
+            self.assertEqual(response["provider"], "Google Gemini")
+            ai_review.assert_called_once_with(
+                "message", body["text"], "en", "", "gemini-flash-latest",
+            )
+
+        connection = sqlite3.connect(self.database.path)
+        try:
+            report_count = connection.execute("SELECT COUNT(*) FROM reports").fetchone()[0]
+        finally:
+            connection.close()
+        self.assertEqual(report_count, 0)
 
     def test_scan_escalation_is_server_generated_persistent_and_private(self):
         raw_message = (

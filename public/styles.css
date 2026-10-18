@@ -271,6 +271,7 @@ input:focus,textarea:focus,select:focus{border-color:#2F5640;box-shadow:0 0 0 3p
 .checker-card .optional-tools>summary{padding:2px 0}
 .checker-card .optional-tools-content{padding-top:10px}
 .checker-card .local-image-check{margin-top:0}
+.ai-notice{margin:0 0 12px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--soft);color:var(--muted);font-size:12px;line-height:1.5}.ai-notice a{color:var(--teal);text-decoration:underline}.ai-review-result{display:grid;gap:7px;margin-top:14px;padding:13px;border:1px solid var(--line);border-radius:10px;background:var(--soft)}.ai-review-result h4,.ai-review-result p{margin:0}.ai-review-result ul{margin:0;padding-inline-start:20px}.result>.secondary-button{margin-top:10px}
 .checker-card .assistant-panels .input-row input{flex:1}
 .checker-card .assistant-panels .input-row .assistant-submit{flex-basis:38px}
 .checker-card .feedback,.checker-card .result{margin-top:12px}

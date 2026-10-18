@@ -10,7 +10,8 @@
   "dependencies": {
     "jsqr": "^1.4.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tesseract.js": "^6.0.1"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

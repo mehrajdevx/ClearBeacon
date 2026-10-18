@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="/footer.css">
   <link rel="stylesheet" href="/theme.css">
   <script type="module" src="/assets/qr-decoder.js"></script>
+  <script type="module" src="/assets/image-ocr.js"></script>
   <script type="module" src="/app.js"></script>
   <script type="module" src="/assets/sculpture-hero.js"></script>
 </head>
@@ -41,6 +42,7 @@
         <p class="assistant-subtitle" data-i18n="heroText">Check a suspicious link or message. See the warning signs, understand what we checked, and choose a safer next step.</p>
       </div>
       <div class="checker-card">
+        <p class="ai-notice"><span data-i18n="aiNotice">When you check a link, its full URL is sent to Google Safe Browsing for a threat lookup; submitted text is sent to Google Gemini for AI review. These checks can miss threats or flag safe sites. Remove names, contact details, passwords, verification codes, and private link tokens first.</span> <a href="https://developers.google.com/safe-browsing/v4/usage-limits" target="_blank" rel="noopener noreferrer">Google Safe Browsing terms and limitations</a> · <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener noreferrer">Google Gemini API terms</a></p>
         <div class="assistant-panels">
         <div class="tab-panel" id="url-panel" role="tabpanel" aria-labelledby="url-tab">
           <form id="url-form">
@@ -53,7 +55,7 @@
           <form id="message-form">
             <label class="sr-only" for="message-input" data-i18n="messageLabel">Paste the suspicious text</label>
             <textarea id="message-input" name="text" maxlength="6000" rows="3" placeholder="Paste the message here — remove names, phone numbers, and codes first." data-i18n-placeholder="messagePlaceholder" required></textarea>
-            <div class="assistant-form-footer"><p class="field-note"><span aria-hidden="true">◈</span> <span data-i18n="messagePrivacy">Analyzed on this server in memory. Not saved or sent to an outside service.</span></p><button class="primary-button assistant-submit" type="submit" aria-label="Check message" data-i18n-aria="checkMessage"><span aria-hidden="true">↑</span></button></div>
+            <div class="assistant-form-footer"><p class="field-note"><span aria-hidden="true">◈</span> <span data-i18n="messagePrivacy">Analyzed in memory by ClearBeacon and sent to Google Gemini for AI review when submitted.</span></p><button class="primary-button assistant-submit" type="submit" aria-label="Check message" data-i18n-aria="checkMessage"><span aria-hidden="true">↑</span></button></div>
           </form>
         </div>
         </div>
@@ -70,8 +72,8 @@
           <summary id="advanced-tools-title">More ways to check</summary>
           <div class="optional-tools-content">
         <section class="local-image-check" aria-labelledby="image-check-title">
-          <h3 id="image-check-title">Check a screenshot or QR code on this device</h3>
-          <p>Choose an image up to 5 MB. Image data stays in your browser. QR codes use a local fallback decoder when needed; text recognition depends on browser support. Extracted links are never opened.</p>
+          <h3 id="image-check-title">Automatically check a screenshot or QR code</h3>
+          <p>The image stays in your browser. QR decoding and OCR run on this device; extracted text or links are checked by ClearBeacon and sent to Google Gemini for AI review when submitted. Neither checker submits a report automatically; use the report form to contact reviewers. Links are never opened. The first OCR scan downloads a language model from Tesseract. OCR can make mistakes, so review results.</p>
           <label for="image-check-input">Image file (PNG, JPEG, or WebP)</label>
           <input id="image-check-input" type="file" accept="image/png,image/jpeg,image/webp">
           <div id="image-check-feedback" class="feedback" role="status" aria-live="polite" hidden></div>
@@ -80,7 +82,7 @@
           <div class="extra-tool-grid">
             <form id="email-header-form" class="extra-tool">
               <h4>Email header review</h4>
-              <p>Paste header text only. It is checked locally and not stored. Remove personal addresses first.</p>
+              <p>Paste header text only. It is checked in memory and not stored. Remove personal addresses first.</p>
               <label for="email-headers">Email headers</label>
               <textarea id="email-headers" rows="5" maxlength="12000" placeholder="From:, Reply-To:, Return-Path:, Authentication-Results:"></textarea>
               <button class="secondary-button" type="submit">Review headers</button>
@@ -185,7 +187,7 @@
     </section>
 
     <section class="report-section" id="report">
-      <div class="report-intro"><p class="eyebrow" data-i18n="reportEyebrow">HELP OTHERS STAY ALERT</p><h2 data-i18n="reportTitle">Report a suspicious incident.</h2><p data-i18n="reportIntro">Reports start private and pending. They are never shown publicly unless reviewed.</p><div class="report-privacy"><span>◈</span> <span data-i18n="reportPrivacy">Your report is private. Please leave out OTPs, passwords, and personal identity details.</span></div></div>
+      <div class="report-intro"><p class="eyebrow" data-i18n="reportEyebrow">HELP OTHERS STAY ALERT</p><h2 data-i18n="reportTitle">Report a suspicious incident.</h2><p data-i18n="reportIntro">Reports start private and pending. They are never shown publicly unless reviewed.</p><div class="report-privacy"><span>◈</span> <span data-i18n="reportPrivacy">Only submit this form to send a report to reviewers. A check alone does not create a report. Leave out OTPs, passwords, and personal identity details.</span></div></div>
       <div class="report-card">
         <form id="report-form">
           <label for="report-category" data-i18n="reportCategoryLabel">What kind of scam?</label>

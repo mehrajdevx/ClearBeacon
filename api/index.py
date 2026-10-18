@@ -54,7 +54,8 @@ class FunctionRequestHandler(RequestHandler):
         self.send_header(
             "Content-Security-Policy",
             "default-src 'self'; style-src 'self'; style-src-attr 'unsafe-inline'; "
-            "script-src 'self'; img-src 'self' data:; connect-src 'self'; "
+            "script-src 'self' 'wasm-unsafe-eval'; img-src 'self' data:; connect-src 'self' https://tessdata.projectnaptha.com; "
+            "worker-src 'self'; "
             "base-uri 'none'; form-action 'self'; frame-ancestors 'none'",
         )
         self.send_header("Cache-Control", "no-store")

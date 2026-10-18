@@ -7,6 +7,8 @@ let adminRole = "";
 let pageOffset = 0;
 let pageHasMore = false;
 let sessionTimer = null;
+let refreshTimer = null;
+let dashboardRefreshInFlight = false;
 let adminActionsBound = false;
 
 function feedback(element, message, kind = "") {
@@ -428,19 +430,9 @@ function renderAudit(entries) {
 }
 
 async function loadDashboard() {
-  const status = $("#report-filter").value;
-  const query = new URLSearchParams({
-    status,
-    limit: "20",
-    offset: String(pageOffset),
-    assigned_to: $("#assigned-filter").value,
-    category: $("#category-filter").value,
-    locale: $("#locale-filter").value,
-  });
-  if (query.get("assigned_to") === "__unassigned__") query.set("unassigned", "true");
   const [overview, reportResult, appealResult, auditResult, feedbackResult, operations] = await Promise.all([
     api("/api/admin/overview"),
-    api(`/api/admin/reports?${query}`),
+    api(`/api/admin/reports?${reportQuery()}`),
     api("/api/admin/appeals"),
     adminRole === "admin" ? api("/api/admin/audit") : Promise.resolve({ entries: [] }),
     api("/api/admin/feedback"),
@@ -451,9 +443,7 @@ async function loadDashboard() {
   $("#reports-page").textContent = `Page ${Math.floor(pageOffset / 20) + 1}`;
   $("#reports-previous").disabled = pageOffset === 0;
   $("#reports-next").disabled = !pageHasMore;
-  for (const key of ["pending", "verified", "rejected", "escalated", "appeals"]) {
-    $(`#count-${key}`).textContent = String(overview.counts[key] || 0);
-  }
+  updateReportCounts(overview.counts);
   renderReports();
   renderAppeals(appealResult.appeals);
   renderAudit(auditResult.entries);
@@ -464,6 +454,70 @@ async function loadDashboard() {
     renderSessions(await api("/api/admin/sessions"));
   }
 }
+
+function reportQuery() {
+  const query = new URLSearchParams({
+    status: $("#report-filter").value,
+    limit: "20",
+    offset: String(pageOffset),
+    assigned_to: $("#assigned-filter").value,
+    category: $("#category-filter").value,
+    locale: $("#locale-filter").value,
+  });
+  if (query.get("assigned_to") === "__unassigned__") query.set("unassigned", "true");
+  return query;
+}
+
+function updateReportCounts(counts) {
+  for (const key of ["pending", "verified", "rejected", "escalated", "appeals"]) {
+    $(`#count-${key}`).textContent = String(counts[key] || 0);
+  }
+}
+
+function scheduleDashboardRefresh() {
+  if (refreshTimer) window.clearTimeout(refreshTimer);
+  refreshTimer = window.setTimeout(async () => {
+    await refreshDashboardReports();
+    if (adminToken) scheduleDashboardRefresh();
+  }, 5000);
+}
+
+async function refreshDashboardReports() {
+  if (!adminToken || $("#dashboard").hidden || document.visibilityState !== "visible" || dashboardRefreshInFlight) return;
+  dashboardRefreshInFlight = true;
+  try {
+    const [overview, reportResult] = await Promise.all([
+      api("/api/admin/overview"),
+      api(`/api/admin/reports?${reportQuery()}`),
+    ]);
+    const changed = JSON.stringify(reports) !== JSON.stringify(reportResult.reports);
+    reports = reportResult.reports;
+    pageHasMore = reportResult.has_more;
+    $("#reports-next").disabled = !pageHasMore;
+    updateReportCounts(overview.counts);
+    if (changed) renderReports();
+    if ($("#dashboard-feedback").textContent.startsWith("Automatic refresh failed:")) {
+      $("#dashboard-feedback").hidden = true;
+    }
+  } catch (error) {
+    feedback($("#dashboard-feedback"), `Automatic refresh failed: ${error.message}`, "error");
+  } finally {
+    dashboardRefreshInFlight = false;
+  }
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (adminToken && document.visibilityState === "visible") {
+    void refreshDashboardReports();
+    scheduleDashboardRefresh();
+  }
+});
+window.addEventListener("focus", () => {
+  if (adminToken) {
+    void refreshDashboardReports();
+    scheduleDashboardRefresh();
+  }
+});
 
 function renderFeedback(entries) {
   const list = $("#feedback-list");
@@ -601,6 +655,7 @@ $("#admin-login").addEventListener("submit", async (event) => {
     $("#admin-sidebar").hidden = false;
     document.body.classList.add("admin-authenticated");
     sessionTimer = window.setTimeout(signOut, result.expires_in * 1000);
+    scheduleDashboardRefresh();
   } catch (error) {
     adminToken = "";
     feedback($("#login-feedback"), error.message, "error");
@@ -666,6 +721,7 @@ $("#refresh-dashboard").addEventListener("click", async () => {
 });
 async function signOut() {
   if (sessionTimer) window.clearTimeout(sessionTimer);
+  if (refreshTimer) window.clearTimeout(refreshTimer);
   try {
     if (adminToken) await api("/api/admin/logout", { method: "POST", body: JSON.stringify({}) });
   } catch { /* The server expires sessions automatically. */ }

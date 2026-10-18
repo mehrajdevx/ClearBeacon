@@ -22,8 +22,14 @@ from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlsplit
 
 from scamshield.analysis import SUPPORTED_LOCALES, analyze_message, analyze_url
+from scamshield.ai_review import AIReviewError, review_with_gemini
 from scamshield.storage import Database
-from threat_intel import apply_threat_result, match_local_feed, validate_feed_payload
+from threat_intel import (
+    apply_threat_result,
+    check_google_safe_browsing,
+    match_local_feed,
+    validate_feed_payload,
+)
 from safety_tools import TRUSTED_ORGANIZATIONS, analyze_context_offer, check_email_headers, compare_organization_domain, safety_checklist
 
 
@@ -36,6 +42,8 @@ REPORT_RETENTION_DAYS = max(1, min(int(os.environ.get("SCAMSHIELD_REPORT_RETENTI
 MAX_BODY_BYTES = 16_000
 RATE_LIMIT = 20
 RATE_WINDOW_SECONDS = 60
+AI_RATE_LIMIT = 5
+AI_RATE_WINDOW_SECONDS = 60
 SESSION_TTL_SECONDS = 1800
 PBKDF2_ITERATIONS = 310_000
 LOGIN_FAILURE_LIMIT = 5
@@ -104,6 +112,7 @@ class RequestHandler(BaseHTTPRequestHandler):
     server_version = "ClearBeacon/0.1"
     sys_version = ""
     requests_by_ip: dict[str, deque[float]] = defaultdict(deque)
+    ai_requests_by_ip: dict[str, deque[float]] = defaultdict(deque)
     requests_lock = threading.Lock()
     last_bucket_cleanup = 0.0
 
@@ -115,7 +124,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("X-Frame-Options", "DENY")
         self.send_header("Referrer-Policy", "no-referrer")
-        self.send_header("Content-Security-Policy", "default-src 'self'; style-src 'self'; style-src-attr 'unsafe-inline'; script-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'")
+        self.send_header("Content-Security-Policy", "default-src 'self'; style-src 'self'; style-src-attr 'unsafe-inline'; script-src 'self' 'wasm-unsafe-eval'; img-src 'self' data:; connect-src 'self' https://tessdata.projectnaptha.com; worker-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'")
         self.send_header("Cache-Control", "no-store")
         super().end_headers()
 
@@ -469,15 +478,52 @@ class RequestHandler(BaseHTTPRequestHandler):
                 value = self._required_text(data, "url", 2048)
                 result = analyze_url(value, self._locale(data))
                 active_feed = self.server.database.active_threat_feed()
-                result = apply_threat_result(result, match_local_feed(
+                local_reputation = match_local_feed(
                     str(result["normalized_host"]), THREAT_FEED_PATH, active_feed,
-                ))
+                )
+                safe_browsing_url = value.strip()
+                if "://" not in safe_browsing_url:
+                    safe_browsing_url = "https://" + safe_browsing_url
+                safe_browsing_reputation = check_google_safe_browsing(
+                    safe_browsing_url,
+                    os.environ.get("GOOGLE_SAFE_BROWSING_API_KEY")
+                    or os.environ.get("GEMINI_API_KEY", ""),
+                )
+                result = apply_threat_result(
+                    result, local_reputation, safe_browsing_reputation,
+                )
                 self._record_scan_escalation(result, "link-checker")
                 self._send_json(HTTPStatus.OK, result)
             elif path == "/api/check/message":
                 value = self._required_text(data, "text", 6000)
                 result = analyze_message(value, self._locale(data))
                 self._record_scan_escalation(result, "message-checker")
+                self._send_json(HTTPStatus.OK, result)
+            elif path == "/api/check/ai":
+                if not self._allow_ai_request():
+                    raise ApiError(HTTPStatus.TOO_MANY_REQUESTS, "AI review is temporarily rate limited. The local check is still available.")
+                input_type = self._required_text(data, "input_type", 24)
+                if input_type == "url":
+                    text = self._required_text(data, "url", 2048)
+                elif input_type == "message":
+                    text = self._required_text(data, "text", 6000)
+                elif input_type == "email_headers":
+                    text = self._required_text(data, "headers", 12_000)
+                elif input_type == "context":
+                    kind = self._required_text(data, "kind", 24)
+                    text = f"Request type: {kind}\n\n{self._required_text(data, 'text', 6000)}"
+                else:
+                    raise ApiError(HTTPStatus.BAD_REQUEST, "Choose a supported type of text for AI review.")
+                try:
+                    result = review_with_gemini(
+                        input_type,
+                        text,
+                        self._locale(data),
+                        os.environ.get("GEMINI_API_KEY", ""),
+                        os.environ.get("GEMINI_MODEL", "gemini-flash-latest"),
+                    )
+                except AIReviewError as error:
+                    raise ApiError(HTTPStatus(error.status), str(error)) from error
                 self._send_json(HTTPStatus.OK, result)
             elif path == "/api/check/email-headers":
                 headers = self._required_text(data, "headers", 12_000)
@@ -790,11 +836,16 @@ class RequestHandler(BaseHTTPRequestHandler):
         with self.requests_lock:
             if now - self.last_bucket_cleanup >= RATE_WINDOW_SECONDS:
                 expired_before = now - RATE_WINDOW_SECONDS
-                for client, requests in list(self.requests_by_ip.items()):
-                    while requests and requests[0] <= expired_before:
-                        requests.popleft()
-                    if not requests:
-                        del self.requests_by_ip[client]
+                for request_buckets, window in (
+                    (self.requests_by_ip, RATE_WINDOW_SECONDS),
+                    (self.ai_requests_by_ip, AI_RATE_WINDOW_SECONDS),
+                ):
+                    expired_before = now - window
+                    for client, requests in list(request_buckets.items()):
+                        while requests and requests[0] <= expired_before:
+                            requests.popleft()
+                        if not requests:
+                            del request_buckets[client]
                 type(self).last_bucket_cleanup = now
             requests = self.requests_by_ip[address]
             while requests and now - requests[0] > RATE_WINDOW_SECONDS:
@@ -804,6 +855,20 @@ class RequestHandler(BaseHTTPRequestHandler):
             if len(requests) >= RATE_LIMIT:
                 return False
             self.requests_by_ip[address].append(now)
+            return True
+
+    def _allow_ai_request(self) -> bool:
+        address = self.client_address[0]
+        now = time.monotonic()
+        with self.requests_lock:
+            requests = self.ai_requests_by_ip[address]
+            while requests and now - requests[0] > AI_RATE_WINDOW_SECONDS:
+                requests.popleft()
+            if not requests and address in self.ai_requests_by_ip:
+                del self.ai_requests_by_ip[address]
+            if len(requests) >= AI_RATE_LIMIT:
+                return False
+            self.ai_requests_by_ip[address].append(now)
             return True
 
     def _record_scan_escalation(self, result: dict[str, object], source: str) -> None:
@@ -871,10 +936,17 @@ class RequestHandler(BaseHTTPRequestHandler):
             target = PUBLIC_DIR / "admin.html"
         elif path.startswith("/assets/"):
             name = unquote(path.removeprefix("/assets/"))
-            if not name or "/" in name or "\\" in name or name.startswith("."):
+            if name in {
+                "ocr/worker.min.js",
+                "ocr/tesseract-core-lstm.wasm.js",
+                "ocr/tesseract-core-lstm.wasm",
+            }:
+                target = PUBLIC_DIR / "assets" / name
+            elif not name or "/" in name or "\\" in name or name.startswith("."):
                 self.send_error(HTTPStatus.NOT_FOUND)
                 return
-            target = PUBLIC_DIR / "assets" / name
+            else:
+                target = PUBLIC_DIR / "assets" / name
         else:
             name = unquote(path.lstrip("/"))
             if not name or "/" in name or "\\" in name or name.startswith("."):
