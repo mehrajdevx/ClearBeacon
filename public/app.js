@@ -1257,11 +1257,7 @@ function renderResult(result) {
   const heading = document.createElement("div");
   const title = document.createElement("h3");
   title.textContent = t(names[result.risk_label] || "riskUnknown");
-  const intro = document.createElement("p");
-  intro.textContent = result.risk_label === "unknown"
-    ? t("resultUnknown")
-    : t("resultRisk");
-  heading.append(title, intro);
+  heading.append(title);
   header.append(icon, heading);
   target.append(header);
 
@@ -1270,7 +1266,8 @@ function renderResult(result) {
   const firstAction = result.recommended_actions?.[0] || aiAnalysis?.recommended_actions?.[0];
   const summary = document.createElement("p");
   summary.className = "result-summary";
-  summary.textContent = evidenceItems[0]?.text || aiAnalysis?.summary || t("resultNoEvidence");
+  summary.textContent = evidenceItems[0]?.text || aiAnalysis?.summary ||
+    (result.risk_label === "unknown" ? t("resultUnknown") : t("resultNoEvidence"));
   target.append(summary);
   if (firstAction) {
     const nextStep = document.createElement("p");
@@ -1285,6 +1282,10 @@ function renderResult(result) {
   moreSummary.textContent = t("resultMoreDetails");
   const detailsContent = document.createElement("div");
   detailsContent.className = "result-details-content";
+  const riskDisclaimer = document.createElement("p");
+  riskDisclaimer.className = "result-disclaimer";
+  riskDisclaimer.textContent = t("resultRisk");
+  detailsContent.append(riskDisclaimer);
   const evidenceHeading = document.createElement("h4");
   evidenceHeading.textContent = t("resultEvidence");
   detailsContent.append(evidenceHeading);
@@ -1445,7 +1446,7 @@ function renderResult(result) {
         submit.disabled = false;
       }
     });
-    target.append(feedbackForm);
+    detailsContent.append(feedbackForm);
   }
   target.hidden = false;
   target.scrollIntoView({ behavior: "smooth", block: "nearest" });
